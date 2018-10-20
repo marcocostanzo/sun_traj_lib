@@ -9,6 +9,7 @@ project(unicampania_robot_lib)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS 
 ros_toon
+robotics_toolbox_porting
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,7 +104,7 @@ ros_toon
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS ros_toon
+  CATKIN_DEPENDS ros_toon robotics_toolbox_porting
 #  DEPENDS system_lib
 )
 
@@ -123,6 +124,7 @@ include_directories(
    src/RobotLink.cpp
    src/RobotLinkRevolute.cpp
    src/RobotLinkPrismatic.cpp
+   src/Robot.cpp
  )
 
 ## Add cmake target dependencies of the library
