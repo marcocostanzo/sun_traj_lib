@@ -1,3 +1,25 @@
+/*
+
+    Robot Class
+
+    Copyright 2018 Università della Campania Luigi Vanvitelli
+
+    Author: Marco Costanzo <marco.costanzo@unicampania.it>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 
 #include "Robot.h"
 
@@ -764,7 +786,7 @@ using namespace std;
                 return: qDH_k+1 joints at time k+1
                 qpDH: joints velocity at time k+1
                 error: error vector at time k
-                actualQ: Quaternion at time k (usefull for continuity in the next call of these function)
+                actualQ: Quaternion at time k (usefull for continuity in the next call of these functions)
         */
         Vector<> Robot::clik(   
                                 const Vector<>& qDH_k,
@@ -845,7 +867,7 @@ using namespace std;
                 return: qDH_k+1 joints at time k+1
                 qpDH: joints velocity at time k+1
                 error: error vector at time k
-                actualQ: Quaternion at time k (usefull for continuity in the next call of these function)
+                actualQ: Quaternion at time k (usefull for continuity in the next call of these functions)
         */
         Vector<> Robot::clik(   
                                 const Vector<>& qDH_k, //Actual joints positions
@@ -902,7 +924,7 @@ using namespace std;
                 return: qDH_k+1 joints at time k+1
                 qpDH: joints velocity at time k+1
                 error: error vector at time k
-                actualQ: Quaternion at time k (usefull for continuity in the next call of these function)
+                actualQ: Quaternion at time k (usefull for continuity in the next call of these functions)
         */
         Vector<> Robot::clik(   
                                 const Vector<>& qDH_k,
@@ -962,7 +984,7 @@ using namespace std;
                 return: qDH_k+1 joints at time k+1
                 qpDH: joints velocity at time k+1
                 error: error vector at time k
-                actualQ: Quaternion at time k (usefull for continuity in the next call of these function)
+                actualQ: Quaternion at time k (usefull for continuity in the next call of these functions)
         */
         Vector<> Robot::clik(   
                                 const Vector<>& qDH_k,
