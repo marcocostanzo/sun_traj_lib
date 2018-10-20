@@ -3,11 +3,11 @@
 #define ROBOTLINK_H
 
 #include "TooN/TooN.h"
+#include <memory>
  
 #define ROBOT_ERROR_COLOR       "\033[1m\033[31m"      /* Bold Red */
 #define ROBOT_WARNING_COLOR     "\033[1m\033[33m"      /* Bold Yellow */
 #define ROBOT_CRESET            "\033[0m"
-
 
 class RobotLink{
 
@@ -35,7 +35,7 @@ class RobotLink{
         //Safety Vars
         double _DHJoint_limit_lower, _DHJoint_limit_higher;       //SoftLimits in DH convention
         double _RobotJoint_limit_lower, _RobotJoint_limit_higher; //HardLimits in Robot convention
-        double _velocity_limit_lower, _velocity_limit_higher; //HardLimits in Robot convention
+        double _velocity_limit; //HardLimits in Robot convention
         //////////////////////////////////////////////
 
         std::string _name;  //joint name
@@ -48,12 +48,14 @@ class RobotLink{
                     double robot2dh_offset, bool _robot2dh_flip, 
                     double DHJoint_limit_lower, double DHJoint_limit_higher, 
                     double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                    double velocity_limit_lower, double velocity_limit_higher,
+                    double velocity_limit,
                     std::string name );
 
         RobotLink( double a, double alpha, double d, double theta, double offset, bool flip);
 
         RobotLink( double a, double alpha, double d, double theta);
+
+        //RobotLink( const RobotLink& rl) = default;
 
         /*======END CONSTRUCTORS======*/
 
@@ -134,12 +136,17 @@ class RobotLink{
         /*
             TODO
         */
-        virtual TooN::Vector<2> getVelocity_limits() const;
+        virtual double getVelocity_limit() const;
 
         /*
             Return the Joint Name
         */
         virtual std::string getName() const;
+
+        /*
+            Clone the object
+        */
+        virtual RobotLink* clone() const = 0;
 
         //======END GETTERS===========//
 
@@ -210,12 +217,7 @@ class RobotLink{
         /*
             TODO
         */    
-        virtual void setVelocity_limits( double lower, double higher);
-
-        /*
-            TODO
-        */
-        virtual void setVelocity_limits( TooN::Vector<2> limits );
+        virtual void setVelocity_limit( double velocity_limit);
 
         /*
             TODO
@@ -244,15 +246,15 @@ class RobotLink{
         /*
             return True if the input q_DH (in DH convention) exceeds the softDHLimits
         */
-        virtual bool exceededJointDHLimit(double q_DH) const;
+        virtual bool exceededJointDHLimits(double q_DH) const;
 
         /*
             return True if the input q_Robot (in Robot convention) exceeds the HardRobotLimits
         */
-        virtual bool exceededJointRobotLimit(double q_Robot) const;
+        virtual bool exceededJointRobotLimits(double q_Robot) const;
 
         /*
-            return True if the input q_vel exceeds the velocity limits
+            return True if the input q_vel exceeds the velocity limit
         */
         virtual bool exceededJointVelocity(double q_vel) const;
 
@@ -278,5 +280,7 @@ class RobotLink{
 
 
 };//end class
+
+using RobotLinkPtr = std::unique_ptr<RobotLink>;
 
 #endif

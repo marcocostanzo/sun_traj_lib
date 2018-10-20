@@ -13,7 +13,7 @@ using namespace std;
                     double robot2dh_offset, bool robot2dh_flip, 
                     double DHJoint_limit_lower, double DHJoint_limit_higher, 
                     double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                    double velocity_limit_lower, double velocity_limit_higher,
+                    double velocity_limit,
                     string name )
                     {
             _a = a;
@@ -26,7 +26,7 @@ using namespace std;
             setRobot2DH_flip(robot2dh_flip);
             setDHJoint_limits( DHJoint_limit_lower, DHJoint_limit_higher );
             setRobotJoint_limits( RobotJoint_limit_lower, RobotJoint_limit_higher );
-            setVelocity_limits( velocity_limit_lower, velocity_limit_higher );
+            setVelocity_limit( velocity_limit );
             _name = name;
         }
 
@@ -36,7 +36,7 @@ using namespace std;
                         0.0, false, 
                         -INFINITY, INFINITY, 
                         -INFINITY, INFINITY, 
-                        -INFINITY, INFINITY,
+                         INFINITY,
                         "Joint unnamed" )
                         {}
 
@@ -165,8 +165,8 @@ using namespace std;
         /*
             TODO
         */
-        Vector<2> RobotLink::getVelocity_limits() const{
-            return makeVector( _velocity_limit_lower, _velocity_limit_higher );
+        double RobotLink::getVelocity_limit() const{
+            return _velocity_limit;
         }
 
         /*
@@ -273,17 +273,12 @@ using namespace std;
         /*
             TODO
         */    
-        void RobotLink::setVelocity_limits( double lower, double higher) {
-            checkLowerHigher(lower, higher);
-            _velocity_limit_lower = lower;
-            _velocity_limit_higher = higher;
-        }
-
-        /*
-            TODO
-        */
-        void RobotLink::setVelocity_limits( Vector<2> limits ) {
-            setVelocity_limits( limits[0], limits[1]);
+        void RobotLink::setVelocity_limit( double velocity_limit) {
+            if( velocity_limit < 0.0 ){
+                cout << ROBOT_ERROR_COLOR "[RobotLink] Error in setVelocity_limit( double velocity_limit): velocity_limit<0.0" ROBOT_CRESET << endl;
+                exit(-1);
+            }
+            _velocity_limit = velocity_limit;
         }
 
         /*
@@ -306,14 +301,14 @@ using namespace std;
         /*
             return True if the input q_DH (in DH convention) exceeds the softDHLimits
         */
-        bool RobotLink::exceededJointDHLimit(double q_DH) const{
+        bool RobotLink::exceededJointDHLimits(double q_DH) const{
             return ( q_DH <= _DHJoint_limit_lower || q_DH >= _DHJoint_limit_higher );
         }
 
         /*
             return True if the input q_Robot (in Robot convention) exceeds the HardRobotLimits
         */
-        bool RobotLink::exceededJointRobotLimit(double q_Robot) const{
+        bool RobotLink::exceededJointRobotLimits(double q_Robot) const{
             return ( q_Robot <= _RobotJoint_limit_lower || q_Robot >= _RobotJoint_limit_higher );
         }
 
@@ -321,7 +316,7 @@ using namespace std;
             return True if the input q_vel exceeds the velocity limits
         */
         bool RobotLink::exceededJointVelocity(double q_vel) const{
-            return ( q_vel <= _velocity_limit_lower || q_vel >= _velocity_limit_higher );
+            return ( abs(q_vel) >= _velocity_limit );
         }
 
         /*

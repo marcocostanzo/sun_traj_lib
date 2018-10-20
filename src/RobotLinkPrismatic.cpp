@@ -15,14 +15,14 @@ using namespace std;
                                                 double robot2dh_offset, double robot2dh_sign, 
                                                 double DHJoint_limit_lower, double DHJoint_limit_higher, 
                                                 double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                                                double velocity_limit_lower, double velocity_limit_higher,
+                                                double velocity_limit_lower,
                                                 string name ):
                                                 RobotLink(  a, alpha, d, theta, 
                                                             offset, flip, 
                                                             robot2dh_offset, robot2dh_sign, 
                                                             DHJoint_limit_lower, DHJoint_limit_higher, 
                                                             RobotJoint_limit_lower, RobotJoint_limit_higher, 
-                                                            velocity_limit_lower, velocity_limit_higher,
+                                                            velocity_limit_lower,
                                                             name )
                                                 {}
 
@@ -35,6 +35,13 @@ using namespace std;
             {}
 
         /*=======END CONSTRUCTORS===========*/
+
+        /*
+            Clone the object
+        */
+        RobotLinkPrismatic* RobotLinkPrismatic::clone() const{
+            return new RobotLinkPrismatic(*this);
+        }
 
         /*
                 return the link angle

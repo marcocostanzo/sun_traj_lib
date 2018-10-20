@@ -23,7 +23,7 @@ class RobotLinkRevolute : public RobotLink{
                             double robot2dh_offset, double robot2dh_sign, 
                             double DHJoint_limit_lower, double DHJoint_limit_higher, 
                             double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                            double velocity_limit_lower, double velocity_limit_higher,
+                            double velocity_limit_lower,
                             std::string name );
 
         RobotLinkRevolute( double a, double alpha, double d, double theta, double offset, bool flip);
@@ -31,6 +31,11 @@ class RobotLinkRevolute : public RobotLink{
         RobotLinkRevolute( double a, double alpha, double d, double theta);
 
         /*=======END CONSTRUCTORS===========*/
+
+        /*
+            Clone the object
+        */
+        virtual RobotLinkRevolute* clone() const override;
 
         /*
                 return the link angle
@@ -66,6 +71,8 @@ class RobotLinkRevolute : public RobotLink{
 
 
 };//end class
+
+using RobotLinkRevolutePtr = std::unique_ptr<RobotLinkRevolute>;
 
 bool isRevolute( const RobotLink& l );
 
