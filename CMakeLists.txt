@@ -8,7 +8,6 @@ project(unicampania_robot_lib)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS 
-ros_toon
 robotics_toolbox_porting
 )
 
@@ -104,7 +103,7 @@ robotics_toolbox_porting
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS ros_toon robotics_toolbox_porting
+  CATKIN_DEPENDS robotics_toolbox_porting
 #  DEPENDS system_lib
 )
 
@@ -125,6 +124,14 @@ include_directories(
    src/RobotLinkRevolute.cpp
    src/RobotLinkPrismatic.cpp
    src/Robot.cpp
+
+   src/Traj_Generators/Position_Traj_Gen.cpp
+   src/Traj_Generators/Quaternion_Traj_Gen.cpp
+   src/Traj_Generators/Cartesian_Traj_Gen.cpp
+   src/Traj_Generators/Null_Space_Joints_Vel_Gen.cpp
+   src/Traj_Generators/Joints_Traj_Gen.cpp
+   src/Traj_Generators/Traj_Generator_Interface.cpp
+
  )
 
 ## Add cmake target dependencies of the library
