@@ -138,6 +138,16 @@ class Robot {
             Get robot name
         */
         virtual std::string getName() const;
+
+        /*
+            get a string of joint names given the bitmap
+        */
+        virtual std::string jointsNameFromBitMask(const std::vector<bool>& jointMask) const;
+
+        /*
+            Clone the object
+        */
+        virtual Robot* clone() const;
         
         /*=========END GETTERS=========*/
 
@@ -587,6 +597,8 @@ class Robot {
         /*====== END COST FUNCTIONS FOR NULL SPACE ======*/
 
 }; //END CLASS
+
+using RobotPtr = std::unique_ptr<Robot>;
 
 
 /*==========Operators========*/

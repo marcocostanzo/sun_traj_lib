@@ -179,6 +179,29 @@ using namespace std;
         string Robot::getName() const{
             return _name;
         }
+
+        /*
+            get a string of joint names given the bitmap
+        */
+        string Robot::jointsNameFromBitMask(const vector<bool>& jointMask) const{
+            string out("");
+            for( int i = 0; i<_links.size(); i++ ){
+                if(jointMask[i]){
+                    out += _links[i]->getName() + "|";
+                }
+            }
+            if(out.size()>0)
+                return out.substr(0, out.size()-1);
+            else
+                return out;
+        }
+
+        /*
+            Clone the object
+        */
+        Robot* Robot::clone() const{
+            return new Robot(*this);
+        }
         
         /*=========END GETTERS=========*/
 
