@@ -132,6 +132,11 @@ include_directories(
    src/Traj_Generators/Joints_Traj_Gen.cpp
    src/Traj_Generators/Traj_Generator_Interface.cpp
 
+
+   src/Traj_Generators/Position_Line_Traj_Gen.cpp
+   src/Traj_Generators/Quaternion_Linear_Traj_Gen.cpp
+   src/Traj_Generators/Quintic_Poly_Gen.cpp
+
  )
 
 ## Add cmake target dependencies of the library
