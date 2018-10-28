@@ -181,6 +181,13 @@ using namespace std;
         }
 
         /*
+            Get i-th joint name
+        */
+        string Robot::getJointName(int i) const{
+            return _links[i]->getName();
+        }
+
+        /*
             get a string of joint names given the bitmap
         */
         string Robot::jointsNameFromBitMask(const vector<bool>& jointMask) const{

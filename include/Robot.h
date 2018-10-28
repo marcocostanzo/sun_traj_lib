@@ -140,6 +140,11 @@ class Robot {
         virtual std::string getName() const;
 
         /*
+            Get i-th joint name
+        */
+        virtual std::string getJointName(int i) const;
+
+        /*
             get a string of joint names given the bitmap
         */
         virtual std::string jointsNameFromBitMask(const std::vector<bool>& jointMask) const;
