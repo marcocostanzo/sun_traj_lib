@@ -137,6 +137,8 @@ include_directories(
    src/Traj_Generators/Quaternion_Linear_Traj_Gen.cpp
    src/Traj_Generators/Quintic_Poly_Gen.cpp
 
+   src/Traj_Generators/Obj_Joints_Limits.cpp
+
  )
 
 ## Add cmake target dependencies of the library
