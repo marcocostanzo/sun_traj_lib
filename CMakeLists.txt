@@ -138,6 +138,7 @@ include_directories(
    src/Traj_Generators/Quintic_Poly_Gen.cpp
 
    src/Traj_Generators/Obj_Joints_Limits.cpp
+   src/Traj_Generators/Joints_Quintic_Traj.cpp
 
  )
 
