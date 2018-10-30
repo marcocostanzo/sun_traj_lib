@@ -53,40 +53,7 @@ using namespace std;
                         _aci(initial_acceleration),
                         _acf(final_acceleration)
         {
-            //This is the effective total time of motion
-            double t = _final_time - _initial_time;
-            
-            //This coefficients are known
-            _poly_coeff[5] = _pi;
-            _poly_coeff[4] = _vi;
-            _poly_coeff[3] = _aci/2;
-
-            //Prepare pow
-            double t_2 = pow(t,2);
-            double t_3 = pow(t,3);
-            double t_4 = pow(t,4);
-            double t_5 = pow(t,5);
-
-            //Construct inverse of A ( A*poly_coeff = B )
-            Matrix<3,3> A_inv = Data(
-                  6.0/t_5, -3.0/t_4, 1.0/(2.0*t_3),
-                -15.0/t_4,  7.0/t_3,      -1.0/t_2,
-                 10.0/t_3, -4.0/t_2,   1.0/(2.0*t)
-            );
-            //Construct B
-            Vector<3> B = makeVector(
-                 _pf - _pi -  _vi*t - (_aci/2.0)*t_2,
-                 _vf - _vi - _aci*t,
-                _acf - _aci
-            );
-
-            //Calculate poly coeff
-            _poly_coeff.slice<0,3>() = A_inv*B;
-
-            //calculate coeff of dp and ddp as polydiff
-            _vel_poly_coeff = polydiff(_poly_coeff);
-            _acc_poly_coeff = polydiff(_vel_poly_coeff);
-
+            updateCoefficients();
         }
 
 
@@ -98,6 +65,24 @@ using namespace std;
         }
 
     /*=======END CONSTRUCTORS======*/
+
+     /*======SETTERS==========*/
+
+        void Quintic_Poly_Gen::setInitialPosition( double initial_position, bool update_coeff ){
+            _pi = initial_position;
+            if(update_coeff){
+                updateCoefficients();
+            }
+        }
+
+        void Quintic_Poly_Gen::setFinalPosition( double final_position, bool update_coeff ){
+            _pf = final_position;
+            if(update_coeff){
+                updateCoefficients();
+            }
+        }
+        
+    /*======END SETTERS==========*/
 
     /*
         Get Position at time secs
@@ -136,4 +121,43 @@ using namespace std;
             return 0.0;
         }
         return polyval(_acc_poly_coeff,secs - _initial_time);
+    }
+
+    /*
+        Update poly coefficients
+    */
+    void Quintic_Poly_Gen::updateCoefficients(){
+        //This is the effective total time of motion
+            double t = _final_time - _initial_time;
+            
+            //This coefficients are known
+            _poly_coeff[5] = _pi;
+            _poly_coeff[4] = _vi;
+            _poly_coeff[3] = _aci/2;
+
+            //Prepare pow
+            double t_2 = pow(t,2);
+            double t_3 = pow(t,3);
+            double t_4 = pow(t,4);
+            double t_5 = pow(t,5);
+
+            //Construct inverse of A ( A*poly_coeff = B )
+            Matrix<3,3> A_inv = Data(
+                  6.0/t_5, -3.0/t_4, 1.0/(2.0*t_3),
+                -15.0/t_4,  7.0/t_3,      -1.0/t_2,
+                 10.0/t_3, -4.0/t_2,   1.0/(2.0*t)
+            );
+            //Construct B
+            Vector<3> B = makeVector(
+                 _pf - _pi -  _vi*t - (_aci/2.0)*t_2,
+                 _vf - _vi - _aci*t,
+                _acf - _aci
+            );
+
+            //Calculate poly coeff
+            _poly_coeff.slice<0,3>() = A_inv*B;
+
+            //calculate coeff of dp and ddp as polydiff
+            _vel_poly_coeff = polydiff(_poly_coeff);
+            _acc_poly_coeff = polydiff(_vel_poly_coeff);
     }

@@ -134,6 +134,7 @@ using namespace std;
         }
         
         //reconstruct the quintic object
+        /*
         _quintic_s = Quintic_Poly_Gen(
                                     _initial_time,
                                     _final_time,
@@ -144,5 +145,7 @@ using namespace std;
                                     _aci, 
                                     _acf
                                 );
+        */
+        _quintic_s.setFinalPosition(norm(_pf - _pi));
         _direction = unit(_pf-_pi);
     }

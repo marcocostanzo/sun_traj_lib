@@ -98,6 +98,14 @@ class Quintic_Poly_Gen : public Traj_Generator_Interface{
 
     /*=======END CONSTRUCTORS======*/
 
+    /*======SETTERS==========*/
+
+        virtual void setInitialPosition( double initial_position, bool update_coeff = true );
+
+        virtual void setFinalPosition( double final_position, bool update_coeff = true );
+
+    /*======END SETTERS==========*/
+
     /*
         Get Position at time secs
     */
@@ -112,6 +120,11 @@ class Quintic_Poly_Gen : public Traj_Generator_Interface{
         Get Acceleration at time secs
     */
     virtual double getAcceleration(double secs) const;
+
+    /*
+        Update poly coefficients
+    */
+    virtual void updateCoefficients();
 
 };
 

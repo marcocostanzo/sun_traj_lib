@@ -158,6 +158,7 @@ using namespace std;
                 _init_angvec_desired = init_quat_desired.toangvec();
 
                 //Now it is necessary reconstruct the _quintic_angle generator using the new delta_angle
+                /*
                 _quintic_angle = Quintic_Poly_Gen(
                                                     _initial_time,
                                                     _final_time,
@@ -167,7 +168,8 @@ using namespace std;
                                                     _wf,
                                                     _dwi, 
                                                     _dwf
-                                                );
+                                                );*/
+                _quintic_angle.setFinalPosition(_init_angvec_desired.getAng());
 
                 //Now the situation is the same of the case Robot_Motion_Mode::REL_TOOL
                 _b_rotax = b_T_init.slice<0,0,3,3>() * _init_angvec_desired.getVec();
