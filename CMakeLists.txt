@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(unicampania_robot_lib)
+project(sun_robot_lib)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
  add_compile_options(-std=c++11)
@@ -8,7 +8,7 @@ project(unicampania_robot_lib)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS 
-robotics_toolbox_porting
+robotics_toolbox_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,7 +103,7 @@ robotics_toolbox_porting
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS robotics_toolbox_porting
+  CATKIN_DEPENDS robotics_toolbox_ros
 #  DEPENDS system_lib
 )
 
