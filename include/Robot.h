@@ -28,6 +28,7 @@
 #include <RobotLinkPrismatic.h>
 #include <RobotLinkRevolute.h>
 #include "UnitQuaternion.h"
+#include <iomanip>
 
 class Robot {
 
@@ -109,6 +110,11 @@ class Robot {
         /*=========GETTERS=========*/
 
         /*
+            get Joint speed saturation used in dls for clik
+        */
+        virtual double getDLSJointSpeedSaturation() const;
+
+        /*
             get number of joints
         */
         virtual int getNumJoints() const;
@@ -157,6 +163,11 @@ class Robot {
         /*=========END GETTERS=========*/
 
         /*=========SETTERS=========*/
+
+        /*
+            set Joint speed saturation used in dls for clik
+        */
+        virtual void setDLSJointSpeedSaturation(double dls_joint_speed_saturation);
 
         /*
             Set Transformation matrix of link_0 w.r.t. base frame 

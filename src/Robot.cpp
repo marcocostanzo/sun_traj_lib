@@ -113,7 +113,70 @@ using namespace std;
             Display robot in smart way
         */
         void Robot::display(){
-            cout << _name << ": display() TODO " << endl;
+
+            Vector<7,int> w = makeVector(2,5,4,7,7,7,7);
+
+            cout << 
+            
+            "Robot [" << _name << "]" << endl <<
+
+            "DH Table: " << endl;
+            
+            for(int i = 0; i<7; i++){
+                if(i == 0)
+                    cout << "╔";
+                for(int j = 0; j < w[i]; j++){
+                    cout << "═";
+                }
+                if(i == 6)
+                    cout << "╗";
+                else
+                    cout << "╦";
+            }
+            cout << endl << 
+            setw(1) << "║" << setw(w[0]) << "#" << 
+            setw(1) << "║" << setw(w[1]) << "Name" << 
+            setw(1) << "║" << setw(w[2]) << "Type" << 
+            setw(1) << "║" << setw(w[3]) << "a" << 
+            setw(1) << "║" << setw(w[4]) << "alpha" << 
+            setw(1) << "║" << setw(w[5]) << "theta" << 
+            setw(1) << "║" << setw(w[6]) << "d" << 
+            setw(1) << "║" << endl;
+            for(int i = 0; i<7; i++){
+                if(i == 0)
+                    cout << "╠";
+                for(int j = 0; j < w[i]; j++){
+                    cout << "═";
+                }
+                if(i == 6)
+                    cout << "╣";
+                else
+                    cout << "╬";
+            } 
+            cout << endl;
+            for( int i = 0; i < _links.size(); i++ ){
+                cout << 
+                setw(1) << "║" << setw(w[0]) << i+1 << 
+                setw(1) << "║" << setw(w[1]) << _links[i]->getName() << 
+                setw(1) << "║" << setw(w[2]) << _links[i]->type() << 
+                setw(1) << "║" << setw(w[3]) << setprecision(w[3]-2) << _links[i]->getDH_a() <<
+                setw(1) << "║" << setw(w[4]) << setprecision(w[3]-2) << _links[i]->getDH_alpha() <<
+                setw(1) << "║" << setw(w[5]) << setprecision(w[3]-2) << _links[i]->getDH_theta() <<
+                setw(1) << "║" << setw(w[6]) << setprecision(w[3]-2) << _links[i]->getDH_d() << 
+                setw(1) << "║" << endl;
+            }
+            for(int i = 0; i<7; i++){
+                if(i == 0)
+                    cout << "╚";
+                for(int j = 0; j < w[i]; j++){
+                    cout << "═";
+                }
+                if(i == 6)
+                    cout << "╝";
+                else
+                    cout << "╩";
+            }
+
         }
 
         /*
@@ -132,6 +195,13 @@ using namespace std;
         /*=======END HELPS=====*/
 
         /*=========GETTERS=========*/
+
+        /*
+            get Joint speed saturation used in dls for clik
+        */
+        double Robot::getDLSJointSpeedSaturation() const{
+            return _dls_joint_speed_saturation;
+        }
 
         /*
             get number of joints
@@ -213,6 +283,13 @@ using namespace std;
         /*=========END GETTERS=========*/
 
         /*=========SETTERS=========*/
+
+        /*
+            set Joint speed saturation used in dls for clik
+        */
+        void Robot::setDLSJointSpeedSaturation(double dls_joint_speed_saturation){
+            _dls_joint_speed_saturation = dls_joint_speed_saturation;
+        }
 
         /*
             Set Transformation matrix of link_0 w.r.t. base frame 
