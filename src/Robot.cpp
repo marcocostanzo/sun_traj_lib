@@ -38,6 +38,7 @@ using namespace std;
             _b_T_0 = Identity;
             _n_T_e = Identity;
             _name = string("Robot_No_Name");
+            _model = string("Robot_No_Model");
             _dls_joint_speed_saturation = 2.0;
         }
 
@@ -45,6 +46,7 @@ using namespace std;
             _b_T_0 = Identity;
             _n_T_e = Identity;
             _name = name;
+            _model = string("Robot_No_Model");
             _dls_joint_speed_saturation = 2.0;
         }
 
@@ -89,6 +91,7 @@ using namespace std;
             _n_T_e = robot._n_T_e;
             _dls_joint_speed_saturation = robot._dls_joint_speed_saturation;
             _name = robot._name;
+            _model = robot._model;
             //Clone links
             for( const auto &link : robot._links ){
                 _links.push_back( RobotLinkPtr( link->clone() )  );
@@ -118,7 +121,7 @@ using namespace std;
 
             cout << 
             
-            "Robot [" << _name << "]" << endl <<
+            "Robot [" << _model << "] " << _name << endl <<
 
             "DH Table: " << endl;
             
@@ -188,7 +191,7 @@ using namespace std;
 
             Matrix<4,4> Teb = fkine(qDH);
             cout << "=========================" << endl
-            << "Robot: " << _name << endl
+            << "Robot[ " << _model << " ]: " << _name << endl
             << "Teb = " << endl << Teb << endl
             << "=========================" << endl;
 
@@ -250,6 +253,13 @@ using namespace std;
         */
         string Robot::getName() const{
             return _name;
+        }
+
+        /*
+            Get robot model
+        */
+        string Robot::getModel() const{
+            return _model;
         }
 
         /*
@@ -355,6 +365,13 @@ using namespace std;
         */
         void Robot::setName(const string& name){
             _name = name;
+        }
+
+        /*
+            Set Robot Model
+        */
+        void Robot::setModel(const string& model){
+            _model = model;
         }
 
         /*=========END SETTERS=========*/

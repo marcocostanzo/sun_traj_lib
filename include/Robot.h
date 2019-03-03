@@ -50,6 +50,9 @@ class Robot {
         //Name of the robot
         std::string _name;
 
+        //Model of the robot
+        std::string _model;
+
     public:
 
         /*=========CONSTRUCTORS=========*/
@@ -146,6 +149,11 @@ class Robot {
         virtual std::string getName() const;
 
         /*
+            Get robot model
+        */
+        virtual std::string getModel() const;
+
+        /*
             Get i-th joint name
         */
         virtual std::string getJointName(int i) const;
@@ -208,6 +216,11 @@ class Robot {
             Set Robot Name
         */
         virtual void setName(const std::string& name);
+
+        /*
+            Set Robot Model
+        */
+        virtual void setModel(const std::string& model);
 
         /*=========END SETTERS=========*/
 
