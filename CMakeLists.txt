@@ -140,6 +140,8 @@ include_directories(
    src/Traj_Generators/Obj_Joints_Limits.cpp
    src/Traj_Generators/Joints_Quintic_Traj.cpp
 
+   src/Robots/LBRiiwa7.cpp
+
  )
 
 ## Add cmake target dependencies of the library
