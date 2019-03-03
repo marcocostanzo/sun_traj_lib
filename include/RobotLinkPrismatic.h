@@ -40,17 +40,17 @@ class RobotLinkPrismatic : public RobotLink{
         /*=============CONSTRUCTORS===========*/
 
         //Full Constructor
-        RobotLinkPrismatic( double a, double alpha, double d, double theta, 
+        RobotLinkPrismatic( double a, double alpha, double theta, 
                             double offset, bool flip, 
-                            double robot2dh_offset, double robot2dh_sign, 
+                            double robot2dh_offset, bool robot2dh_flip, 
                             double DHJoint_limit_lower, double DHJoint_limit_higher, 
                             double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                            double velocity_limit_lower,
+                            double velocity_limit,
                             std::string name );
 
-        RobotLinkPrismatic( double a, double alpha, double d, double theta, double offset, bool flip);
+        RobotLinkPrismatic( double a, double alpha, double theta, double offset, bool flip);
 
-        RobotLinkPrismatic( double a, double alpha, double d, double theta);
+        RobotLinkPrismatic( double a, double alpha, double theta);
 
         /*=======END CONSTRUCTORS===========*/
 

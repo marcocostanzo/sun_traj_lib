@@ -315,9 +315,31 @@ using namespace std;
         /*
             TODO
         */
-        void RobotLink::display() const{
-            /*TODO*/
-            cout << _name << "Display TO DO" << endl;
+        void RobotLink::display() const{            
+            cout << 
+
+            "RobotLink [" << _name << "]" << endl <<
+
+            "Type: " << type() << endl <<
+
+            "Kinematic parameters (DH):" << endl <<
+            "a = " << _a << endl <<
+            "alpha = " << _alpha << endl <<
+            "theta = " << _theta << endl <<
+            "offset = " << _offset << " | flip = " << (_flip ? "yes" : "no") << endl <<
+
+            "Robot2DH Conversion:" << endl <<
+            "offset = " << _robot2dh_offset << " | flip = " << (_robot2dh_flip ? "yes" : "no") << endl <<
+
+            "SoftLimits (DH convention):" << endl <<
+            "[" << _DHJoint_limit_lower << " | " << _DHJoint_limit_higher << "]" << endl <<
+
+            "HardLimits (Robot convention):" << endl <<
+            "[" << _RobotJoint_limit_lower << " | " << _RobotJoint_limit_higher << "]" << endl <<
+
+            "VelocityLimit: " << _velocity_limit
+
+            ;//End COUT
         }
 
         /*

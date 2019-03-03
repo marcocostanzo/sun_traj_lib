@@ -31,28 +31,28 @@ using namespace std;
         /*=============CONSTRUCTORS===========*/
 
         //Full Constructor
-        RobotLinkRevolute::RobotLinkRevolute(   double a, double alpha, double d, double theta, 
+        RobotLinkRevolute::RobotLinkRevolute(   double a, double alpha, double d, 
                                                 double offset, bool flip, 
-                                                double robot2dh_offset, double robot2dh_sign, 
+                                                double robot2dh_offset, bool robot2dh_flip, 
                                                 double DHJoint_limit_lower, double DHJoint_limit_higher, 
                                                 double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                                                double velocity_limit_lower,
+                                                double velocity_limit,
                                                 string name ):
-                                                RobotLink(  a, alpha, d, theta, 
+                                                RobotLink(  a, alpha, d, NAN, 
                                                             offset, flip, 
-                                                            robot2dh_offset, robot2dh_sign, 
+                                                            robot2dh_offset, robot2dh_flip, 
                                                             DHJoint_limit_lower, DHJoint_limit_higher, 
                                                             RobotJoint_limit_lower, RobotJoint_limit_higher, 
-                                                            velocity_limit_lower,
+                                                            velocity_limit,
                                                             name )
                                                 {}
 
-        RobotLinkRevolute::RobotLinkRevolute( double a, double alpha, double d, double theta, double offset, bool flip):
-            RobotLink( a, alpha, d, theta, offset, flip)
+        RobotLinkRevolute::RobotLinkRevolute( double a, double alpha, double d, double offset, bool flip):
+            RobotLink( a, alpha, d, NAN, offset, flip)
             {}
 
-        RobotLinkRevolute::RobotLinkRevolute( double a, double alpha, double d, double theta):
-            RobotLink( a, alpha, d, theta)
+        RobotLinkRevolute::RobotLinkRevolute( double a, double alpha, double d):
+            RobotLink( a, alpha, d, NAN)
             {}
 
         /*=======END CONSTRUCTORS===========*/
@@ -87,7 +87,7 @@ using namespace std;
             TODO
         */
         void RobotLinkRevolute::display() const{
-            cout << _name << " RobotLinkRevolute TODO" << endl;
+            RobotLink::display();
         }
 
         /*

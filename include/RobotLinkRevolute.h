@@ -40,17 +40,17 @@ class RobotLinkRevolute : public RobotLink{
         /*=============CONSTRUCTORS===========*/
 
         //Full Constructor
-        RobotLinkRevolute(  double a, double alpha, double d, double theta, 
+        RobotLinkRevolute(  double a, double alpha, double d, 
                             double offset, bool flip, 
-                            double robot2dh_offset, double robot2dh_sign, 
+                            double robot2dh_offset, bool robot2dh_flip, 
                             double DHJoint_limit_lower, double DHJoint_limit_higher, 
                             double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                            double velocity_limit_lower,
+                            double velocity_limit,
                             std::string name );
 
-        RobotLinkRevolute( double a, double alpha, double d, double theta, double offset, bool flip);
+        RobotLinkRevolute( double a, double alpha, double d, double offset, bool flip);
 
-        RobotLinkRevolute( double a, double alpha, double d, double theta);
+        RobotLinkRevolute( double a, double alpha, double d);
 
         /*=======END CONSTRUCTORS===========*/
 
