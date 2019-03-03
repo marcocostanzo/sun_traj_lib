@@ -176,7 +176,9 @@ using namespace std;
                 else
                     cout << "╩";
             }
-
+            cout << endl <<
+            "0_T_b = " << endl << _b_T_0 << endl <<
+            "n_T_e = " << endl << _n_T_e << endl;
         }
 
         /*
