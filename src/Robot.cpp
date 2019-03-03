@@ -751,11 +751,14 @@ using namespace std;
             If n_joint is n_joint+1 the frame {end-effector} is considered as frame of the last joint
         */
         Matrix<6,Dynamic> Robot::jacob_geometric( const Vector<>& q_DH, int n_joint, const Matrix<4,4>& j_T_f ) const{
-            
-            Matrix<6,Dynamic> J_geo = Zeros(6,n_joint);
 
             vector<Matrix<4,4>> all_T = fkine_all(q_DH, n_joint );
             all_T.back() = all_T.back() * j_T_f;
+
+            if(n_joint == getNumJoints()+1)
+                n_joint--;
+            
+            Matrix<6,Dynamic> J_geo = Zeros(6,n_joint);
             
             J_geo.slice(0,0,3,n_joint) = jacob_p_internal( all_T );
             J_geo.slice(3,0,3,n_joint) = jacob_o_geometric_internal( all_T );
@@ -771,9 +774,12 @@ using namespace std;
         */
         Matrix<6,Dynamic> Robot::jacob_geometric( const Vector<>& q_DH, int n_joint ) const{
 
-            Matrix<6,Dynamic> J_geo = Zeros(6,n_joint);
-
             vector<Matrix<4,4>> all_T = fkine_all(q_DH, n_joint );
+
+            if(n_joint == getNumJoints()+1)
+                n_joint--;
+
+            Matrix<6,Dynamic> J_geo = Zeros(6,n_joint);
             
             J_geo.slice(0,0,3,n_joint) = jacob_p_internal( all_T );
             J_geo.slice(3,0,3,n_joint) = jacob_o_geometric_internal( all_T );
