@@ -24,13 +24,14 @@
 
 #include "Traj_Generators/Traj_Generator_Interface.h"
 
+
     /*======CONSTRUCTORS=========*/
     
         /*
             Constructor with total time as input
         */
         Traj_Generator_Interface::Traj_Generator_Interface( double final_time ):
-            _final_time(_final_time){}
+            _final_time(final_time){}
 
         //Traj_Generator_Interface( const Traj_Generator_Interface& traj );
 
