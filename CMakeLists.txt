@@ -120,25 +120,37 @@ include_directories(
 
 ## Declare a C++ library
  add_library(${PROJECT_NAME}
+
+   #Robot Links
    src/RobotLink.cpp
    src/RobotLinkRevolute.cpp
    src/RobotLinkPrismatic.cpp
+   #Robot
    src/Robot.cpp
 
-   src/Traj_Generators/Position_Traj_Gen.cpp
-   src/Traj_Generators/Quaternion_Traj_Gen.cpp
-   src/Traj_Generators/Cartesian_Traj_Gen.cpp
-   src/Traj_Generators/Null_Space_Joints_Vel_Gen.cpp
-   src/Traj_Generators/Joints_Traj_Gen.cpp
+   #Traj base class
    src/Traj_Generators/Traj_Generator_Interface.cpp
+   #Quintic scalar poly
+   src/Traj_Generators/Quintic_Poly_Traj.cpp
+   #Generic multidim traj
+   src/Traj_Generators/Vector_Independent_Traj.cpp
+
+   #src/Traj_Generators/Joints_Traj_Gen.cpp
+
+   #src/Traj_Generators/Position_Traj_Gen.cpp
+   #src/Traj_Generators/Quaternion_Traj_Gen.cpp
+   #src/Traj_Generators/Cartesian_Traj_Gen.cpp
+   #src/Traj_Generators/Null_Space_Joints_Vel_Gen.cpp
+   
+   
 
 
-   src/Traj_Generators/Position_Line_Traj_Gen.cpp
-   src/Traj_Generators/Quaternion_Linear_Traj_Gen.cpp
-   src/Traj_Generators/Quintic_Poly_Gen.cpp
+   #src/Traj_Generators/Position_Line_Traj_Gen.cpp
+   #src/Traj_Generators/Quaternion_Linear_Traj_Gen.cpp
+   
 
-   src/Traj_Generators/Obj_Joints_Limits.cpp
-   src/Traj_Generators/Joints_Quintic_Traj.cpp
+   #src/Traj_Generators/Obj_Joints_Limits.cpp
+   #src/Traj_Generators/Joints_Quintic_Traj.cpp
 
    src/Robots/LBRiiwa7.cpp
 

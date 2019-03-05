@@ -25,16 +25,28 @@
 #ifndef TRAJ_GEN_INTERFACE_H
 #define TRAJ_GEN_INTERFACE_H
 
+#include "Traj_Gen_common.h"
+#include<iostream>
 #include <memory>
 
 class Traj_Generator_Interface{
 
     private:
 
+        /*
+            No default Constructor
+        */
+        Traj_Generator_Interface();
+
     protected:
 
         /*
-            total time of the trajectory
+            initial time of the trajectory
+        */
+        double _initial_time;
+
+        /*
+            final time of the trajectory
         */
         double _final_time;
 
@@ -43,9 +55,9 @@ class Traj_Generator_Interface{
     /*======CONSTRUCTORS=========*/
     
         /*
-            Constructor with total time as input
+            Constructor with duration and initial time as input
         */
-        Traj_Generator_Interface( double final_time );
+        Traj_Generator_Interface( double duration, double initial_time = 0.0 );
 
         //Traj_Generator_Interface( const Traj_Generator_Interface& traj );
 
@@ -59,9 +71,19 @@ class Traj_Generator_Interface{
     /*====== GETTERS =========*/
 
     /*
-        Get the total time
+        Get the final time instant
     */
     virtual double getFinalTime() const;
+
+    /*
+        Get the initial time instant
+    */
+    virtual double getInitialTime() const;
+
+    /*
+        Get the duration
+    */
+    virtual double getDuration() const;
 
     /*
         Get the time left
@@ -70,10 +92,24 @@ class Traj_Generator_Interface{
 
     /*====== END GETTERS =========*/
 
+    /*====== SETTERS =========*/
+
+     /*
+        Change the initial time instant (translate the trajectory in the time)
+    */
+    virtual void changeInitialTime(double initial_time); 
+
+    /*====== END SETTERS =========*/
+
     /*
         return true if the trajectory is compleate at time secs
     */
     virtual bool isCompleate(double secs) const;
+
+    /*
+        return true if the trajectory is started at time secs
+    */
+    virtual bool isStarted(double secs) const;
 
 };//END CLASS
 

@@ -22,28 +22,23 @@
 
 */
 
-#ifndef QUINTIC_POLY_GEN_H
-#define QUINTIC_POLY_GEN_H
+#ifndef QUINTIC_POLY_TRAJ_H
+#define QUINTIC_POLY_TRAJ_H
 
-#include "Traj_Generator_Interface.h"
+#include "Traj_Generators/Scalar_Traj_Interface.h"
 #include "GeometryHelper.h"
 
 
-class Quintic_Poly_Gen : public Traj_Generator_Interface{
+class Quintic_Poly_Traj : public Scalar_Traj_Interface {
 
     private:
 
         /*
             No default Constructor
         */
-        Quintic_Poly_Gen();
+        Quintic_Poly_Traj();
 
     protected:
-
-        /*
-            initial time
-        */
-        double _initial_time;
 
         /*
             Poly coeff of p(t)
@@ -74,11 +69,11 @@ class Quintic_Poly_Gen : public Traj_Generator_Interface{
         /*
             Constructor
         */
-        Quintic_Poly_Gen(   
-                            double initial_time,
-                            double final_time,
+        Quintic_Poly_Traj(   
+                            double duration,
                             double initial_position,
                             double final_position,
+                            double initial_time = 0.0,                            
                             double initial_velocity = 0.0, 
                             double final_velocity = 0.0,
                             double initial_acceleration = 0.0, 
@@ -89,37 +84,38 @@ class Quintic_Poly_Gen : public Traj_Generator_Interface{
         /*
             Copy Constructor
         */
-        Quintic_Poly_Gen( const Quintic_Poly_Gen& quint ) = default;
+        Quintic_Poly_Traj( const Quintic_Poly_Traj& quint ) = default;
 
         /*
             Clone the object in the heap
         */
-        virtual Quintic_Poly_Gen* clone() const override;
+        virtual Quintic_Poly_Traj* clone() const override;
 
     /*=======END CONSTRUCTORS======*/
 
     /*======SETTERS==========*/
 
-        virtual void setInitialPosition( double initial_position, bool update_coeff = true );
-
-        virtual void setFinalPosition( double final_position, bool update_coeff = true );
+    /*
+        Change the initial time instant (translate the trajectory in the time)
+    */
+    virtual void changeInitialTime(double initial_time) override; 
 
     /*======END SETTERS==========*/
 
     /*
         Get Position at time secs
     */
-    virtual double getPosition(double secs) const;
+    virtual double getPosition(double secs) const override;
 
     /*
         Get Velocity at time secs
     */
-    virtual double getVelocity(double secs) const;
+    virtual double getVelocity(double secs) const override;
 
     /*
         Get Acceleration at time secs
     */
-    virtual double getAcceleration(double secs) const;
+    virtual double getAcceleration(double secs) const override;
 
     /*
         Update poly coefficients
@@ -128,6 +124,6 @@ class Quintic_Poly_Gen : public Traj_Generator_Interface{
 
 };
 
-using Quintic_Poly_Gen_Ptr = std::unique_ptr<Quintic_Poly_Gen>;
+using Quintic_Poly_Traj_Ptr = std::unique_ptr<Quintic_Poly_Traj>;
 
 #endif
