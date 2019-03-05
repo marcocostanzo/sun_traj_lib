@@ -316,7 +316,7 @@ using namespace std;
         */
         void Robot::setLinks( const vector<RobotLinkPtr>& links){
             _links.clear();
-            for( const auto &element : _links ){
+            for( const auto &element : links ){
                 _links.push_back( RobotLinkPtr( element->clone() )  );
             }
         }
