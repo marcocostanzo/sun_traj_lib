@@ -91,12 +91,12 @@ Traj_Generator_Interface::Traj_Generator_Interface( double duration, double init
         return true if the trajectory is compleate at time secs
     */
     bool Traj_Generator_Interface::isCompleate(double secs) const{
-        return ( secs >=  _final_time);
+        return ( secs >=  getFinalTime());
     }
 
     /*
         return true if the trajectory is started at time secs
     */
     bool Traj_Generator_Interface::isStarted(double secs) const{
-        return ( secs < _initial_time );
+        return ( secs >= getInitialTime() );
     }

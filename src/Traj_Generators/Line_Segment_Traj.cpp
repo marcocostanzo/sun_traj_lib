@@ -22,7 +22,7 @@
 
 */
 
-#include "Traj_Generators/Position_Line_Traj_Gen.h"
+#include "Traj_Generators/Line_Segment_Traj.h"
 
 using namespace TooN;
 using namespace std;
@@ -32,7 +32,7 @@ using namespace std;
         /*
             Constructor
         */
-        Position_Line_Traj_Gen::Position_Line_Traj_Gen( 
+        Line_Segment_Traj::Line_Segment_Traj( 
                                                         Robot_Motion_Mode mode,
                                                         double initial_time, 
                                                         double final_time, 
@@ -71,8 +71,8 @@ using namespace std;
         /*
             Clone the object in the heap
         */
-        Position_Line_Traj_Gen* Position_Line_Traj_Gen::clone() const{
-            return new Position_Line_Traj_Gen(*this);
+        Line_Segment_Traj* Line_Segment_Traj::clone() const{
+            return new Line_Segment_Traj(*this);
         }
 
     /*======END CONSTRUCTORS========*/
@@ -80,28 +80,28 @@ using namespace std;
     /*
         Get Position at time secs
     */
-    Vector<3> Position_Line_Traj_Gen::getPosition(double secs) const{
+    Vector<3> Line_Segment_Traj::getPosition(double secs) const{
         return _pi + _quintic_s.getPosition(secs) * _direction;
     }
 
     /*
         Get Velocity at time secs
     */
-    Vector<3> Position_Line_Traj_Gen::getLinearVelocity(double secs) const{
+    Vector<3> Line_Segment_Traj::getLinearVelocity(double secs) const{
         return _quintic_s.getVelocity(secs) * _direction;
     }
 
     /*
         Get the mask at time secs, if mask[i]=0 then the i-th cartesian coordinate should not be taken into account
     */
-    Vector<3,int> Position_Line_Traj_Gen::getMask(double secs) const{
+    Vector<3,int> Line_Segment_Traj::getMask(double secs) const{
         return _mask;
     }
 
      /*
         initialize the trajectory
     */
-    void Position_Line_Traj_Gen::initialize(const Matrix<4,4>& b_T_init){
+    void Line_Segment_Traj::initialize(const Matrix<4,4>& b_T_init){
 
         //get initial position
         _pi = b_T_init.T()[3].slice<0,3>();
@@ -128,7 +128,7 @@ using namespace std;
             }
             
             default:{
-                cout << TRAJ_ERROR_COLOR << "[Position_Line_Traj_Gen] Error in initialize() - invalid MODE" CRESET << endl;
+                cout << TRAJ_ERROR_COLOR << "[Line_Segment_Traj] Error in initialize() - invalid MODE" CRESET << endl;
                 exit(-1);
             }
         }

@@ -29,6 +29,11 @@ using namespace TooN;
 /* ====== CONSTRUCTORS =======*/
 
 /*
+    Void Constructor
+*/
+Vector_Independent_Traj::Vector_Independent_Traj():Vector_Traj_Interface( NAN, NAN ){}
+
+/*
     Full constructor
 */
 Vector_Independent_Traj::Vector_Independent_Traj( const std::vector<Scalar_Traj_Interface_Ptr>& traj_vec )

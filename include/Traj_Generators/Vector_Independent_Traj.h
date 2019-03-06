@@ -50,7 +50,7 @@ public:
 /*
     Void Constructor
 */
-//Vector_Independent_Traj(){}
+Vector_Independent_Traj();
 
 /*
     Full constructor
