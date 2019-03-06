@@ -136,8 +136,10 @@ double Vector_Independent_Traj::getInitialTime() const{
     Change the initial time instant (translate all the trajectories in the time)
 */
 void Vector_Independent_Traj::changeInitialTime(double initial_time) {
+    double previous_initial_time = getInitialTime();
+    double Delta_T = previous_initial_time - initial_time;
     for( auto &element : _traj_vec ){
-        element->changeInitialTime(initial_time);
+        element->changeInitialTime( element->getInitialTime() - Delta_T );
     }
 }
 
