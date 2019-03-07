@@ -93,7 +93,35 @@ class Quintic_Poly_Traj : public Scalar_Traj_Interface {
 
     /*=======END CONSTRUCTORS======*/
 
+/*======= GETTERS =========*/
+
+virtual double getInitialPosition() const;
+
+virtual double getFinalPosition() const;
+
+virtual double getInitialVelocity() const;
+
+virtual double getFinalVelocity() const;
+
+virtual double getInitialAcceleration() const;
+
+virtual double getFinalAcceleration() const;
+
+/*======= END GETTERS =========*/
+
     /*======SETTERS==========*/
+
+virtual void setInitialPosition( double pi );
+
+virtual void setFinalPosition( double pf );
+
+virtual void setInitialVelocity( double vi );
+
+virtual void setFinalVelocity( double vf );
+
+virtual void setInitialAcceleration( double ai );
+
+virtual void setFinalAcceleration( double af );
 
     /*
         Change the initial time instant (translate the trajectory in the time)

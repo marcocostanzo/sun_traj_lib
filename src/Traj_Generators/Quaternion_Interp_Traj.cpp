@@ -26,80 +26,118 @@
 
 #include "Traj_Generators/Quaternion_Linear_Traj_Gen.h"
 
-
 using namespace TooN;
 using namespace std;
 
-    /*======CONSTRUCTORS=========*/
-    
-        /*
-            Constructor
-        */
-        Quaternion_Linear_Traj_Gen::Quaternion_Linear_Traj_Gen( 
-                                    Robot_Motion_Mode mode,
-                                    double initial_time,
-                                    double final_time,
-                                    const AngVec& ang_vec,
-                                    double final_angular_velocity,
-                                    double initial_angular_velocity,
-                                    double initial_angular_acceleration,
-                                    double final_angular_acceleration,
-                                    const Vector<3,int>& mask                                     
-                                    ):
-            Quaternion_Traj_Gen(final_time),
-            _mode(mode),
-            _initial_time(initial_time),
-            _init_angvec_desired(ang_vec),
-            _wi(initial_angular_velocity),
-            _wf(final_angular_velocity),
-            _dwi(initial_angular_acceleration),
-            _dwf(final_angular_acceleration),
-            _mask(mask),
-            _b_rotax( _init_angvec_desired.getVec() ),
-            _b_quat_init(/*Unit*/),
+/*======CONSTRUCTORS=========*/
 
-            //TODO: Use a default constructor here ??
-            _quintic_angle(
-                _initial_time,
-                _final_time,
-                0.0,
-                _init_angvec_desired.getAng(),
-                _wi, 
-                _wf,
-                _dwi, 
-                _dwf
-            )
-            {}
+/*
+    Full Constructor
+*/
+Quaternion_Interp_Traj::Quaternion_Interp_Traj(const UnitQuaternion& qi, const UnitQuaternion& qf, const Scalar_Traj_Interface& traj_s)
+    :Quaternion_Traj_Interface( NAN, NAN ),
+    _qi(qi),
+    _qf(qf),
+    _traj_s( traj_s.clone() )
+    {}
 
-        /*
-            Clone the object in the heap
-        */
-        Quaternion_Linear_Traj_Gen* Quaternion_Linear_Traj_Gen::clone() const{
-            return new Quaternion_Linear_Traj_Gen(*this);
-        }
+/*
+    Copy Constructor
+*/
+Quaternion_Interp_Traj( const Quaternion_Interp_Traj& traj )
+    :Quaternion_Traj_Interface( traj ),
+    Quaternion_Interp_Traj(
+        traj._qi, 
+        traj._qf, 
+        traj._traj_s->clone()
+        )
+    {}
 
-    /*======END CONSTRUCTORS=========*/
+/*
+    Clone the object in the heap
+*/
+Quaternion_Interp_Traj* clone() const {
+    return new Quaternion_Interp_Traj(*this);
+}
 
-    /*====== GETTERS =========*/
+/*======END CONSTRUCTORS=========*/
 
-    /*====== END GETTERS =========*/
+/*
+    TODO
+*/
+UnitQuaternion getInitialQuaternion() const{
+    return _qi;
+}
 
-    /*
-        Get AngVec at time secs
-    */
-    AngVec Quaternion_Linear_Traj_Gen::getAngVec(double secs) const{
-        return AngVec( _quintic_angle.getPosition(secs) , _init_angvec_desired.getVec() );
-    }
+/*
+    TODO
+*/
+AngVec getInitialAngVec() const{
+    return getInitialQuaternion().toangvec();
+}
 
-    /*
-        Get Quaternion at time secs
-    */
-    UnitQuaternion Quaternion_Linear_Traj_Gen::getQuaternion(double secs) const{
+/*
+    TODO
+*/
+UnitQuaternion getFinalQuaternion() const{
+    return _qf;
+}
 
-        UnitQuaternion _init_quat_actual( getAngVec(secs) );
-        return _b_quat_init * _init_quat_actual;
+/*
+    TODO
+*/
+AngVec getFinalAngVec() const{
+    return getFinalQuaternion().toangvec();
+}
 
-    }
+/*
+    Get the final time instant
+*/
+double getFinalTime() const{
+    return _traj_s->getFinalTime();
+}
+
+/*
+    Get the initial time instant
+*/
+double getInitialTime() const{
+    return _traj_s->getFinalTime();
+}
+
+/*====== END GETTERS =========*/
+
+/*====== SETTERS =========*/
+
+/*
+    Change the initial time instant (translate the trajectory in the time)
+*/
+void changeInitialTime(double initial_time) {
+    _traj_s->changeInitialTime(initial_time);
+} 
+
+/*====== END SETTERS =========*/
+
+/*
+    Get Position at time secs
+*/
+UnitQuaternion getQuaternion(double secs) const {
+    return _qi.interp( _qf, _traj_s->getPosition(secs), true);
+}
+
+
+/*
+    Get AngVec at time secs
+*/
+AngVec getAngVec(double secs) const{
+    return getQuaternion(secs).toangvec();
+}
+
+/*
+    Get Velocity at time secs
+*/
+Vector<3> getVelocity(double secs) const {
+    return _traj_s->getVelocity(secs)
+}
 
     /*
         Get Angular Velocity at time secs

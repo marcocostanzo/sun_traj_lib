@@ -44,18 +44,36 @@ Line_Segment_Traj::Line_Segment_Traj(const TooN::Vector<3>& pi, const TooN::Vect
 */
 Line_Segment_Traj::Line_Segment_Traj( const Line_Segment_Traj& traj )
     :Position_Traj_Interface( traj ),
-    _traj_s(traj._traj_s->clone()){}
+    _pi(traj._pi),
+    _pf(traj._pf),
+    _traj_s( traj._traj_s->clone() )
+    {}
 
 /*
     Clone the object in the heap
 */
-Line_Segment_Traj* Line_Segment_Traj::Line_Segment_Traj::clone() const {
+Line_Segment_Traj* Line_Segment_Traj::clone() const {
     return new Line_Segment_Traj(*this);
 }
 
 /*======END CONSTRUCTORS========*/
 
 /*====== GETTERS ========*/
+
+/*
+    Get direction of the Line Segment as unit vector
+*/
+Vector<3> Line_Segment_Traj::getDirection() const{
+    Vector<3> dir = _pf - _pi;
+    return ( dir/norm(dir) );
+}
+
+/*
+    Get length of the segment
+*/
+double Line_Segment_Traj::getLength() const{
+    return norm(_pf - _pi);
+}
 
 /*
     TODO
@@ -88,6 +106,32 @@ double Line_Segment_Traj::getInitialTime() const{
 /*====== END GETTERS ========*/
 
 /*====== SETTERS =========*/
+
+/*
+    Set the scalar trajectory
+    Trajectory for the scalar s variable should be a traj from 0 to 1
+    s = 0 -> _pi   &   s = 1 -> _pf
+    Note: Velocities and accelerations
+    Since the s is normalized using getLength() also the ds and dds have to be normalized
+    e.g. _vi = dsi / line_segment_traj.getLength() where line_segment_traj is this object
+*/
+void Line_Segment_Traj::setScalarTraj( const Scalar_Traj_Interface& s_traj ){
+    _traj_s = Scalar_Traj_Interface_Ptr( s_traj.clone() );
+}
+
+/*
+    TODO
+*/
+void Line_Segment_Traj::setInitialPoint( Vector<3> pi ){
+    _pi = pi;
+}
+
+/*
+    TODO
+*/
+void Line_Segment_Traj::setFinalPoint( TooN::Vector<3> pf ){
+    _pf = pf;
+}
 
 /*
     Change the initial time instant (translate the trajectory in the time)

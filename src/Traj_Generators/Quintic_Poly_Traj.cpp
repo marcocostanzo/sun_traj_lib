@@ -65,7 +65,65 @@ using namespace std;
 
     /*=======END CONSTRUCTORS======*/
 
+/*======= GETTERS =========*/
+
+double Quintic_Poly_Traj::getInitialPosition() const {
+    return _pi;
+}
+
+double Quintic_Poly_Traj::getFinalPosition() const {
+    return _pf;
+}
+
+double Quintic_Poly_Traj::getInitialVelocity() const {
+    return _vi;
+}
+
+double Quintic_Poly_Traj::getFinalVelocity() const {
+    return _vf;
+}
+
+double Quintic_Poly_Traj::getInitialAcceleration() const {
+    return _aci;
+}
+
+double Quintic_Poly_Traj::getFinalAcceleration() const {
+    return _acf;
+}
+
+/*======= END GETTERS =========*/
+
      /*======SETTERS==========*/
+
+void Quintic_Poly_Traj::setInitialPosition( double pi ) {
+    _pi = pi;
+    updateCoefficients();
+}
+
+void Quintic_Poly_Traj::setFinalPosition( double pf ) {
+    _pf = pf;
+    updateCoefficients();
+}
+
+void Quintic_Poly_Traj::setInitialVelocity( double vi ) {
+    _vi = vi;
+    updateCoefficients();
+}
+
+void Quintic_Poly_Traj::setFinalVelocity( double vf ) {
+    _vf = vf;
+    updateCoefficients();
+}
+
+void Quintic_Poly_Traj::setInitialAcceleration( double ai ) {
+    _aci = ai;
+    updateCoefficients();
+}
+
+void Quintic_Poly_Traj::setFinalAcceleration( double af ) {
+    _acf = af;
+    updateCoefficients();
+}
 
      /*
         Change the initial time instant (translate the trajectory)

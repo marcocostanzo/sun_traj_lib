@@ -1,7 +1,7 @@
 /*
 
-    Position Line Trajectory Generator Class
-    This class is generates a line trajectory in the cartesian space
+    Quaternion Linear Trajectory Generator Class
+    This class is generates a linear orientation trajectory using quaternions
 
     Copyright 2018 Università della Campania Luigi Vanvitelli
 
@@ -22,85 +22,87 @@
 
 */
 
-#ifndef LINE_SEGMENT_TRAJ_H
-#define LINE_SEGMENT_TRAJ_H
+//TODO Try w. UnitQuaternion.interp(...)
 
-#include "Traj_Generators/Position_Traj_Interface.h"
+#ifndef QUATERNION_INTERP_TRAJ_H
+#define QUATERNION_INTERP_TRAJ_H
+
+#include "Traj_Generators/Quaternion_Traj_Interface.h"
 #include "Traj_Generators/Scalar_Traj_Interface.h"
 
-class Line_Segment_Traj : public Position_Traj_Interface {
-
+class Quaternion_Interp_Traj : public Quaternion_Traj_Interface {
 
 private:
 
 /*
     No default Constructor
 */
-Line_Segment_Traj();
+Quaternion_Interp_Traj();
 
 //These vars now are taken from _traj_s
 double _duration, _initial_time;
 
 protected:
-        
-/*
-    Initial Position
-*/
-TooN::Vector<3> _pi;
 
 /*
-    Final Position
+    Initial Quaternion
 */
-TooN::Vector<3> _pf;
+UnitQuaternion _qi;
+
+/*
+    Final Quaternion
+*/
+UnitQuaternion _qf;
 
 /*
     Trajectory for the scalar s variable should be a traj from 0 to 1
     s = 0 -> _pi   &   s = 1 -> _pf
 */
-Scalar_Traj_Interface_Ptr _traj_s;
+Scalar_Traj_Interface_Ptr _traj_s;  
 
 public:
 
-/*======CONSTRUCTORS========*/
+/*======CONSTRUCTORS=========*/
 
 /*
     Full Constructor
 */
-Line_Segment_Traj(const TooN::Vector<3>& pi, const TooN::Vector<3>& pf, const Scalar_Traj_Interface& traj_s);
+Quaternion_Interp_Traj(const UnitQuaternion& qi, const UnitQuaternion& qf, const Scalar_Traj_Interface& traj_s);
+
 
 /*
     Copy Constructor
 */
-Line_Segment_Traj( const Line_Segment_Traj& traj );
+Quaternion_Interp_Traj( const Quaternion_Interp_Traj& traj );
 
 /*
     Clone the object in the heap
 */
-virtual Line_Segment_Traj* clone() const override;
+virtual Quaternion_Interp_Traj* clone() const override;
 
-/*======END CONSTRUCTORS========*/
+/*======END CONSTRUCTORS=========*/
 
 /*====== GETTERS ========*/
 
 /*
-    Get direction of the Line Segment as unit vector
+    TODO
 */
-virtual TooN::Vector<3> getDirection() const;
-
-/*
-    Get length of the segment
-*/
-virtual double getLength() const;
+virtual UnitQuaternion getInitialQuaternion() const;
 
 /*
     TODO
 */
-virtual TooN::Vector<3> getInitialPoint() const;
+virtual AngVec getInitialAngVec() const;
 
 /*
     TODO
 */
-virtual TooN::Vector<3> getFinalPoint() const;
+virtual UnitQuaternion getFinalQuaternion() const;
+
+/*
+    TODO
+*/
+virtual AngVec getFinalAngVec() const;
 
 /*
     Get the final time instant
@@ -127,26 +129,6 @@ virtual double getInitialTime() const override;
 /*====== SETTERS =========*/
 
 /*
-    Set the scalar trajectory
-    Trajectory for the scalar s variable should be a traj from 0 to 1
-    s = 0 -> _pi   &   s = 1 -> _pf
-    Note: Velocities and accelerations
-    Since the s is normalized using getLength() also the ds and dds have to be normalized
-    e.g. _vi = dsi / line_segment_traj.getLength() where line_segment_traj is this object
-*/
-virtual void setScalarTraj( const Scalar_Traj_Interface& s_traj );
-
-/*
-    TODO
-*/
-virtual void setInitialPoint( TooN::Vector<3> pi );
-
-/*
-    TODO
-*/
-virtual void setFinalPoint( TooN::Vector<3> pf );
-
-/*
     Change the initial time instant (translate the trajectory in the time)
 */
 virtual void changeInitialTime(double initial_time) override;
@@ -158,7 +140,12 @@ virtual void changeInitialTime(double initial_time) override;
 /*
     Get Position at time secs
 */
-virtual TooN::Vector<3> getPosition(double secs) const override;
+virtual UnitQuaternion getQuaternion(double secs) const override;
+
+/*
+    Get AngVec at time secs
+*/
+virtual AngVec getAngVec(double secs) const override;
 
 /*
     Get Velocity at time secs
@@ -172,8 +159,8 @@ virtual TooN::Vector<3> getAcceleration(double secs) const override;
 
 /*====== END RUNNERS =========*/
 
-};
+};//END CLASS
 
-using Line_Segment_Traj_Ptr = std::unique_ptr<Line_Segment_Traj>;
+using Quaternion_Interp_Traj_Ptr = std::unique_ptr<Quaternion_Interp_Traj>;
 
 #endif
