@@ -25,10 +25,10 @@
 #ifndef LINE_SEGMENT_TRAJ_H
 #define LINE_SEGMENT_TRAJ_H
 
-#include "Traj_Generators/Position_Line_Interface.h"
+#include "Traj_Generators/Position_Traj_Interface.h"
 #include "Traj_Generators/Scalar_Traj_Interface.h"
 
-class Line_Segment_Traj : public Position_Traj_Gen{
+class Line_Segment_Traj : public Position_Traj_Interface {
 
 
 private:
@@ -66,17 +66,12 @@ public:
 /*
     Full Constructor
 */
-Line_Segment_Traj(TooN::Vector<3>& pi, TooN::Vector<3>& pf, Scalar_Traj_Interface& traj_s)
-    :Position_Traj_Interface(NAN, NAN),
-    _pi(pi),
-    _pf(pf),
-    _traj_s( traj_s.clone() )
-    {}
+Line_Segment_Traj(const TooN::Vector<3>& pi, const TooN::Vector<3>& pf, const Scalar_Traj_Interface& traj_s);
 
 /*
     Copy Constructor
 */
-Line_Segment_Traj( const Line_Segment_Traj& traj ) = default;
+Line_Segment_Traj( const Line_Segment_Traj& traj );
 
 /*
     Clone the object in the heap
@@ -90,30 +85,22 @@ virtual Line_Segment_Traj* clone() const override;
 /*
     TODO
 */
-virtual TooN::Vector<3> getInitialPoint() const{
-    return _pi;
-}
+virtual TooN::Vector<3> getInitialPoint() const;
 
 /*
     TODO
 */
-virtual TooN::Vector<3> getFinalPoint() const{
-    return _pf;
-}
+virtual TooN::Vector<3> getFinalPoint() const;
 
 /*
     Get the final time instant
 */
-virtual double getFinalTime() const override{
-    return _traj_s->getFinalTime();
-}
+virtual double getFinalTime() const override;
 
 /*
     Get the initial time instant
 */
-virtual double getInitialTime() const override{
-    return _traj_s->getFinalTime();
-}
+virtual double getInitialTime() const override;
 
 /*
     Get the duration [from base class]
@@ -132,9 +119,7 @@ virtual double getInitialTime() const override{
 /*
     Change the initial time instant (translate the trajectory in the time)
 */
-virtual void changeInitialTime(double initial_time) override{
-    _traj_s->changeInitialTime(initial_time);
-} 
+virtual void changeInitialTime(double initial_time) override;
 
 /*====== END SETTERS =========*/
 

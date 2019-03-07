@@ -134,6 +134,8 @@ include_directories(
    src/Traj_Generators/Quintic_Poly_Traj.cpp
    #Generic multidim traj
    src/Traj_Generators/Vector_Independent_Traj.cpp
+   #Line Segment traj
+   src/Traj_Generators/Line_Segment_Traj.cpp
 
    #src/Traj_Generators/Joints_Traj_Gen.cpp
 
