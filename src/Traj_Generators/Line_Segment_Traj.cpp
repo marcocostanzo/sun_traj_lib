@@ -100,7 +100,7 @@ double Line_Segment_Traj::getFinalTime() const{
     Get the initial time instant
 */
 double Line_Segment_Traj::getInitialTime() const{
-    return _traj_s->getFinalTime();
+    return _traj_s->getInitialTime();
 }
 
 /*====== END GETTERS ========*/
