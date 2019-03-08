@@ -136,6 +136,9 @@ include_directories(
    src/Traj_Generators/Vector_Independent_Traj.cpp
    #Line Segment traj
    src/Traj_Generators/Line_Segment_Traj.cpp
+   #Quaternion Traj
+   #src/Traj_Generators/Quaternion_Interp_Traj.cpp #TODO
+   src/Traj_Generators/Rotation_Const_Axis_Traj.cpp
 
    #src/Traj_Generators/Joints_Traj_Gen.cpp
 
