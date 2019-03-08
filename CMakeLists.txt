@@ -139,6 +139,8 @@ include_directories(
    #Quaternion Traj
    #src/Traj_Generators/Quaternion_Interp_Traj.cpp #TODO
    src/Traj_Generators/Rotation_Const_Axis_Traj.cpp
+   #Cartesian Traj
+   src/Traj_Generators/Cartesian_Independent_Traj.cpp
 
    #src/Traj_Generators/Joints_Traj_Gen.cpp
 
