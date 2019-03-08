@@ -91,13 +91,6 @@ virtual void setMask(TooN::Vector<3,int> mask){
 virtual UnitQuaternion getQuaternion(double secs) const = 0;
 
 /*
-    Get AngVec at time secs
-*/
-virtual AngVec getAngVec(double secs) const{
-    return getQuaternion(secs).toangvec();
-}
-
-/*
     Get Angular Velocity at time secs
 */
 virtual TooN::Vector<3> getVelocity(double secs) const = 0;
@@ -105,11 +98,7 @@ virtual TooN::Vector<3> getVelocity(double secs) const = 0;
 /*
     Get Angular Acceleration at time secs
 */
-virtual TooN::Vector<3> getAcceleration(double secs) const{
-    cout << TRAJ_ERROR_COLOR "Quaternion_Traj_Interface .getAcceleration(double secs) | ERROR: not implemented yet" CRESET << endl;
-    exit(-1);
-    return TooN::Zeros;
-}
+virtual TooN::Vector<3> getAcceleration(double secs) const = 0;
 
 };//END CLASS
 

@@ -101,7 +101,7 @@ double getFinalTime() const{
     Get the initial time instant
 */
 double getInitialTime() const{
-    return _traj_s->getFinalTime();
+    return _traj_s->getInitialTime();
 }
 
 /*====== END GETTERS =========*/
