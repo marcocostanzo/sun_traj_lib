@@ -31,67 +31,67 @@
 
 class Quintic_Poly_Traj : public Scalar_Traj_Interface {
 
-    private:
+private:
 
-        /*
-            No default Constructor
-        */
-        Quintic_Poly_Traj();
+/*
+    No default Constructor
+*/
+Quintic_Poly_Traj();
 
-    protected:
+protected:
 
-        /*
-            Poly coeff of p(t)
-        */
-        TooN::Vector<6> _poly_coeff; 
+/*
+    Poly coeff of p(t)
+*/
+TooN::Vector<6> _poly_coeff; 
 
-        /*
-            Poly coeff of dp(t)
-        */
-        TooN::Vector<5> _vel_poly_coeff; 
+/*
+    Poly coeff of dp(t)
+*/
+TooN::Vector<5> _vel_poly_coeff; 
 
-        /*
-            Poly coeff of ddp(t)
-        */
-        TooN::Vector<4> _acc_poly_coeff; 
+/*
+    Poly coeff of ddp(t)
+*/
+TooN::Vector<4> _acc_poly_coeff; 
 
-        /*
-            initial position, final position
-            initial velocity, final velocity
-            initial acceleration, final acceleration
-        */
-        double _pi, _pf, _vi, _vf, _aci, _acf; 
+/*
+    initial position, final position
+    initial velocity, final velocity
+    initial acceleration, final acceleration
+*/
+double _pi, _pf, _vi, _vf, _aci, _acf; 
 
-    public:
+public:
 
-    /*=======CONSTRUCTORS======*/
+/*=======CONSTRUCTORS======*/
 
-        /*
-            Constructor
-        */
-        Quintic_Poly_Traj(   
-                            double duration,
-                            double initial_position,
-                            double final_position,
-                            double initial_time = 0.0,                            
-                            double initial_velocity = 0.0, 
-                            double final_velocity = 0.0,
-                            double initial_acceleration = 0.0, 
-                            double final_acceleration = 0.0
-                        );
+/*
+    Constructor
+*/
+Quintic_Poly_Traj(   
+                    double duration,
+                    double initial_position,
+                    double final_position,
+                    double initial_time = 0.0,                            
+                    double initial_velocity = 0.0, 
+                    double final_velocity = 0.0,
+                    double initial_acceleration = 0.0, 
+                    double final_acceleration = 0.0
+                    );
 
 
-        /*
-            Copy Constructor
-        */
-        Quintic_Poly_Traj( const Quintic_Poly_Traj& quint ) = default;
+/*
+    Copy Constructor
+*/
+Quintic_Poly_Traj( const Quintic_Poly_Traj& quint ) = default;
 
-        /*
-            Clone the object in the heap
-        */
-        virtual Quintic_Poly_Traj* clone() const override;
+/*
+    Clone the object in the heap
+*/
+virtual Quintic_Poly_Traj* clone() const override;
 
-    /*=======END CONSTRUCTORS======*/
+/*=======END CONSTRUCTORS======*/
 
 /*======= GETTERS =========*/
 
@@ -123,34 +123,34 @@ virtual void setInitialAcceleration( double ai );
 
 virtual void setFinalAcceleration( double af );
 
-    /*
-        Change the initial time instant (translate the trajectory in the time)
-    */
-    virtual void changeInitialTime(double initial_time) override; 
+/*
+    Change the initial time instant (translate the trajectory in the time)
+*/
+virtual void changeInitialTime(double initial_time) override; 
 
-    /*======END SETTERS==========*/
+/*======END SETTERS==========*/
 
-    /*
-        Get Position at time secs
-    */
-    virtual double getPosition(double secs) const override;
+/*
+    Get Position at time secs
+*/
+virtual double getPosition(double secs) const override;
 
-    /*
-        Get Velocity at time secs
-    */
-    virtual double getVelocity(double secs) const override;
+/*
+    Get Velocity at time secs
+*/
+virtual double getVelocity(double secs) const override;
 
-    /*
-        Get Acceleration at time secs
-    */
-    virtual double getAcceleration(double secs) const override;
+/*
+    Get Acceleration at time secs
+*/
+virtual double getAcceleration(double secs) const override;
 
-    /*
-        Update poly coefficients
-    */
-    virtual void updateCoefficients();
+/*
+    Update poly coefficients
+*/
+virtual void updateCoefficients();
 
-};
+};// END CLASS Quintic_Poly_Traj
 
 using Quintic_Poly_Traj_Ptr = std::unique_ptr<Quintic_Poly_Traj>;
 

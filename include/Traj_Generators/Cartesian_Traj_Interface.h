@@ -121,7 +121,7 @@ virtual TooN::Vector<6> getTwist(double secs) const {
     return t;
 }
 
-};//END CLASS
+};//END CLASS Cartesian_Traj_Interface
 
 using Cartesian_Traj_Interface_Ptr = std::unique_ptr<Cartesian_Traj_Interface>;
 

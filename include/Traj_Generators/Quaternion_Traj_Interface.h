@@ -100,7 +100,7 @@ virtual TooN::Vector<3> getVelocity(double secs) const = 0;
 */
 virtual TooN::Vector<3> getAcceleration(double secs) const = 0;
 
-};//END CLASS
+};//END CLASS Quterion_Traj_Interface
 
 using Quaternion_Traj_Interface_Ptr = std::unique_ptr<Quaternion_Traj_Interface>;
 

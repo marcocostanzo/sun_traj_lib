@@ -172,7 +172,7 @@ virtual TooN::Vector<3> getAcceleration(double secs) const override;
 
 /*====== END RUNNERS =========*/
 
-};
+};// END CLASS Line_Segment_Traj
 
 using Line_Segment_Traj_Ptr = std::unique_ptr<Line_Segment_Traj>;
 

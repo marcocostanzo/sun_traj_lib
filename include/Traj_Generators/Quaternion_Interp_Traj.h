@@ -23,6 +23,9 @@
 */
 
 //TODO Try w. UnitQuaternion.interp(...)
+/*
+    NOT READY YET!
+*/
 
 #ifndef QUATERNION_INTERP_TRAJ_H
 #define QUATERNION_INTERP_TRAJ_H
@@ -159,7 +162,7 @@ virtual TooN::Vector<3> getAcceleration(double secs) const override;
 
 /*====== END RUNNERS =========*/
 
-};//END CLASS
+};//END CLASS Quaterion_Interp_Traj
 
 using Quaternion_Interp_Traj_Ptr = std::unique_ptr<Quaternion_Interp_Traj>;
 

@@ -25,93 +25,121 @@
 #ifndef TRAJ_GEN_INTERFACE_H
 #define TRAJ_GEN_INTERFACE_H
 
-#include "Traj_Gen_common.h"
 #include<iostream>
 #include <memory>
 
+#define TRAJ_ERROR_COLOR    "\033[1m\033[31m"      /* Bold Red */
+#define TRAJ_WARN_COLOR     "\033[1m\033[33m"      /* Bold Yellow */
+#ifndef CRESET
+#define CRESET              "\033[0m" 
+#endif 
+
 class Traj_Generator_Interface{
 
-    private:
+private:
 
-        /*
-            No default Constructor
-        */
-        Traj_Generator_Interface();
+/*
+    No default Constructor
+*/
+Traj_Generator_Interface();
 
-    protected:
+protected:
 
-        /*
-            initial time of the trajectory
-        */
-        double _initial_time;
+/*
+    initial time of the trajectory
+*/
+double _initial_time;
 
-        /*
-            final time of the trajectory
-        */
-        double _final_time;
+/*
+    final time of the trajectory
+*/
+double _final_time;
 
-    public:
+public:
 
-    /*======CONSTRUCTORS=========*/
+/*======CONSTRUCTORS=========*/
     
-        /*
-            Constructor with duration and initial time as input
-        */
-        Traj_Generator_Interface( double duration, double initial_time = 0.0 );
+/*
+    Constructor with duration and initial time as input
+*/
+Traj_Generator_Interface( double duration, double initial_time = 0.0 )
+    :_initial_time(initial_time)
+    {
+        if(duration < 0.0){
+            std::cout << TRAJ_ERROR_COLOR "Error in Traj_Generator_Interface( double duration, double initial_time) duration has to be >= 0" CRESET << std::endl;
+            exit(-1);
+        }
+        _final_time = _initial_time + duration;
+    }
 
-        //Traj_Generator_Interface( const Traj_Generator_Interface& traj );
+//Traj_Generator_Interface( const Traj_Generator_Interface& traj );
 
-        /*
-            Clone the object in the heap
-        */
-        virtual Traj_Generator_Interface* clone() const = 0;
+/*
+    Clone the object in the heap
+*/
+virtual Traj_Generator_Interface* clone() const = 0;
 
-    /*======END CONSTRUCTORS=========*/
+/*======END CONSTRUCTORS=========*/
 
-    /*====== GETTERS =========*/
+/*====== GETTERS =========*/
 
-    /*
-        Get the final time instant
-    */
-    virtual double getFinalTime() const;
+/*
+    Get the final time instant
+*/
+virtual double getFinalTime() const{
+    return _final_time;
+}
 
-    /*
-        Get the initial time instant
-    */
-    virtual double getInitialTime() const;
+/*
+    Get the initial time instant
+*/
+virtual double getInitialTime() const{
+    return _initial_time;
+}
 
-    /*
-        Get the duration
-    */
-    virtual double getDuration() const;
+/*
+    Get the duration
+*/
+virtual double getDuration() const{
+    return getFinalTime() - getInitialTime();
+}
 
-    /*
-        Get the time left
-    */
-    virtual double getTimeLeft(double secs) const;
+/*
+    Get the time left
+*/
+virtual double getTimeLeft(double secs) const{
+    return (getFinalTime() - secs);
+}
 
-    /*====== END GETTERS =========*/
+/*====== END GETTERS =========*/
 
-    /*====== SETTERS =========*/
+/*====== SETTERS =========*/
 
-     /*
-        Change the initial time instant (translate the trajectory in the time)
-    */
-    virtual void changeInitialTime(double initial_time); 
+/*
+    Change the initial time instant (translate the trajectory in the time)
+*/
+virtual void changeInitialTime(double initial_time){
+    _final_time = initial_time + getDuration();
+    _initial_time = initial_time;
+}
 
-    /*====== END SETTERS =========*/
+/*====== END SETTERS =========*/
 
-    /*
-        return true if the trajectory is compleate at time secs
-    */
-    virtual bool isCompleate(double secs) const;
+/*
+    return true if the trajectory is compleate at time secs
+*/
+virtual bool isCompleate(double secs) const{
+    return ( secs >=  getFinalTime());
+}
 
-    /*
-        return true if the trajectory is started at time secs
-    */
-    virtual bool isStarted(double secs) const;
+/*
+    return true if the trajectory is started at time secs
+*/
+virtual bool isStarted(double secs) const{
+    return ( secs >= getInitialTime() );
+}
 
-};//END CLASS
+};//END CLASS Traj_Generator_Interface
 
 using Traj_Generator_Interface_Ptr = std::unique_ptr<Traj_Generator_Interface>;
 

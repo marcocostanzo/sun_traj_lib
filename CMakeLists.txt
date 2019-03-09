@@ -128,8 +128,6 @@ include_directories(
    #Robot
    src/Robot.cpp
 
-   #Traj base class
-   src/Traj_Generators/Traj_Generator_Interface.cpp
    #Quintic scalar poly
    src/Traj_Generators/Quintic_Poly_Traj.cpp
    #Generic multidim traj
@@ -142,22 +140,8 @@ include_directories(
    #Cartesian Traj
    src/Traj_Generators/Cartesian_Independent_Traj.cpp
 
-   #src/Traj_Generators/Joints_Traj_Gen.cpp
-
-   #src/Traj_Generators/Position_Traj_Gen.cpp
-   #src/Traj_Generators/Quaternion_Traj_Gen.cpp
-   #src/Traj_Generators/Cartesian_Traj_Gen.cpp
    #src/Traj_Generators/Null_Space_Joints_Vel_Gen.cpp
-   
-   
-
-
-   #src/Traj_Generators/Position_Line_Traj_Gen.cpp
-   #src/Traj_Generators/Quaternion_Linear_Traj_Gen.cpp
-   
-
    #src/Traj_Generators/Obj_Joints_Limits.cpp
-   #src/Traj_Generators/Joints_Quintic_Traj.cpp
 
    src/Robots/LBRiiwa7.cpp
 

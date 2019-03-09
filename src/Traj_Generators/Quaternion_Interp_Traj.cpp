@@ -23,6 +23,9 @@
 */
 
 //TODO Try w. UnitQuaternion.interp(...)
+/*
+    NOT READY YET!
+*/
 
 #include "Traj_Generators/Quaternion_Linear_Traj_Gen.h"
 

@@ -141,7 +141,7 @@ virtual TooN::Vector<3> getAngularVelocity(double secs) const override;
 */
 //virtual TooN::Vector<6> getTwist(double secs) const override;
 
-};//END CLASS
+};//END CLASS Cartesian_Independent_Traj
 
 using Cartesian_Independent_Traj_Ptr = std::unique_ptr<Cartesian_Independent_Traj>;
 

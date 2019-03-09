@@ -145,7 +145,7 @@ virtual TooN::Vector<3> getVelocity(double secs) const override;
 */
 virtual TooN::Vector<3> getAcceleration(double secs) const override;
 
-};//END CLASS
+};//END CLASS Rotation_Const_Axis_Traj
 
 using Rotation_Const_Axis_Traj_Ptr = std::unique_ptr<Rotation_Const_Axis_Traj>;
 
