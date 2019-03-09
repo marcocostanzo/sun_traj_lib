@@ -32,7 +32,7 @@ using namespace std;
 /*
     Full Constructor
 */
-Line_Segment_Traj::Line_Segment_Traj(const TooN::Vector<3>& pi, const TooN::Vector<3>& pf, const Scalar_Traj_Interface& traj_s)
+Line_Segment_Traj::Line_Segment_Traj(const Vector<3>& pi, const Vector<3>& pf, const Scalar_Traj_Interface& traj_s)
     :Position_Traj_Interface(NAN, NAN),
     _pi(pi),
     _pf(pf),
@@ -129,7 +129,7 @@ void Line_Segment_Traj::setInitialPoint( Vector<3> pi ){
 /*
     TODO
 */
-void Line_Segment_Traj::setFinalPoint( TooN::Vector<3> pf ){
+void Line_Segment_Traj::setFinalPoint( Vector<3> pf ){
     _pf = pf;
 }
 
@@ -141,6 +141,26 @@ void Line_Segment_Traj::changeInitialTime(double initial_time) {
 } 
 
 /*====== END SETTERS =========*/
+
+/*====== TRANSFORM =========*/
+
+/*
+    Change the reference frame of the trajectory
+    Apply an homogeneous transfrmation matrix to the trajectory
+    new_T_curr is the homog transf matrix of the current frame w.r.t. the new frame
+*/
+void Line_Segment_Traj::changeFrame( const Matrix<4,4>& new_T_curr ) {
+    Vector<4> tmp_v;
+    tmp_v[3] = 1.0;
+
+    tmp_v.slice<0,3>() = _pi;
+    _pi = (new_T_curr * tmp_v).slice<0,3>();
+
+    tmp_v.slice<0,3>() = _pf;
+    _pf = (new_T_curr * tmp_v).slice<0,3>();
+}
+
+/*====== END TRANSFORM =========*/
 
 /*====== RUNNERS =========*/
 

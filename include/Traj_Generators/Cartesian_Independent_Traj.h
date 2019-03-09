@@ -104,6 +104,18 @@ virtual void changeInitialTime(double initial_time) override;
 
 /*====== END SETTERS =========*/
 
+/*====== TRANSFORM =========*/
+
+/*
+    Change the reference frame of the trajectory
+    Apply an homogeneous transfrmation matrix to the trajectory
+    new_T_curr is the homog transf matrix of the current frame w.r.t. the new frame
+*/
+void changeFrame( const TooN::Matrix<4,4>& new_T_curr ) override;
+
+
+/*====== END TRANSFORM =========*/
+
 /*
     return true if the trajectory is compleate at time secs
 */

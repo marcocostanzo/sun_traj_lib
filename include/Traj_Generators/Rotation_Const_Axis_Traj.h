@@ -125,6 +125,24 @@ virtual void setScalarTraj( const Scalar_Traj_Interface& traj_theta );
 
 /*====== END SETTERS =========*/
 
+/*====== TRANSFORM =========*/
+
+/*
+    Change the reference frame of the trajectory
+    Apply a rotation matrix to the trajectory
+    new_R_curr is the rotation matrix of the current frame w.r.t. the new frame
+*/
+virtual void changeFrame( const TooN::Matrix<3,3>& new_R_curr ) override;
+
+/*
+    Change the reference frame of the trajectory
+    Apply a rotation matrix to the trajectory
+    new_Q_curr is the Quaterion representing the rotation matrix of the current frame w.r.t. the new frame
+*/
+virtual void changeFrame( const UnitQuaternion& new_Q_curr ) override;
+
+/*====== END TRANSFORM =========*/
+
 /*
     Get Delta quaterinion, i.e. initial_Q_now
 */

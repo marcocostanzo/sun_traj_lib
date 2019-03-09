@@ -120,6 +120,29 @@ void Rotation_Const_Axis_Traj::setScalarTraj( const Scalar_Traj_Interface& traj_
 
 /*====== END SETTERS =========*/
 
+/*====== TRANSFORM =========*/
+
+/*
+    Change the reference frame of the trajectory
+    Apply a rotation matrix to the trajectory
+    new_R_curr is the rotation matrix of the current frame w.r.t. the new frame
+*/
+void Rotation_Const_Axis_Traj::changeFrame( const Matrix<3,3>& new_R_curr ) {
+    changeFrame( UnitQuaternion(new_R_curr) );
+}
+
+/*
+    Change the reference frame of the trajectory
+    Apply a rotation matrix to the trajectory
+    new_Q_curr is the Quaterion representing the rotation matrix of the current frame w.r.t. the new frame
+*/
+void Rotation_Const_Axis_Traj::changeFrame( const UnitQuaternion& new_Q_curr ) {
+    _initial_quat = new_Q_curr * _initial_quat;
+    _axis = new_Q_curr * _axis;
+}
+
+/*====== END TRANSFORM =========*/
+
 /*
     Get Delta quaterinion, i.e. initial_Q_now
 */

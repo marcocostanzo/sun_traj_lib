@@ -92,7 +92,7 @@ double Quintic_Poly_Traj::getFinalAcceleration() const {
 
 /*======= END GETTERS =========*/
 
-     /*======SETTERS==========*/
+/*======SETTERS==========*/
 
 void Quintic_Poly_Traj::setInitialPosition( double pi ) {
     _pi = pi;

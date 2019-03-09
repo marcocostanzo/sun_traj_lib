@@ -85,6 +85,38 @@ virtual void setMask(TooN::Vector<3,int> mask){
 
 /*====== END SETTERS =========*/
 
+/*====== TRANSFORM =========*/
+
+/*
+    Change the reference frame of the trajectory
+    Apply an homogeneous transfrmation matrix to the trajectory
+    new_T_curr is the homog transf matrix of the current frame w.r.t. the new frame
+*/
+virtual void changeFrame( const TooN::Matrix<4,4>& new_T_curr ) {
+    changeFrame( t2r( new_T_curr ) );
+}
+
+/*
+    Change the reference frame of the trajectory
+    Apply a rotation matrix to the trajectory
+    new_R_curr is the rotation matrix of the current frame w.r.t. the new frame
+*/
+virtual void changeFrame( const TooN::Matrix<3,3>& new_R_curr ) {
+    std::cout << TRAJ_ERROR_COLOR "Error in Quaterion_Traj_Interface::changeFrame( TooN::Matrix<4,4> new_T_curr ) | Not implemented..." CRESET << std::endl;
+    exit(-1);
+}
+
+/*
+    Change the reference frame of the trajectory
+    Apply a rotation matrix to the trajectory
+    new_Q_curr is the Quaterion representing the rotation matrix of the current frame w.r.t. the new frame
+*/
+virtual void changeFrame( const UnitQuaternion& new_Q_curr ) {
+    changeFrame( new_Q_curr.torot() );
+}
+
+/*====== END TRANSFORM =========*/
+
 /*
      Get Quaternion at time secs
 */
