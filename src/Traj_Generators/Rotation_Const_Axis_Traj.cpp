@@ -154,7 +154,7 @@ UnitQuaternion Rotation_Const_Axis_Traj::getDeltaQuat( double secs ) const{
      Get Quaternion at time secs
 */
 UnitQuaternion Rotation_Const_Axis_Traj::getQuaternion(double secs) const {
-    return _initial_quat * getDeltaQuat( secs );
+    return getDeltaQuat( secs ) * _initial_quat;
 }
 
 /*
