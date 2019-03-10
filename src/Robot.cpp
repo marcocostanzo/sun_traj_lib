@@ -60,7 +60,7 @@ using namespace std;
                 const string& name):
                     _b_T_0(b_T_0),
                     _n_T_e(n_T_e),
-                    _dls_joint_speed_saturation(_dls_joint_speed_saturation),
+                    _dls_joint_speed_saturation(dls_joint_speed_saturation),
                     _name(name)
         {
             //Clone links
@@ -79,7 +79,7 @@ using namespace std;
                 const string& name):
                     _b_T_0(b_T_0),
                     _n_T_e(n_T_e),
-                    _dls_joint_speed_saturation(_dls_joint_speed_saturation),
+                    _dls_joint_speed_saturation(dls_joint_speed_saturation),
                     _name(name)
         {}
 
