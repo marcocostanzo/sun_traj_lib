@@ -31,29 +31,37 @@ using namespace std;
         /*=============CONSTRUCTORS===========*/
 
         //Full Constructor
-        RobotLinkRevolute::RobotLinkRevolute(   double a, double alpha, double d, 
-                                                double offset, bool flip, 
-                                                double robot2dh_offset, bool robot2dh_flip, 
-                                                double DHJoint_limit_lower, double DHJoint_limit_higher, 
-                                                double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                                                double velocity_limit,
-                                                string name ):
-                                                RobotLink(  a, alpha, d, NAN, 
-                                                            offset, flip, 
-                                                            robot2dh_offset, robot2dh_flip, 
-                                                            DHJoint_limit_lower, DHJoint_limit_higher, 
-                                                            RobotJoint_limit_lower, RobotJoint_limit_higher, 
-                                                            velocity_limit,
-                                                            name )
-                                                {}
+        RobotLinkRevolute::RobotLinkRevolute(  
+                    double a, double alpha, double d, 
+                    double robot2dh_offset, bool robot2dh_flip, 
+                    double Joint_Hard_limit_lower, double Joint_Hard_limit_higher, 
+                    double Joint_Soft_limit_lower, double Joint_Soft_limit_higher, 
+                    double hard_velocity_limit,
+                    double soft_velocity_limit,
+                    string name
+                    )
+            :RobotLink( a, alpha, d, NAN, 
+                        robot2dh_offset, robot2dh_flip, 
+                        Joint_Hard_limit_lower, Joint_Hard_limit_higher, 
+                        Joint_Soft_limit_lower, Joint_Soft_limit_higher, 
+                        hard_velocity_limit,
+                        soft_velocity_limit,
+                        name )
+                    {}
 
-        RobotLinkRevolute::RobotLinkRevolute( double a, double alpha, double d, double offset, bool flip):
-            RobotLink( a, alpha, d, NAN, offset, flip)
-            {}
-
-        RobotLinkRevolute::RobotLinkRevolute( double a, double alpha, double d):
-            RobotLink( a, alpha, d, NAN)
-            {}
+        RobotLinkRevolute::RobotLinkRevolute(  
+                    double a, double alpha, double d, 
+                    double robot2dh_offset, bool robot2dh_flip,
+                    double Joint_Hard_limit_lower, double Joint_Hard_limit_higher,
+                    double hard_velocity_limit,
+                    string name
+                    )
+            :RobotLink( a, alpha, d, NAN, 
+                        robot2dh_offset, robot2dh_flip, 
+                        Joint_Hard_limit_lower, Joint_Hard_limit_higher, 
+                        hard_velocity_limit,
+                        name )
+                    {}
 
         /*=======END CONSTRUCTORS===========*/
 
@@ -101,13 +109,10 @@ using namespace std;
 
         /*
             Compute the link transform matrix
+            input q_DH in DH convention
         */
         Matrix<4,4> RobotLinkRevolute::A( double q_DH ) const{
-
-             q_DH = DH_revert_offset(q_DH);
-
              return A_internal( q_DH, _d );
-
         }
 
 

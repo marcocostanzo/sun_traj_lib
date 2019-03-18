@@ -31,39 +31,41 @@ using namespace std;
 
         //Full Constructor
         RobotLink::RobotLink(  double a, double alpha, double d, double theta, 
-                    double offset, bool flip, 
                     double robot2dh_offset, bool robot2dh_flip, 
-                    double DHJoint_limit_lower, double DHJoint_limit_higher, 
-                    double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                    double velocity_limit,
-                    string name )
+                    double Joint_Hard_limit_lower, double Joint_Hard_limit_higher, 
+                    double Joint_Soft_limit_lower, double Joint_Soft_limit_higher, 
+                    double hard_velocity_limit,
+                    double soft_velocity_limit,
+                    std::string name )
                     {
             _a = a;
             _alpha = alpha;
             _d = d;
             _theta = theta;
-            _offset = offset;
-            _flip = flip;
             _robot2dh_offset = robot2dh_offset;
-            setRobot2DH_flip(robot2dh_flip);
-            setDHJoint_limits( DHJoint_limit_lower, DHJoint_limit_higher );
-            setRobotJoint_limits( RobotJoint_limit_lower, RobotJoint_limit_higher );
-            setVelocity_limit( velocity_limit );
+            _robot2dh_flip = robot2dh_flip;
+            setHardJointLimits( Joint_Hard_limit_lower, Joint_Hard_limit_higher );
+            setSoftJointLimits( Joint_Soft_limit_lower, Joint_Soft_limit_higher );
+            setHardVelocityLimit( hard_velocity_limit );
+            setSoftVelocityLimit( soft_velocity_limit );
             _name = name;
         }
 
-        RobotLink::RobotLink( double a, double alpha, double d, double theta, double offset, bool flip):
-            RobotLink(  a, alpha, d, theta, 
-                        offset, flip, 
-                        0.0, false, 
-                        -INFINITY, INFINITY, 
-                        -INFINITY, INFINITY, 
-                         INFINITY,
-                        "Joint unnamed" )
-                        {}
-
-        RobotLink::RobotLink( double a, double alpha, double d, double theta):
-            RobotLink( a, alpha, d, theta, 0.0, false)
+        RobotLink::RobotLink(   double a, double alpha, double d, double theta, 
+                                double robot2dh_offset, bool robot2dh_flip,
+                                double Joint_Hard_limit_lower, double Joint_Hard_limit_higher,
+                                double hard_velocity_limit,
+                                string name
+                                )
+            :RobotLink(
+                a, alpha, d, theta,
+                robot2dh_offset, robot2dh_flip,
+                Joint_Hard_limit_lower, Joint_Hard_limit_higher,
+                Joint_Hard_limit_lower, Joint_Hard_limit_higher,
+                hard_velocity_limit,
+                hard_velocity_limit,
+                name
+            )
             {}
 
         /*======END CONSTRUCTORS======*/
@@ -73,11 +75,12 @@ using namespace std;
         void RobotLink::checkLowerHigher( double lower, double higher ){
             if( lower > higher ){
                 cout << ROBOT_ERROR_COLOR "[RobotLink] Error in checkLowerHigher( double lower, double higher ): lower > higher " ROBOT_CRESET << endl;
+                exit(-1);
             }
         }
 
         Matrix<4,4> RobotLink::A_internal( double theta, double d ) const{
-
+            
             double sa = sin(_alpha); 
             double ca = cos(_alpha);
             
@@ -85,19 +88,13 @@ using namespace std;
             double ct = cos(theta);
             
             //standard DH
-             return Data(
+            return Data(
                              ct, -st*ca,  st*sa, _a*ct,
                              st,  ct*ca, -ct*sa, _a*st,
                             0.0,     sa,     ca,    d,
                             0.0,    0.0,    0.0,   1.0
              );
-        }
 
-        double RobotLink::DH_revert_offset( double q_DH ) const{
-            if(_flip)
-                return (-q_DH - _offset);
-            else
-                return ( q_DH - _offset);
         }
 
         //===================//
@@ -139,24 +136,6 @@ using namespace std;
         }
 
         /*
-            Return the offset in the joint variable
-            Note:
-                -This is NOT the offset in the robot convention!
-        */
-        double RobotLink::getDH_offset() const{
-            return _offset;
-        }
-
-        /*
-            Return true joint moves in opposite direction in the DH convention
-            Note:
-                -This is NOT the sign in the robot convention!
-        */
-        bool RobotLink::getDH_flip() const{
-            return _flip;
-        }
-
-        /*
             Return the offset between the robot and DH convention
         */
         double RobotLink::getRobot2DH_offset() const{
@@ -173,22 +152,29 @@ using namespace std;
         /*
             TODO
         */
-        Vector<2> RobotLink::getDHJoint_limits() const{
-            return makeVector( _DHJoint_limit_lower, _DHJoint_limit_higher );
+        Vector<2> RobotLink::getSoftJointLimits() const{
+            return makeVector( _Joint_Soft_limit_lower, _Joint_Soft_limit_higher );
         }
 
         /*
             TODO
         */
-        Vector<2> RobotLink::getRobotJoint_limits() const{
-            return makeVector( _RobotJoint_limit_lower, _RobotJoint_limit_higher );
+        Vector<2> RobotLink::getHardJointLimits() const{
+            return makeVector( _Joint_Hard_limit_lower, _Joint_Hard_limit_higher );
         }
         
         /*
             TODO
         */
-        double RobotLink::getVelocity_limit() const{
-            return _velocity_limit;
+        double RobotLink::getSoftVelocityLimit() const{
+            return _soft_velocity_limit;
+        }
+
+        /*
+            TODO
+        */
+        double RobotLink::getHardVelocityLimit() const{
+            return _hard_velocity_limit;
         }
 
         /*
@@ -235,20 +221,6 @@ using namespace std;
         /*
             TODO
         */
-        double RobotLink::setDH_offset( double offset ){
-            _offset = offset;
-        }
-
-        /*
-            TODO
-        */
-        void RobotLink::setDH_flip( bool flip ){
-            _flip = flip;
-        }
-
-        /*
-            TODO
-        */
         void RobotLink::setRobot2DH_offset( double offset ){
             _robot2dh_offset = offset;
         }
@@ -263,50 +235,61 @@ using namespace std;
         /*
             TODO
         */
-        void RobotLink::setDHJoint_limits( double lower, double higher) {
+        void RobotLink::setSoftJointLimits( double lower, double higher) {
             checkLowerHigher(lower, higher);
-            _DHJoint_limit_lower = lower;
-            _DHJoint_limit_higher = higher;
+            _Joint_Soft_limit_lower = lower;
+            _Joint_Soft_limit_higher = higher;
         }
 
         /*
             TODO
         */
-        void RobotLink::setDHJoint_limits( Vector<2> limits ) {
-            setDHJoint_limits( limits[0], limits[1]);
+        void RobotLink::setSoftJointLimits( const TooN::Vector<2>& limits ) {
+            setSoftJointLimits( limits[0], limits[1]);
         }
 
         /*
             TODO
         */
-        void RobotLink::setRobotJoint_limits( double lower, double higher) {
+        void RobotLink::setHardJointLimits( double lower, double higher) {
             checkLowerHigher(lower, higher);
-            _RobotJoint_limit_lower = lower;
-            _RobotJoint_limit_higher = higher;
+            _Joint_Hard_limit_lower = lower;
+            _Joint_Hard_limit_higher = higher;
         }
 
         /*
             TODO
         */
-        void RobotLink::setRobotJoint_limits( Vector<2> limits ) {
-            setRobotJoint_limits( limits[0], limits[1]);
+        void RobotLink::setHardJointLimits( const TooN::Vector<2>& limits ) {
+            setHardJointLimits( limits[0], limits[1]);
         }
 
         /*
             TODO
         */    
-        void RobotLink::setVelocity_limit( double velocity_limit) {
+        void RobotLink::setHardVelocityLimit( double velocity_limit) {
             if( velocity_limit < 0.0 ){
-                cout << ROBOT_ERROR_COLOR "[RobotLink] Error in setVelocity_limit( double velocity_limit): velocity_limit<0.0" ROBOT_CRESET << endl;
+                cout << ROBOT_ERROR_COLOR "[RobotLink] Error in setHardVelocityLimit( double velocity_limit): velocity_limit<0.0" ROBOT_CRESET << endl;
                 exit(-1);
             }
-            _velocity_limit = velocity_limit;
+            _hard_velocity_limit = velocity_limit;
+        }
+
+        /*
+            TODO
+        */    
+        void RobotLink::setSoftVelocityLimit( double velocity_limit) {
+            if( velocity_limit < 0.0 ){
+                cout << ROBOT_ERROR_COLOR "[RobotLink] Error in setSoftVelocityLimit( double velocity_limit): velocity_limit<0.0" ROBOT_CRESET << endl;
+                exit(-1);
+            }
+            _soft_velocity_limit = velocity_limit;
         }
 
         /*
             TODO
         */
-        void RobotLink::setName( string name ){
+        void RobotLink::setName( const std::string& name ){
             _name = name;
         }
 
@@ -326,41 +309,48 @@ using namespace std;
             "a = " << _a << endl <<
             "alpha = " << _alpha << endl <<
             "theta = " << _theta << endl <<
-            "offset = " << _offset << " | flip = " << (_flip ? "yes" : "no") << endl <<
 
             "Robot2DH Conversion:" << endl <<
             "offset = " << _robot2dh_offset << " | flip = " << (_robot2dh_flip ? "yes" : "no") << endl <<
 
-            "SoftLimits (DH convention):" << endl <<
-            "[" << _DHJoint_limit_lower << " | " << _DHJoint_limit_higher << "]" << endl <<
+            "SoftLimits:" << endl <<
+            "[" << _Joint_Soft_limit_lower << " | " << _Joint_Soft_limit_higher << "]" << endl <<
 
-            "HardLimits (Robot convention):" << endl <<
-            "[" << _RobotJoint_limit_lower << " | " << _RobotJoint_limit_higher << "]" << endl <<
+            "HardLimits:" << endl <<
+            "[" << _Joint_Hard_limit_lower << " | " << _Joint_Hard_limit_higher << "]" << endl <<
 
-            "VelocityLimit: " << _velocity_limit
+            "Soft Velocity Limit: " << _soft_velocity_limit << endl <<
+            "Hard Velocity Limit: " << _hard_velocity_limit
 
             ;//End COUT
         }
 
         /*
-            return True if the input q_DH (in DH convention) exceeds the softDHLimits
+            return True if the input q_R (in Robot convention) exceeds the softLimits
         */
-        bool RobotLink::exceededJointDHLimits(double q_DH) const{
-            return ( q_DH <= _DHJoint_limit_lower || q_DH >= _DHJoint_limit_higher );
+        bool RobotLink::exceededSoftJointLimits(double q_R) const{
+            return ( q_R <= _Joint_Soft_limit_lower || q_R >= _Joint_Soft_limit_higher );
         }
 
         /*
             return True if the input q_Robot (in Robot convention) exceeds the HardRobotLimits
         */
-        bool RobotLink::exceededJointRobotLimits(double q_Robot) const{
-            return ( q_Robot <= _RobotJoint_limit_lower || q_Robot >= _RobotJoint_limit_higher );
+        bool RobotLink::exceededHardJointLimits(double q_R) const{
+            return ( q_R <= _Joint_Hard_limit_lower || q_R >= _Joint_Hard_limit_higher );
         }
 
         /*
-            return True if the input q_vel exceeds the velocity limits
+            return True if the input q_vel exceeds the velocity soft limit
         */
-        bool RobotLink::exceededJointVelocity(double q_vel) const{
-            return ( abs(q_vel) >= _velocity_limit );
+        bool RobotLink::exceededSoftVelocityLimit(double q_vel) const{
+            return ( abs(q_vel) >= _soft_velocity_limit );
+        }
+
+        /*
+            return True if the input q_vel exceeds the velocity hard limit
+        */
+        bool RobotLink::exceededHardVelocityLimit(double q_vel) const{
+            return ( abs(q_vel) >= _hard_velocity_limit );
         }
 
         /*

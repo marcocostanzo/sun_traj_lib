@@ -40,17 +40,23 @@ class RobotLinkRevolute : public RobotLink{
         /*=============CONSTRUCTORS===========*/
 
         //Full Constructor
-        RobotLinkRevolute(  double a, double alpha, double d, 
-                            double offset, bool flip, 
-                            double robot2dh_offset, bool robot2dh_flip, 
-                            double DHJoint_limit_lower, double DHJoint_limit_higher, 
-                            double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                            double velocity_limit,
-                            std::string name );
+        RobotLinkRevolute(  
+                    double a, double alpha, double d, 
+                    double robot2dh_offset, bool robot2dh_flip, 
+                    double Joint_Hard_limit_lower, double Joint_Hard_limit_higher, 
+                    double Joint_Soft_limit_lower, double Joint_Soft_limit_higher, 
+                    double hard_velocity_limit,
+                    double soft_velocity_limit,
+                    std::string name = "joint_no_name" 
+                    );
 
-        RobotLinkRevolute( double a, double alpha, double d, double offset, bool flip);
-
-        RobotLinkRevolute( double a, double alpha, double d);
+        RobotLinkRevolute(  
+                    double a, double alpha, double d, 
+                    double robot2dh_offset = 0.0, bool robot2dh_flip = false,
+                    double Joint_Hard_limit_lower = -INFINITY, double Joint_Hard_limit_higher = INFINITY,
+                    double hard_velocity_limit = INFINITY,
+                    std::string name = "joint_no_name"
+                    );
 
         /*=======END CONSTRUCTORS===========*/
 
@@ -65,30 +71,31 @@ class RobotLinkRevolute : public RobotLink{
                     - For revolute link this is the joint variable,
                     in that case this function returns NaN
         */
-        virtual double getDH_theta() const;
+        virtual double getDH_theta() const override;
 
         /*
                 TODO
                 ERROR IF LINK IS REVOLUTE
         */
-        virtual void setDH_theta( double theta );
+        virtual void setDH_theta( double theta ) override;
 
         /*
             TODO
         */
-        virtual void display() const;
+        virtual void display() const override;
 
         /*
                 Retrun the joint type
                 'p' = prismatic
                 'r' = revolute
         */
-        virtual char type() const;
+        virtual char type() const override;
 
         /*
             Compute the link transform matrix
+            input qR in robot convention
         */
-        virtual TooN::Matrix<4,4> A( double q_DH ) const;
+        virtual TooN::Matrix<4,4> A( double q_R ) const override;
 
 
 

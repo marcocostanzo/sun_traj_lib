@@ -93,7 +93,7 @@ class Robot {
 
     protected:
         /*
-            Internal function that check if tha matrix is Homog and print an error
+            Internal function that checks if the matrix is Homog and print an error
         */
         static void checkHomog( const TooN::Matrix<4,4>& M );
 
@@ -105,8 +105,9 @@ class Robot {
 
         /*
             Display robot position
+            Input in DH Convention
         */
-        virtual void dispPosition(const TooN::Vector<>& qDH);
+        virtual void dispPosition(const TooN::Vector<>& q_DH);
 
         /*=======END HELPS=====*/
 
@@ -129,6 +130,7 @@ class Robot {
 
         /*
             get Vector of links
+            this function makes a copy
         */
         virtual std::vector<RobotLinkPtr> getLinks() const;
 
@@ -136,7 +138,7 @@ class Robot {
             get reference of link i
             Note: smart_pointer
         */
-        virtual RobotLinkPtr getLink(int i);
+        virtual RobotLinkPtr& getLink(int i);
 
         /*
             Get Transformation matrix of link_0 w.r.t. base frame 
@@ -229,22 +231,22 @@ class Robot {
         /*
             Transform joints from robot to DH convention
         */
-        virtual TooN::Vector<> joint_Robot2DH( TooN::Vector<> q_Robot ) const;
+        virtual TooN::Vector<> joints_Robot2DH( const TooN::Vector<>& q_Robot ) const;
 
         /*
             Transform joints from HD to robot convention
         */
-        virtual TooN::Vector<> joint_DH2Robot( TooN::Vector<> q_DH ) const;
+        virtual TooN::Vector<> joints_DH2Robot( const TooN::Vector<>& q_DH ) const;
 
         /*
             Transform joints velocity from robot to DH convention
         */
-        virtual TooN::Vector<> jointvel_Robot2DH( TooN::Vector<> q_dot_Robot ) const;
+        virtual TooN::Vector<> jointsvel_Robot2DH( const TooN::Vector<>& q_dot_Robot ) const;
 
         /*
             Transform joints from DH to robot convention
         */
-        virtual TooN::Vector<> jointvel_DH2Robot( TooN::Vector<> q_dot_DH ) const;
+        virtual TooN::Vector<> jointsvel_DH2Robot( const TooN::Vector<>& q_dot_DH ) const;
 
          /*=========END CONVERSIONS=========*/
 
@@ -254,43 +256,52 @@ class Robot {
             Check Hard Limits
             Return a logic vector, if the i-th element is true then the i-th link has violated the limits
         */
-        virtual std::vector<bool> checkJointRobotLimits( const TooN::Vector<>& q_Robot ) const;
+        virtual std::vector<bool> checkHardJointLimits( const TooN::Vector<>& q_Robot ) const;
 
         /*
             Check Hard Limits
             Return true if any joint has violated the limits
         */
-        virtual bool exceededJointRobotLimits( const TooN::Vector<>& q_Robot ) const;
+        virtual bool exceededHardJointLimits( const TooN::Vector<>& q_Robot ) const;
         
         /*
             Check Soft Limits
             Return a logic vector, if the i-th element is true then the i-th link has violated the limits
         */
-        virtual std::vector<bool> checkJointDHLimits( const TooN::Vector<>& q_DH ) const;
+        virtual std::vector<bool> checkSoftJointLimits( const TooN::Vector<>& q_Robot ) const;
 
         /*
             Check Soft Limits
             Return true if any joint has violated the limits
         */
-        virtual bool exceededJointDHLimits( const TooN::Vector<>& q_DH ) const;
+        virtual bool exceededSoftJointLimits( const TooN::Vector<>& q_R ) const;
 
         /*
-            Check Velocity Limits
+            Check Hard Velocity Limits
             Return a logic vector, if the i-th element is true then the i-th link has violated the limits
         */
-        virtual std::vector<bool> checkJointVelocity( const TooN::Vector<>& q_dot ) const;
+        virtual std::vector<bool> checkHardVelocityLimits( const TooN::Vector<>& q_dot ) const;
 
         /*
             Check Velocity Limits
             Return true if any joint has violated the limits
         */
-        virtual bool exceededJointVelocity( const TooN::Vector<>& q_dot ) const;
+        virtual bool exceededHardVelocityLimits( const TooN::Vector<>& q_dot ) const;
+
+        virtual std::vector<bool> checkSoftVelocityLimits( const TooN::Vector<>& q_dot ) const;
+
+        /*
+            Check SOFT Velocity Limits
+            Return true if any joint has violated the limits
+        */
+        virtual bool exceededSoftVelocityLimits( const TooN::Vector<>& q_dot ) const;
 
         /*=========END SAFETY=========*/
 
         /*========FKINE=========*/
 
     protected:
+
         /*
             Internal fkine
             This function compute the fkine to joint "n_joint" given the last transformation to joint n_joint-1

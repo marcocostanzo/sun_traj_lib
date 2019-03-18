@@ -45,8 +45,6 @@ class RobotLink{
         double _d;      //link offset
         double _theta;  //link angle
 
-        double _offset; //joint coordinate offset
-        bool _flip;     //joint moves in opposite direction
         //////////////////////////////////////////////////
 
         //Robot-DH Conversion
@@ -55,9 +53,10 @@ class RobotLink{
         ///////////////////////////////////////////////
 
         //Safety Vars
-        double _DHJoint_limit_lower, _DHJoint_limit_higher;       //SoftLimits in DH convention
-        double _RobotJoint_limit_lower, _RobotJoint_limit_higher; //HardLimits in Robot convention
-        double _velocity_limit; //HardLimits in Robot convention
+        double _Joint_Soft_limit_lower, _Joint_Soft_limit_higher; //SoftLimits in Robot convention
+        double _Joint_Hard_limit_lower, _Joint_Hard_limit_higher; //HardLimits in Robot convention
+        double _hard_velocity_limit; //Hard Velocity Limits in Robot convention
+        double _soft_velocity_limit; //Hard Velocity Limits in Robot convention
         //////////////////////////////////////////////
 
         std::string _name;  //joint name
@@ -66,16 +65,20 @@ class RobotLink{
 
         //Full Constructor
         RobotLink(  double a, double alpha, double d, double theta, 
-                    double offset, bool flip, 
-                    double robot2dh_offset, bool _robot2dh_flip, 
-                    double DHJoint_limit_lower, double DHJoint_limit_higher, 
-                    double RobotJoint_limit_lower, double RobotJoint_limit_higher, 
-                    double velocity_limit,
-                    std::string name );
+                    double robot2dh_offset, bool robot2dh_flip, 
+                    double Joint_Hard_limit_lower, double Joint_Hard_limit_higher, 
+                    double Joint_Soft_limit_lower, double Joint_Soft_limit_higher, 
+                    double hard_velocity_limit,
+                    double soft_velocity_limit,
+                    std::string name = "joint_no_name" 
+                    );
 
-        RobotLink( double a, double alpha, double d, double theta, double offset, bool flip);
-
-        RobotLink( double a, double alpha, double d, double theta);
+        RobotLink(  double a, double alpha, double d, double theta, 
+                    double robot2dh_offset = 0.0, bool robot2dh_flip = false,
+                    double Joint_Hard_limit_lower = -INFINITY, double Joint_Hard_limit_higher = INFINITY,
+                    double hard_velocity_limit = INFINITY,
+                    std::string name = "joint_no_name"
+                    );
 
         //RobotLink( const RobotLink& rl) = default;
 
@@ -86,8 +89,6 @@ class RobotLink{
         static void checkLowerHigher( double lower, double higher );
 
         virtual TooN::Matrix<4,4> A_internal( double theta, double d ) const;
-
-        virtual double DH_revert_offset( double q_DH ) const;
 
         //===================//
 
@@ -122,20 +123,6 @@ class RobotLink{
         virtual double getDH_theta() const;
 
         /*
-            Return the offset in the joint variable
-            Note:
-                -This is NOT the offset in the robot convention!
-        */
-        virtual double getDH_offset() const;
-
-        /*
-            Return true joint moves in opposite direction in the DH convention
-            Note:
-                -This is NOT the sign in the robot convention!
-        */
-        virtual bool getDH_flip() const;
-
-        /*
             Return the offset between the robot and DH convention
         */
         virtual double getRobot2DH_offset() const;
@@ -148,17 +135,22 @@ class RobotLink{
         /*
             TODO
         */
-        virtual TooN::Vector<2> getDHJoint_limits() const;
+        virtual TooN::Vector<2> getSoftJointLimits() const;
 
         /*
             TODO
         */
-        virtual TooN::Vector<2> getRobotJoint_limits() const;
+        virtual TooN::Vector<2> getHardJointLimits() const;
         
         /*
             TODO
         */
-        virtual double getVelocity_limit() const;
+        virtual double getSoftVelocityLimit() const;
+
+        /*
+            TODO
+        */
+        virtual double getHardVelocityLimit() const;
 
         /*
             Return the Joint Name
@@ -199,16 +191,6 @@ class RobotLink{
         /*
             TODO
         */
-        virtual double setDH_offset( double offset );
-
-        /*
-            TODO
-        */
-        virtual void setDH_flip( bool flip );
-
-        /*
-            TODO
-        */
         virtual void setRobot2DH_offset( double offset );
 
         /*
@@ -219,32 +201,37 @@ class RobotLink{
         /*
             TODO
         */
-        virtual void setDHJoint_limits( double lower, double higher);
+        virtual void setSoftJointLimits( double lower, double higher);
 
         /*
             TODO
         */
-        virtual void setDHJoint_limits( TooN::Vector<2> limits );
+        virtual void setSoftJointLimits( const TooN::Vector<2>& limits );
 
         /*
             TODO
         */
-        virtual void setRobotJoint_limits( double lower, double higher);
+        virtual void setHardJointLimits( double lower, double higher);
 
         /*
             TODO
         */
-        virtual void setRobotJoint_limits( TooN::Vector<2> limits );
+        virtual void setHardJointLimits( const TooN::Vector<2>& limits );
 
         /*
             TODO
         */    
-        virtual void setVelocity_limit( double velocity_limit);
+        virtual void setHardVelocityLimit( double velocity_limit);
+
+        /*
+            TODO
+        */    
+        virtual void setSoftVelocityLimit( double velocity_limit);
 
         /*
             TODO
         */
-        virtual void setName( std::string name );
+        virtual void setName( const std::string& name );
 
         //======END SETTERS===========//
 
@@ -262,23 +249,29 @@ class RobotLink{
 
         /*
             Compute the link transform matrix
+            input q_DH in DH convention
         */
         virtual TooN::Matrix<4,4> A( double q_DH ) const = 0;
 
         /*
-            return True if the input q_DH (in DH convention) exceeds the softDHLimits
+            return True if the input q_R (in Robot convention) exceeds the softLimits
         */
-        virtual bool exceededJointDHLimits(double q_DH) const;
+        virtual bool exceededSoftJointLimits(double q_R) const;
 
         /*
-            return True if the input q_Robot (in Robot convention) exceeds the HardRobotLimits
+            return True if the input q_R (in Robot convention) exceeds the HardLimits
         */
-        virtual bool exceededJointRobotLimits(double q_Robot) const;
+        virtual bool exceededHardJointLimits(double q_R) const;
 
         /*
-            return True if the input q_vel exceeds the velocity limit
+            return True if the input q_vel exceeds the velocity soft limit
         */
-        virtual bool exceededJointVelocity(double q_vel) const;
+        virtual bool exceededSoftVelocityLimit(double q_vel) const;
+
+        /*
+            return True if the input q_vel exceeds the velocity hard limit
+        */
+        virtual bool exceededHardVelocityLimit(double q_vel) const;
 
         /*
             TODO

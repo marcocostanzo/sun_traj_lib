@@ -45,33 +45,26 @@ LBRiiwa7::LBRiiwa7( const Matrix<4,4>& n_T_e,
                             RobotLinkRevolute(
                                 //a,   alpha,     d,
                                 0.0, -M_PI/2.0, 0.0,
-                                //offset, bool flip
-                                0.0, false,
                                 //robot2dh_offset, bool robot2dh_flip
                                 0.0, false, 
-                                //DHJoint_limit_lower, DHJoint_limit_higher
-                                -INFINITY, INFINITY,
-                                //RobotJoint_limit_lower, RobotJoint_limit_higher
+                                //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -170.0*M_PI/180.0, 170.0*M_PI/180.0, 
-                                //velocity_limit
+                                //hard_velocity_limit
                                 1.71,
                                 //string name
                                 "A1" )
                         );
+
                         //L2
                         push_back_link(
                             RobotLinkRevolute(
                                 //a,alpha,d,
                                 0.0, M_PI/2.0, 0.0,
-                                //offset, bool flip
-                                0.0, false,
                                 //robot2dh_offset, bool robot2dh_flip
                                 0.0, false, 
-                                //DHJoint_limit_lower, DHJoint_limit_higher
-                                -INFINITY, INFINITY,
-                                // RobotJoint_limit_lower, RobotJoint_limit_higher
+                                //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -120.0*M_PI/180.0, 120.0*M_PI/180.0, 
-                                //velocity_limit
+                                //hard_velocity_limit
                                 1.71,
                                 //string name
                                 "A2" )
@@ -81,15 +74,11 @@ LBRiiwa7::LBRiiwa7( const Matrix<4,4>& n_T_e,
                             RobotLinkRevolute(
                                 //a,alpha,d,
                                 0.0, -M_PI/2.0, 0.400,
-                                //offset, bool flip
-                                0.0, false,
                                 //robot2dh_offset, bool robot2dh_flip
                                 0.0, false, 
-                                //DHJoint_limit_lower, DHJoint_limit_higher
-                                -INFINITY, INFINITY,
-                                // RobotJoint_limit_lower, RobotJoint_limit_higher
+                                //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -170.0*M_PI/180.0, 170.0*M_PI/180.0, 
-                                //velocity_limit
+                                //hard_velocity_limit
                                 1.74,
                                 //string name
                                 "A3" )
@@ -99,15 +88,11 @@ LBRiiwa7::LBRiiwa7( const Matrix<4,4>& n_T_e,
                             RobotLinkRevolute(
                                 //a,alpha,d,
                                 0.0, M_PI/2.0, 0.0,
-                                //offset, bool flip
-                                0.0, false,
                                 //robot2dh_offset, bool robot2dh_flip
                                 0.0, true, 
-                                //DHJoint_limit_lower, DHJoint_limit_higher
-                                -INFINITY, INFINITY,
-                                // RobotJoint_limit_lower, RobotJoint_limit_higher
+                                //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -120.0*M_PI/180.0, 120.0*M_PI/180.0, 
-                                //velocity_limit
+                                //hard_velocity_limit
                                 2.26,
                                 //string name
                                 "A4" )
@@ -117,15 +102,11 @@ LBRiiwa7::LBRiiwa7( const Matrix<4,4>& n_T_e,
                             RobotLinkRevolute(
                                 //a,alpha,d,
                                 0.0, -M_PI/2.0, 0.400,
-                                //offset, bool flip
-                                0.0, false,
                                 //robot2dh_offset, bool robot2dh_flip
                                 0.0, false, 
-                                //DHJoint_limit_lower, DHJoint_limit_higher
-                                -INFINITY, INFINITY,
-                                // RobotJoint_limit_lower, RobotJoint_limit_higher
+                                //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -170.0*M_PI/180.0, 170.0*M_PI/180.0, 
-                                //velocity_limit
+                                //hard_velocity_limit
                                 2.44,
                                 //string name
                                 "A5" )
@@ -135,15 +116,11 @@ LBRiiwa7::LBRiiwa7( const Matrix<4,4>& n_T_e,
                             RobotLinkRevolute(
                                 //a,alpha,d,
                                 0.0, M_PI/2.0, 0.0,
-                                //offset, bool flip
-                                0.0, false,
                                 //robot2dh_offset, bool robot2dh_flip
                                 0.0, false, 
-                                //DHJoint_limit_lower, DHJoint_limit_higher
-                                -INFINITY, INFINITY,
-                                // RobotJoint_limit_lower, RobotJoint_limit_higher
+                                //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -120.0*M_PI/180.0, 120.0*M_PI/180.0, 
-                                //velocity_limit
+                                //hard_velocity_limit
                                 3.14,
                                 //string name
                                 "A6" )
@@ -153,15 +130,11 @@ LBRiiwa7::LBRiiwa7( const Matrix<4,4>& n_T_e,
                             RobotLinkRevolute(
                                 //a,alpha,d,
                                 0.0, 0.0, 0.126,
-                                //offset, bool flip
-                                0.0, false,
                                 //robot2dh_offset, bool robot2dh_flip
                                 0.0, false, 
-                                //DHJoint_limit_lower, DHJoint_limit_higher
-                                -INFINITY, INFINITY,
-                                // RobotJoint_limit_lower, RobotJoint_limit_higher
+                                //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -175.0*M_PI/180.0, 175.0*M_PI/180.0, 
-                                //velocity_limit
+                                //hard_velocity_limit
                                 3.14,
                                 //string name
                                 "A7" )

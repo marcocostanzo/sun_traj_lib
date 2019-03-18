@@ -103,7 +103,7 @@ using namespace std;
         /*=======HELPS=========*/
 
         /*
-            Internal function that check if tha matrix is Homog and print an error
+            Internal function that checks if the matrix is Homog and print an error
         */
         void Robot::checkHomog( const Matrix<4,4>& M ){
             if( !isHomog(M) ){
@@ -186,10 +186,11 @@ using namespace std;
 
         /*
             Display robot position
+            Input in DH Convention
         */
-        void Robot::dispPosition(const Vector<>& qDH){
+        void Robot::dispPosition(const Vector<>& q_DH){
 
-            Matrix<4,4> Teb = fkine(qDH);
+            Matrix<4,4> Teb = fkine(q_DH);
             cout << "=========================" << endl
             << "Robot[ " << _model << " ]: " << _name << endl
             << "Teb = " << endl << Teb << endl
@@ -224,6 +225,7 @@ using namespace std;
 
         /*
             get Vector of links
+            this function makes a copy
         */
         vector<RobotLinkPtr> Robot::getLinks() const{
             vector<RobotLinkPtr> out;
@@ -237,8 +239,8 @@ using namespace std;
             get reference of link i
             Note: smart_pointer
         */
-        RobotLinkPtr Robot::getLink(int i){
-            return RobotLinkPtr( _links[i]->clone() );
+        RobotLinkPtr& Robot::getLink(int i){
+            return _links[i];
         }
 
         /*
@@ -381,41 +383,45 @@ using namespace std;
         /*
             Transform joints from robot to DH convention
         */
-        Vector<> Robot::joint_Robot2DH( Vector<> q_Robot ) const{
+        Vector<> Robot::joints_Robot2DH( const Vector<>& q_Robot ) const{
+            Vector<> q_DH = Zeros( getNumJoints() );
             for(int i = 0; i<getNumJoints(); i++){
-                q_Robot[i] = _links[i]->joint_Robot2DH(q_Robot[i]);
-            }
-            return q_Robot;
-        }
-
-        /*
-            Transform joints from HD to robot convention
-        */
-        Vector<> Robot::joint_DH2Robot( Vector<> q_DH ) const{
-            for(int i = 0; i<getNumJoints(); i++){
-                q_DH[i] = _links[i]->joint_DH2Robot(q_DH[i]);
+                q_DH[i] = _links[i]->joint_Robot2DH(q_Robot[i]);
             }
             return q_DH;
         }
 
         /*
+            Transform joints from HD to robot convention
+        */
+        Vector<> Robot::joints_DH2Robot( const Vector<>& q_DH ) const{
+            Vector<> q_Robot = Zeros( getNumJoints() );
+            for(int i = 0; i<getNumJoints(); i++){
+                q_Robot[i] = _links[i]->joint_DH2Robot(q_DH[i]);
+            }
+            return q_Robot;
+        }
+
+        /*
             Transform joints velocity from robot to DH convention
         */
-        Vector<> Robot::jointvel_Robot2DH( Vector<> q_dot_Robot ) const{
+        Vector<> Robot::jointsvel_Robot2DH( const Vector<>& q_dot_Robot ) const{
+            Vector<> q_dot_DH = Zeros( getNumJoints() );
             for(int i = 0; i<getNumJoints(); i++){
-                q_dot_Robot[i] = _links[i]->jointvel_Robot2DH(q_dot_Robot[i]);
+                q_dot_DH[i] = _links[i]->jointvel_Robot2DH(q_dot_Robot[i]);
             }
-            return q_dot_Robot;
+            return q_dot_DH;
         }
 
         /*
             Transform joints from DH to robot convention
         */
-        Vector<> Robot::jointvel_DH2Robot( Vector<> q_dot_DH ) const{
+        Vector<> Robot::jointsvel_DH2Robot( const Vector<>& q_dot_DH ) const{
+            Vector<> q_dot_Robot = Zeros( getNumJoints() );
             for(int i = 0; i<getNumJoints(); i++){
-                q_dot_DH[i] = _links[i]->jointvel_DH2Robot(q_dot_DH[i]);
+                q_dot_Robot[i] = _links[i]->jointvel_DH2Robot(q_dot_DH[i]);
             }
-            return q_dot_DH;
+            return q_dot_Robot;
         }
 
          /*=========END CONVERSIONS=========*/
@@ -426,10 +432,10 @@ using namespace std;
             Check Hard Limits
             Return a logic vector, if the i-th element is true then the i-th link has violated the limits
         */
-        vector<bool> Robot::checkJointRobotLimits( const Vector<>& q_Robot ) const{
+        vector<bool> Robot::checkHardJointLimits( const Vector<>& q_Robot ) const{
             vector<bool> out;
             for(int i = 0; i<getNumJoints(); i++){
-                out.push_back( _links[i]->exceededJointRobotLimits( q_Robot[i]) );
+                out.push_back( _links[i]->exceededHardJointLimits( q_Robot[i]) );
             }
             return out;
         }
@@ -438,8 +444,8 @@ using namespace std;
             Check Hard Limits
             Return true if any joint has violated the limits
         */
-        bool Robot::exceededJointRobotLimits( const Vector<>& q_Robot ) const{
-            vector<bool> b_vec = checkJointRobotLimits( q_Robot );
+        bool Robot::exceededHardJointLimits( const Vector<>& q_Robot ) const{
+            vector<bool> b_vec = checkHardJointLimits( q_Robot );
             for(int i = 0; i<getNumJoints(); i++){
                 if(b_vec[i]){
                     return true;
@@ -452,10 +458,10 @@ using namespace std;
             Check Soft Limits
             Return a logic vector, if the i-th element is true then the i-th link has violated the limits
         */
-        vector<bool> Robot::checkJointDHLimits( const Vector<>& q_DH ) const{
+        vector<bool> Robot::checkSoftJointLimits( const Vector<>& q_R ) const{
             vector<bool> out;
             for(int i = 0; i<getNumJoints(); i++){
-                out.push_back( _links[i]->exceededJointDHLimits( q_DH[i]) );
+                out.push_back( _links[i]->exceededSoftJointLimits( q_R[i]) );
             }
             return out;
         }
@@ -464,8 +470,8 @@ using namespace std;
             Check Soft Limits
             Return true if any joint has violated the limits
         */
-        bool Robot::exceededJointDHLimits( const Vector<>& q_DH ) const{
-            vector<bool> b_vec = checkJointDHLimits( q_DH );
+        bool Robot::exceededSoftJointLimits( const Vector<>& q_R ) const{
+            vector<bool> b_vec = checkSoftJointLimits( q_R );
             for(int i = 0; i<getNumJoints(); i++){
                 if(b_vec[i]){
                     return true;
@@ -475,23 +481,49 @@ using namespace std;
         }
 
         /*
-            Check Velocity Limits
+            Check HARD Velocity Limits
             Return a logic vector, if the i-th element is true then the i-th link has violated the limits
         */
-        vector<bool> Robot::checkJointVelocity( const Vector<>& q_dot ) const{
+        vector<bool> Robot::checkHardVelocityLimits( const Vector<>& q_dot ) const{
             vector<bool> out;
             for(int i = 0; i<getNumJoints(); i++){
-                out.push_back( _links[i]->exceededJointVelocity( q_dot[i]) );
+                out.push_back( _links[i]->exceededHardVelocityLimit( q_dot[i]) );
             }
             return out;
         }
 
         /*
-            Check Velocity Limits
+            Check HARD Velocity Limits
             Return true if any joint has violated the limits
         */
-        bool Robot::exceededJointVelocity( const Vector<>& q_dot ) const{
-            vector<bool> b_vec = checkJointVelocity( q_dot );
+        bool Robot::exceededHardVelocityLimits( const Vector<>& q_dot ) const{
+            vector<bool> b_vec = checkHardVelocityLimits( q_dot );
+            for(int i = 0; i<getNumJoints(); i++){
+                if(b_vec[i]){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /*
+            Check SOFT Velocity Limits
+            Return a logic vector, if the i-th element is true then the i-th link has violated the limits
+        */
+        vector<bool> Robot::checkSoftVelocityLimits( const Vector<>& q_dot ) const{
+            vector<bool> out;
+            for(int i = 0; i<getNumJoints(); i++){
+                out.push_back( _links[i]->exceededSoftVelocityLimit( q_dot[i]) );
+            }
+            return out;
+        }
+
+        /*
+            Check SOFT Velocity Limits
+            Return true if any joint has violated the limits
+        */
+        bool Robot::exceededSoftVelocityLimits( const Vector<>& q_dot ) const{
+            vector<bool> b_vec = checkSoftVelocityLimits( q_dot );
             for(int i = 0; i<getNumJoints(); i++){
                 if(b_vec[i]){
                     return true;
@@ -1176,7 +1208,17 @@ using namespace std;
         {
             Vector<> d_W = Zeros(getNumJoints());
             for (int i = 0; i < getNumJoints(); i++) {
-                Vector<2> limits = _links[i]->getDHJoint_limits();
+                Vector<2> limits = _links[i]->getSoftJointLimits();
+
+                //Check Limits
+                limits[0] = _links[i]->joint_Robot2DH(limits[0]);
+                limits[1] = _links[i]->joint_Robot2DH(limits[1]);
+                if(limits[0] > limits[1]){
+                    double tmp = limits[0];
+                    limits[0] = limits[1];
+                    limits[1] = tmp;
+                }
+                
                 d_W[i] = (q_DH[i] - desired_configuration[i] )/(limits[1] - limits[0]) * desired_configuration_joint_weights[i];
             }
             d_W *= -1.0/getNumJoints();
