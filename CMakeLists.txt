@@ -144,6 +144,7 @@ include_directories(
    #src/Traj_Generators/Obj_Joints_Limits.cpp
 
    src/Robots/LBRiiwa7.cpp
+   src/Robots/MotomanSIA5F.cpp
 
  )
 
