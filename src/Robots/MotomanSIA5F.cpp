@@ -88,7 +88,7 @@ MotomanSIA5F::MotomanSIA5F( const Matrix<4,4>& n_T_e,
                                 //a,alpha,d,
                                 0.06, M_PI/2.0, 0.0,
                                 //robot2dh_offset, bool robot2dh_flip
-                                -M_PI/2.0, true, 
+                                M_PI/2.0, false, 
                                 //Joint_Hard_limit_lower, Joint_Hard_limit_higher
                                 -M_PI_2, 115.0*M_PI/180.0, 
                                 //hard_velocity_limit
