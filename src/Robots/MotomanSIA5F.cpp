@@ -31,10 +31,12 @@ using namespace std;
 /*
     Full constructor
 */
-MotomanSIA5F::MotomanSIA5F( const Matrix<4,4>& n_T_e, 
+MotomanSIA5F::MotomanSIA5F( 
+                    const Matrix<4,4>& n_T_e, 
                     double dls_joint_speed_saturation, 
-                    const string& name):
-                    Robot(  transl(0.0,0.0,0.3095), 
+                    const string& name
+                    )
+                    :Robot(  transl(0.0,0.0,0.3095), 
                             n_T_e, 
                             dls_joint_speed_saturation, 
                             name)
@@ -145,9 +147,11 @@ MotomanSIA5F::MotomanSIA5F( const Matrix<4,4>& n_T_e,
     Constructor with name only
 */
 MotomanSIA5F::MotomanSIA5F(const std::string& name):
-    MotomanSIA5F(   Identity, 
-                2.0, 
-                name)
+    MotomanSIA5F(   
+                Identity, 
+                5.0, 
+                name
+                )
             {}
 
 /*
