@@ -134,6 +134,8 @@ include_directories(
    src/Traj_Generators/Vector_Independent_Traj.cpp
    #Line Segment traj
    src/Traj_Generators/Line_Segment_Traj.cpp
+   #Circumference traj
+   src/Traj_Generators/Position_Circumference_Traj.cpp
    #Quaternion Traj
    #src/Traj_Generators/Quaternion_Interp_Traj.cpp #TODO
    src/Traj_Generators/Rotation_Const_Axis_Traj.cpp
@@ -144,6 +146,7 @@ include_directories(
    #src/Traj_Generators/Obj_Joints_Limits.cpp
 
    src/Robots/LBRiiwa7.cpp
+   src/Robots/MotomanSIA5F.cpp
 
  )
 
