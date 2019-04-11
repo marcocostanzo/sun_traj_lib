@@ -46,7 +46,7 @@ Position_Circumference_Traj::Position_Circumference_Traj(
 
                                     Vector<3> delta = pi - d;
 
-                                    if( fabs(delta*r_hat) >= norm(delta) ){
+                                    if( fabs(delta*r_hat) >= norm(delta) || (norm(r_hat) < 10.0*std::numeric_limits<double>::epsilon()) ){
                                         cout << TRAJ_WARN_COLOR "THE CIRCUMFERENCE TRAJ IS A POINT!" CRESET << endl;
                                         _c = pi;
                                         _R = Identity;

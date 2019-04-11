@@ -25,6 +25,7 @@
 #include "Traj_Generators/Rotation_Const_Axis_Traj.h"
 
 using namespace TooN;
+using namespace std;
 
 /*======CONSTRUCTORS=========*/
     
@@ -35,7 +36,12 @@ Rotation_Const_Axis_Traj::Rotation_Const_Axis_Traj( const UnitQuaternion& initia
     :Quaternion_Traj_Interface( NAN, NAN ),
     _initial_quat(initial_quat),
     _axis( unit(axis) ),
-    _traj_theta(traj_theta.clone()) {}
+    _traj_theta(traj_theta.clone()) {
+        if( norm(axis) < 10.0* std::numeric_limits<double>::epsilon()){
+            cout << TRAJ_WARN_COLOR "axis is zero -> no rotation" CRESET << endl;
+            _axis = Zeros;
+        }
+    }
 
 Rotation_Const_Axis_Traj::Rotation_Const_Axis_Traj( const Rotation_Const_Axis_Traj& traj )
     :Quaternion_Traj_Interface( NAN, NAN ) {
@@ -92,6 +98,10 @@ double Rotation_Const_Axis_Traj::getInitialTime() const {
 */
 void Rotation_Const_Axis_Traj::setAxis( const Vector<3>& axis ) {
     _axis = unit(axis);
+    if( norm(axis) < 10.0* std::numeric_limits<double>::epsilon()){
+        cout << TRAJ_WARN_COLOR "axis is zero -> no rotation" CRESET << endl;
+        _axis = Zeros;
+    }
 }
 
 /*
@@ -147,7 +157,11 @@ void Rotation_Const_Axis_Traj::changeFrame( const UnitQuaternion& new_Q_curr ) {
     Get Delta quaterinion, i.e. initial_Q_now
 */
 UnitQuaternion Rotation_Const_Axis_Traj::getDeltaQuat( double secs ) const{
-    return UnitQuaternion::angvec( _traj_theta->getPosition(secs), _axis);
+    if(_axis[0]==0.0 && _axis[1] == 0.0 && _axis[2] == 0.0){
+        return UnitQuaternion();
+    } else{
+        return UnitQuaternion::angvec( _traj_theta->getPosition(secs), _axis);
+    }
 }
 
 /*
