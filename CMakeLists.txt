@@ -130,6 +130,8 @@ include_directories(
 
    #Quintic scalar poly
    src/Traj_Generators/Quintic_Poly_Traj.cpp
+   #Quintic sine wave
+   src/Traj_Generators/Sine_Traj.cpp
    #Generic multidim traj
    src/Traj_Generators/Vector_Independent_Traj.cpp
    #Line Segment traj
