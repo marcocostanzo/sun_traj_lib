@@ -179,11 +179,16 @@ double Quintic_Poly_Traj::getAcceleration(double secs) const{
 void Quintic_Poly_Traj::updateCoefficients(){
     //This is the effective total time of motion
     double t = getDuration();
+
+    if(t < 10.0*std::numeric_limits<double>::epsilon()){
+        cout << TRAJ_WARN_COLOR "[Quintic_Poly_Traj] WARNING: duration is zero... I will fix this..." CRESET << endl;
+        t = QUINTIC_POLY_EPS_TIME;
+    }
             
     //These coefficients are known
     _poly_coeff[5] = _pi;
     _poly_coeff[4] = _vi;
-    _poly_coeff[3] = _aci/2;
+    _poly_coeff[3] = _aci/2.0;
 
     //Prepare pow
     double t_2 = pow(t,2);

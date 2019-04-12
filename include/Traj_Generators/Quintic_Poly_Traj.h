@@ -28,6 +28,7 @@
 #include "Traj_Generators/Scalar_Traj_Interface.h"
 #include "GeometryHelper.h"
 
+#define QUINTIC_POLY_EPS_TIME 0.001
 
 class Quintic_Poly_Traj : public Scalar_Traj_Interface {
 

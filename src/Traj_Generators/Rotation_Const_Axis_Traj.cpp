@@ -38,7 +38,7 @@ Rotation_Const_Axis_Traj::Rotation_Const_Axis_Traj( const UnitQuaternion& initia
     _axis( unit(axis) ),
     _traj_theta(traj_theta.clone()) {
         if( norm(axis) < 10.0* std::numeric_limits<double>::epsilon()){
-            cout << TRAJ_WARN_COLOR "axis is zero -> no rotation" CRESET << endl;
+            cout << TRAJ_WARN_COLOR "[Rotation_Const_Axis_Traj] WARNING: axis is zero -> no rotation" CRESET << endl;
             _axis = Zeros;
         }
     }
