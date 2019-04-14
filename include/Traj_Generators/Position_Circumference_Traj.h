@@ -203,6 +203,23 @@ virtual TooN::Vector<3> getVelocity(double secs) const override;
 */
 virtual TooN::Vector<3> getAcceleration(double secs) const override;
 
+/*
+    Get the angular position (position)
+*/
+virtual double getAngularPosition(double secs) const;
+
+/*
+    Get the angular velocity
+*/
+virtual double getAngularVelocity(double secs) const;
+
+/*
+    Get the angular velocity
+*/
+virtual double getAngularAcceleration(double secs) const;
+
+
+
 /*====== END RUNNERS =========*/
 
 };// END CLASS Line_Segment_Traj

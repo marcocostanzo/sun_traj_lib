@@ -143,6 +143,7 @@ include_directories(
    src/Traj_Generators/Rotation_Const_Axis_Traj.cpp
    #Cartesian Traj
    src/Traj_Generators/Cartesian_Independent_Traj.cpp
+   src/Traj_Generators/COR_Traj.cpp
 
    #src/Traj_Generators/Null_Space_Joints_Vel_Gen.cpp
    #src/Traj_Generators/Obj_Joints_Limits.cpp

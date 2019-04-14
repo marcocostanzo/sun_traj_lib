@@ -266,4 +266,25 @@ Vector<3> Position_Circumference_Traj::getAcceleration(double secs) const {
                                 );
 }
 
+/*
+    Get the angular position (position)
+*/
+double Position_Circumference_Traj::getAngularPosition(double secs) const{
+    return _traj_s->getPosition(secs);
+}
+
+/*
+    Get the angular velocity
+*/
+double Position_Circumference_Traj::getAngularVelocity(double secs) const{
+    return _traj_s->getVelocity(secs);
+}
+
+/*
+    Get the angular velocity
+*/
+double Position_Circumference_Traj::getAngularAcceleration(double secs) const{
+    return _traj_s->getAcceleration(secs);
+}
+
 /*====== END RUNNERS =========*/
