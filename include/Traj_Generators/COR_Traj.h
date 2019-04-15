@@ -79,9 +79,24 @@ virtual COR_Traj* clone() const override;
 
 /*====== GETTERS =========*/
 
+/*
+    Get the final time instant
+*/
+virtual double getFinalTime() const override;
+
+/*
+    Get the initial time instant
+*/
+virtual double getInitialTime() const override;
+
 /*====== END GETTERS =========*/
 
 /*====== SETTERS =========*/
+
+/*
+    Change the initial time instant (translate the trajectory in the time)
+*/
+virtual void changeInitialTime(double initial_time) override;
 
 /*====== END SETTERS =========*/
 

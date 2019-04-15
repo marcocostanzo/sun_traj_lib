@@ -85,9 +85,31 @@ COR_Traj* COR_Traj::clone() const {
 
 /*====== GETTERS =========*/
 
+
+/*
+    Get the final time instant
+*/
+double COR_Traj::getFinalTime() const {
+    return _pos_traj.getFinalTime();
+}
+
+/*
+    Get the initial time instant
+*/
+double COR_Traj::getInitialTime() const {
+    return _pos_traj.getInitialTime();
+}
+
 /*====== END GETTERS =========*/
 
 /*====== SETTERS =========*/
+
+/*
+    Change the initial time instant (translate the trajectory in the time)
+*/
+void COR_Traj::changeInitialTime(double initial_time) {
+    _pos_traj.changeInitialTime( initial_time );
+} 
 
 /*====== END SETTERS =========*/
 
