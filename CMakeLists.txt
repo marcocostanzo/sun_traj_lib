@@ -134,6 +134,9 @@ include_directories(
 
    #Quintic scalar poly
    src/Traj_Generators/Quintic_Poly_Traj.cpp
+   #Trapez Vel
+   src/Traj_Generators/Trapez_Traj.cpp
+   src/Traj_Generators/Trapez_Vel_Traj.cpp
    #Quintic sine wave
    src/Traj_Generators/Sine_Traj.cpp
    #Generic multidim traj
