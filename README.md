@@ -1,6 +1,6 @@
-# sun_robot_lib
+# sun_traj_lib
 
-Documentation: https://marcocostanzo.github.io/sun_robot_lib
+Documentation: https://marcocostanzo.github.io/sun_traj_lib
 
 ## Dependencies
 You need these pkgs:

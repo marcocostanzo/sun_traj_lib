@@ -3,7 +3,7 @@
     Sine Generator Class
     This class generates a scalar trajectory w. sine wave
 
-    Copyright 2019 Università della Campania Luigi Vanvitelli
+    Copyright 2019-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -27,35 +27,22 @@
 #include <cmath>
 
 using namespace std;
-
+using namespace sun;
 
 /*=======CONSTRUCTORS======*/
 
 /*
     Constructor
 */
-Sine_Traj::Sine_Traj(
-            double duration,
-            double amplitude,
-            double frequency,
-            double bias,
-            double phase,
-            double initial_time
-          )
-    :Scalar_Traj_Interface(duration, initial_time),
-    _A(amplitude),
-    _pulse(2.0*M_PI*frequency),
-    _bias(bias),
-    _phi(phase)
-    {}
-
+Sine_Traj::Sine_Traj(double duration, double amplitude, double frequency,
+                     double bias, double phase, double initial_time)
+    : Scalar_Traj_Interface(duration, initial_time), _A(amplitude),
+      _pulse(2.0 * M_PI * frequency), _bias(bias), _phi(phase) {}
 
 /*
     Clone the object in the heap
 */
-Sine_Traj* Sine_Traj::clone() const{
-        return new Sine_Traj(*this);
-}
+Sine_Traj *Sine_Traj::clone() const { return new Sine_Traj(*this); }
 
 /*=======END CONSTRUCTORS======*/
 
@@ -64,50 +51,50 @@ Sine_Traj* Sine_Traj::clone() const{
 /*======= END GETTERS =========*/
 
 /*======SETTERS==========*/
-        
+
 /*======END SETTERS==========*/
 
 /*
     Get Position at time secs
 */
-double Sine_Traj::getPosition(double secs) const{
-    double _time = secs;
-    if( _time < _initial_time ){
-        _time = _initial_time;
-    }
-    if( _time > _final_time ){
-        _time = _final_time;
-    }
-    _time = _time - _initial_time;
-    return _A*sin(_pulse*_time + _phi) + _bias;
+double Sine_Traj::getPosition(double secs) const {
+  double _time = secs;
+  if (_time < _initial_time) {
+    _time = _initial_time;
+  }
+  if (_time > _final_time) {
+    _time = _final_time;
+  }
+  _time = _time - _initial_time;
+  return _A * sin(_pulse * _time + _phi) + _bias;
 }
 
 /*
     Get Velocity at time secs
 */
-double Sine_Traj::getVelocity(double secs) const{
-    double _time = secs;
-    if( _time < _initial_time ){
-        _time = _initial_time;
-    }
-    if( _time > _final_time ){
-        _time = _final_time;
-    }
-    _time = _time - _initial_time;
-    return _pulse*_A*cos(_pulse*_time + _phi);
+double Sine_Traj::getVelocity(double secs) const {
+  double _time = secs;
+  if (_time < _initial_time) {
+    _time = _initial_time;
+  }
+  if (_time > _final_time) {
+    _time = _final_time;
+  }
+  _time = _time - _initial_time;
+  return _pulse * _A * cos(_pulse * _time + _phi);
 }
 
 /*
     Get Acceleration at time secs
 */
-double Sine_Traj::getAcceleration(double secs) const{
-    double _time = secs;
-    if( _time < _initial_time ){
-        _time = _initial_time;
-    }
-    if( _time > _final_time ){
-        _time = _final_time;
-    }
-    _time = _time - _initial_time;
-    return -pow(_pulse,2)*_A*sin(_pulse*_time + _phi);
+double Sine_Traj::getAcceleration(double secs) const {
+  double _time = secs;
+  if (_time < _initial_time) {
+    _time = _initial_time;
+  }
+  if (_time > _final_time) {
+    _time = _final_time;
+  }
+  _time = _time - _initial_time;
+  return -pow(_pulse, 2) * _A * sin(_pulse * _time + _phi);
 }

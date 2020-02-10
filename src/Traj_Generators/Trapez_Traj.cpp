@@ -3,7 +3,7 @@
     Trapez Generator Class
     This class generates a scalar trajectory w. a vel trapez profile
 
-    Copyright 2019 Università della Campania Luigi Vanvitelli
+    Copyright 2019-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -25,66 +25,54 @@
 #include "Traj_Generators/Trapez_Traj.h"
 
 using namespace std;
+using namespace sun;
 
 /*=======CONSTRUCTORS======*/
 
-bool Trapez_Traj::checkTrapez(
-    double duration,
-    double initial_position,
-    double final_position,
-    double cruise_speed
-){
-    if( ((fabs(final_position-initial_position)/duration) >= fabs(cruise_speed)) ||
-                    ( fabs(cruise_speed) > (2.0*(fabs(final_position-initial_position)/duration)) ) ||
-                    ( ((final_position-initial_position)*cruise_speed) < 0.0 )
-                 ){
-                     cout << fabs(final_position-initial_position)/duration << endl;
-                     cout << fabs(cruise_speed) << endl;
-                     cout << (2.0*(fabs(final_position-initial_position)/duration)) << endl;
-                     return false;
-                 }
-    return true;
+bool Trapez_Traj::checkTrapez(double duration, double initial_position,
+                              double final_position, double cruise_speed) {
+  if (((fabs(final_position - initial_position) / duration) >=
+       fabs(cruise_speed)) ||
+      (fabs(cruise_speed) >
+       (2.0 * (fabs(final_position - initial_position) / duration))) ||
+      (((final_position - initial_position) * cruise_speed) < 0.0)) {
+    cout << fabs(final_position - initial_position) / duration << endl;
+    cout << fabs(cruise_speed) << endl;
+    cout << (2.0 * (fabs(final_position - initial_position) / duration))
+         << endl;
+    return false;
+  }
+  return true;
 }
 
 /*
     Constructor
 */
-Trapez_Traj::Trapez_Traj(   
-            double duration,
-            double initial_position,
-            double final_position,
-            double cruise_speed,
-            double initial_time
-            )
-            :Scalar_Traj_Interface(duration, initial_time),
-            _pi(initial_position),
-            _pf(final_position)
-            {
-                
-                if( ((fabs(_pf-_pi)/getDuration()) >= fabs(cruise_speed)) ||
-                    ( fabs(cruise_speed) > (2.0*(fabs(_pf-_pi)/getDuration())) ) ||
-                    ( ((_pf-_pi)*cruise_speed) < 0.0 )
-                 ){
-                     cout << fabs(_pf-_pi)/getDuration() << endl;
-                     cout << fabs(cruise_speed) << endl;
-                     cout << (2.0*(fabs(_pf-_pi)/getDuration())) << endl;
-                     cout << TRAJ_ERROR_COLOR "ERROR in Trapez_Traj()" CRESET << endl;
-                     exit(-1);
-                 }
+Trapez_Traj::Trapez_Traj(double duration, double initial_position,
+                         double final_position, double cruise_speed,
+                         double initial_time)
+    : Scalar_Traj_Interface(duration, initial_time), _pi(initial_position),
+      _pf(final_position) {
 
-                 _tc = (_pi - _pf + cruise_speed*getDuration())/cruise_speed;
+  if (((fabs(_pf - _pi) / getDuration()) >= fabs(cruise_speed)) ||
+      (fabs(cruise_speed) > (2.0 * (fabs(_pf - _pi) / getDuration()))) ||
+      (((_pf - _pi) * cruise_speed) < 0.0)) {
+    cout << fabs(_pf - _pi) / getDuration() << endl;
+    cout << fabs(cruise_speed) << endl;
+    cout << (2.0 * (fabs(_pf - _pi) / getDuration())) << endl;
+    cout << TRAJ_ERROR_COLOR "ERROR in Trapez_Traj()" CRESET << endl;
+    exit(-1);
+  }
 
-                 _ddp = cruise_speed/_tc;
-                 
-            }
+  _tc = (_pi - _pf + cruise_speed * getDuration()) / cruise_speed;
 
+  _ddp = cruise_speed / _tc;
+}
 
 /*
     Clone the object in the heap
 */
-Trapez_Traj* Trapez_Traj::clone() const{
-    return new Trapez_Traj(*this);
-}
+Trapez_Traj *Trapez_Traj::clone() const { return new Trapez_Traj(*this); }
 
 /*=======END CONSTRUCTORS======*/
 
@@ -99,62 +87,62 @@ Trapez_Traj* Trapez_Traj::clone() const{
 /*
     Get Position at time secs
 */
-double Trapez_Traj::getPosition(double secs) const{
-    double t = secs - _initial_time;
-    if( t < 0.0 ){
-        return _pi;
-    }
-    if( t <= _tc ){
-        return (_pi + 0.5*_ddp*pow(t,2));
-    }
-    if( t <= (getDuration() - _tc) ){
-        return ( _pi + _ddp*_tc*( t - (_tc/2.0) ) );
-    }
-    if( t <= getDuration() ){
-        return ( _pf - 0.5*_ddp*pow( getDuration() - t , 2 ) );
-    } else {
-        return ( _pf );
-    }
+double Trapez_Traj::getPosition(double secs) const {
+  double t = secs - _initial_time;
+  if (t < 0.0) {
+    return _pi;
+  }
+  if (t <= _tc) {
+    return (_pi + 0.5 * _ddp * pow(t, 2));
+  }
+  if (t <= (getDuration() - _tc)) {
+    return (_pi + _ddp * _tc * (t - (_tc / 2.0)));
+  }
+  if (t <= getDuration()) {
+    return (_pf - 0.5 * _ddp * pow(getDuration() - t, 2));
+  } else {
+    return (_pf);
+  }
 }
 
 /*
     Get Velocity at time secs
 */
-double Trapez_Traj::getVelocity(double secs) const{
-    double t = secs - _initial_time;
-    if( t < 0.0 ){
-        return 0.0;
-    }
-    if( t <= _tc ){
-        return (_ddp*t);
-    }
-    if( t <= (getDuration() - _tc) ){
-        return ( _ddp*_tc );
-    }
-    if( t <= getDuration() ){
-        return (  _ddp*( getDuration() - t ) );
-    } else {
-        return ( 0.0 );
-    }
+double Trapez_Traj::getVelocity(double secs) const {
+  double t = secs - _initial_time;
+  if (t < 0.0) {
+    return 0.0;
+  }
+  if (t <= _tc) {
+    return (_ddp * t);
+  }
+  if (t <= (getDuration() - _tc)) {
+    return (_ddp * _tc);
+  }
+  if (t <= getDuration()) {
+    return (_ddp * (getDuration() - t));
+  } else {
+    return (0.0);
+  }
 }
 
 /*
     Get Acceleration at time secs
 */
 double Trapez_Traj::getAcceleration(double secs) const {
-    double t = secs - _initial_time;
-    if( t < 0.0 ){
-        return 0.0;
-    }
-    if( t <= _tc ){
-        return (_ddp);
-    }
-    if( t <= (getDuration() - _tc) ){
-        return ( 0.0 );
-    }
-    if( t <= getDuration() ){
-        return ( - _ddp );
-    } else {
-        return ( 0.0 );
-    }
+  double t = secs - _initial_time;
+  if (t < 0.0) {
+    return 0.0;
+  }
+  if (t <= _tc) {
+    return (_ddp);
+  }
+  if (t <= (getDuration() - _tc)) {
+    return (0.0);
+  }
+  if (t <= getDuration()) {
+    return (-_ddp);
+  } else {
+    return (0.0);
+  }
 }

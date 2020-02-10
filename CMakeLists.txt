@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(sun_robot_lib)
+project(sun_traj_lib)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
  add_compile_options(-std=c++11)
@@ -120,17 +120,6 @@ include_directories(
 
 ## Declare a C++ library
  add_library(${PROJECT_NAME}
-
-   #Robot Links
-   src/RobotLink.cpp
-   src/RobotLinkRevolute.cpp
-   src/RobotLinkPrismatic.cpp
-   #Robot
-   src/Robot.cpp
-
-   #Specific Robots
-   src/Robots/LBRiiwa7.cpp
-   src/Robots/MotomanSIA5F.cpp
 
    #Quintic scalar poly
    src/Traj_Generators/Quintic_Poly_Traj.cpp

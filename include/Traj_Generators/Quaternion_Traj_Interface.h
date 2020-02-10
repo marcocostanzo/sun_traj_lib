@@ -1,9 +1,10 @@
 /*
 
     Quaternion Trajectory Generator Class
-    This class is an interface to generate arbitrary UnitQuaternion trajectory in the cartesian space
+    This class is an interface to generate arbitrary UnitQuaternion trajectory
+   in the cartesian space
 
-    Copyright 2018 Università della Campania Luigi Vanvitelli
+    Copyright 2018-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -26,114 +27,118 @@
 #define QUATERNION_TRAJ_INTERFACE_H
 
 #include "TooN/TooN.h"
-#include "UnitQuaternion.h"
 #include "Traj_Generators/Traj_Generator_Interface.h"
+#include "UnitQuaternion.h"
 
+namespace sun {
 class Quaternion_Traj_Interface : public Traj_Generator_Interface {
 
 private:
-
-/*
-    Avoid Default constructor
-*/
-Quaternion_Traj_Interface();
+  /*
+      Avoid Default constructor
+  */
+  Quaternion_Traj_Interface();
 
 protected:
-
-TooN::Vector<3,int> _mask;
+  TooN::Vector<3, int> _mask;
 
 public:
+  /*======CONSTRUCTORS=========*/
 
-/*======CONSTRUCTORS=========*/
-    
-/*
-    Constructor with total time as input
-*/
-Quaternion_Traj_Interface( double duration, double initial_time = 0.0 )
-    :Traj_Generator_Interface( duration, initial_time ) {}
+  /*
+      Constructor with total time as input
+  */
+  Quaternion_Traj_Interface(double duration, double initial_time = 0.0)
+      : Traj_Generator_Interface(duration, initial_time) {}
 
-/*
-    Clone the object in the heap
-*/
-virtual Quaternion_Traj_Interface* clone() const = 0;
+  /*
+      Clone the object in the heap
+  */
+  virtual Quaternion_Traj_Interface *clone() const = 0;
 
-//Quaternion_Traj_Interface( const Quaternion_Traj_Interface& traj );
+  // Quaternion_Traj_Interface( const Quaternion_Traj_Interface& traj );
 
-/*======END CONSTRUCTORS=========*/
+  /*======END CONSTRUCTORS=========*/
 
-/*====== GETTERS =========*/
+  /*====== GETTERS =========*/
 
-/*
-    Get the mask at time secs, if mask[i]=0 then the i-th cartesian coordinate should not be taken into account
-    Warning: these are UnitQuaternion !!
-*/
-virtual TooN::Vector<3,int> getMask(double secs) const{
-    return _mask;
-}
+  /*
+      Get the mask at time secs, if mask[i]=0 then the i-th cartesian coordinate
+     should not be taken into account
+      Warning: these are UnitQuaternion !!
+  */
+  virtual TooN::Vector<3, int> getMask(double secs) const { return _mask; }
 
-/*====== END GETTERS =========*/
+  /*====== END GETTERS =========*/
 
-/*====== SETTERS =========*/
+  /*====== SETTERS =========*/
 
-/*
-    Set the mask at time secs, if mask[i]=0 then the i-th cartesian coordinate should not be taken into account
-    Warning: these are UnitQuaternion !!
-*/
-virtual void setMask(TooN::Vector<3,int> mask){
-    _mask = mask;
-}
+  /*
+      Set the mask at time secs, if mask[i]=0 then the i-th cartesian coordinate
+     should not be taken into account
+      Warning: these are UnitQuaternion !!
+  */
+  virtual void setMask(TooN::Vector<3, int> mask) { _mask = mask; }
 
-/*====== END SETTERS =========*/
+  /*====== END SETTERS =========*/
 
-/*====== TRANSFORM =========*/
+  /*====== TRANSFORM =========*/
 
-/*
-    Change the reference frame of the trajectory
-    Apply an homogeneous transfrmation matrix to the trajectory
-    new_T_curr is the homog transf matrix of the current frame w.r.t. the new frame
-*/
-virtual void changeFrame( const TooN::Matrix<4,4>& new_T_curr ) {
-    changeFrame( t2r( new_T_curr ) );
-}
+  /*
+      Change the reference frame of the trajectory
+      Apply an homogeneous transfrmation matrix to the trajectory
+      new_T_curr is the homog transf matrix of the current frame w.r.t. the new
+     frame
+  */
+  virtual void changeFrame(const TooN::Matrix<4, 4> &new_T_curr) {
+    changeFrame(t2r(new_T_curr));
+  }
 
-/*
-    Change the reference frame of the trajectory
-    Apply a rotation matrix to the trajectory
-    new_R_curr is the rotation matrix of the current frame w.r.t. the new frame
-*/
-virtual void changeFrame( const TooN::Matrix<3,3>& new_R_curr ) {
-    std::cout << TRAJ_ERROR_COLOR "Error in Quaterion_Traj_Interface::changeFrame( TooN::Matrix<4,4> new_T_curr ) | Not implemented..." CRESET << std::endl;
+  /*
+      Change the reference frame of the trajectory
+      Apply a rotation matrix to the trajectory
+      new_R_curr is the rotation matrix of the current frame w.r.t. the new
+     frame
+  */
+  virtual void changeFrame(const TooN::Matrix<3, 3> &new_R_curr) {
+    std::cout << TRAJ_ERROR_COLOR
+        "Error in Quaterion_Traj_Interface::changeFrame( TooN::Matrix<4,4> "
+        "new_T_curr ) | Not implemented..." CRESET
+              << std::endl;
     exit(-1);
+  }
+
+  /*
+      Change the reference frame of the trajectory
+      Apply a rotation matrix to the trajectory
+      new_Q_curr is the Quaterion representing the rotation matrix of the
+     current frame w.r.t. the new frame
+  */
+  virtual void changeFrame(const UnitQuaternion &new_Q_curr) {
+    changeFrame(new_Q_curr.torot());
+  }
+
+  /*====== END TRANSFORM =========*/
+
+  /*
+       Get Quaternion at time secs
+  */
+  virtual UnitQuaternion getQuaternion(double secs) const = 0;
+
+  /*
+      Get Angular Velocity at time secs
+  */
+  virtual TooN::Vector<3> getVelocity(double secs) const = 0;
+
+  /*
+      Get Angular Acceleration at time secs
+  */
+  virtual TooN::Vector<3> getAcceleration(double secs) const = 0;
+
+}; // END CLASS Quterion_Traj_Interface
+
+using Quaternion_Traj_Interface_Ptr =
+    std::unique_ptr<Quaternion_Traj_Interface>;
 }
-
-/*
-    Change the reference frame of the trajectory
-    Apply a rotation matrix to the trajectory
-    new_Q_curr is the Quaterion representing the rotation matrix of the current frame w.r.t. the new frame
-*/
-virtual void changeFrame( const UnitQuaternion& new_Q_curr ) {
-    changeFrame( new_Q_curr.torot() );
-}
-
-/*====== END TRANSFORM =========*/
-
-/*
-     Get Quaternion at time secs
-*/
-virtual UnitQuaternion getQuaternion(double secs) const = 0;
-
-/*
-    Get Angular Velocity at time secs
-*/
-virtual TooN::Vector<3> getVelocity(double secs) const = 0;
-
-/*
-    Get Angular Acceleration at time secs
-*/
-virtual TooN::Vector<3> getAcceleration(double secs) const = 0;
-
-};//END CLASS Quterion_Traj_Interface
-
-using Quaternion_Traj_Interface_Ptr = std::unique_ptr<Quaternion_Traj_Interface>;
 
 #endif

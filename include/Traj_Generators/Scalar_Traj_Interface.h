@@ -3,7 +3,7 @@
     Scalar Traj Interface Class
     This class is a general interface to scalar trajectory generators classes
 
-    Copyright 2019 Università della Campania Luigi Vanvitelli
+    Copyright 2019-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -27,53 +27,53 @@
 
 #include "Traj_Generators/Traj_Generator_Interface.h"
 
-class Scalar_Traj_Interface : public Traj_Generator_Interface{
+namespace sun {
+class Scalar_Traj_Interface : public Traj_Generator_Interface {
 
 private:
-
-/*
-    No default Constructor
-*/
-Scalar_Traj_Interface();
+  /*
+      No default Constructor
+  */
+  Scalar_Traj_Interface();
 
 public:
+  /*====== CONSTRUCTORS =========*/
 
-/*====== CONSTRUCTORS =========*/
+  /*
+      Constructor with duration and initial time as input
+  */
+  Scalar_Traj_Interface(double duration, double initial_time = 0.0)
+      : Traj_Generator_Interface(duration, initial_time) {}
 
-/*
-    Constructor with duration and initial time as input
-*/
-Scalar_Traj_Interface( double duration, double initial_time = 0.0 ):
-    Traj_Generator_Interface( duration, initial_time ){}
+  /*
+      Clone the object in the heap
+  */
+  virtual Scalar_Traj_Interface *clone() const = 0;
 
-/*
-    Clone the object in the heap
-*/
-virtual Scalar_Traj_Interface* clone() const = 0;
+  /*====== END CONSTRUCTORS =========*/
 
-/*====== END CONSTRUCTORS =========*/
+  /*====== RUNNERS =========*/
 
-/*====== RUNNERS =========*/
+  /*
+      Get Position at time secs
+  */
+  virtual double getPosition(double secs) const = 0;
 
-/*
-    Get Position at time secs
-*/
-virtual double getPosition(double secs) const = 0;
+  /*
+      Get Velocity at time secs
+  */
+  virtual double getVelocity(double secs) const = 0;
 
-/*
-    Get Velocity at time secs
-*/
-virtual double getVelocity(double secs) const = 0;
+  /*
+      Get Acceleration at time secs
+  */
+  virtual double getAcceleration(double secs) const = 0;
 
-/*
-    Get Acceleration at time secs
-*/
-virtual double getAcceleration(double secs) const = 0;
+  /*====== END RUNNERS =========*/
 
-/*====== END RUNNERS =========*/
-
-};//END CLASS Scalar_Traj_Interface
+}; // END CLASS Scalar_Traj_Interface
 
 using Scalar_Traj_Interface_Ptr = std::unique_ptr<Scalar_Traj_Interface>;
+}
 
 #endif

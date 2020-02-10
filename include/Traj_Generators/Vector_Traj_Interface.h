@@ -3,7 +3,7 @@
     Vector Traj Interface Class
     This class is a general interface to vector trajectory generators classes
 
-    Copyright 2019 Università della Campania Luigi Vanvitelli
+    Copyright 2019-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -28,6 +28,7 @@
 #include <Traj_Generators/Traj_Generator_Interface.h>
 #include "TooN/TooN.h"
 
+namespace sun{
 class Vector_Traj_Interface : public Traj_Generator_Interface{
 
 private:
@@ -76,5 +77,7 @@ virtual TooN::Vector<> getAcceleration(double secs) const = 0;
 };//END CLASS Vector_Traj_Interface
 
 using Vector_Traj_Interface_Ptr = std::unique_ptr<Vector_Traj_Interface>;
+
+}
 
 #endif

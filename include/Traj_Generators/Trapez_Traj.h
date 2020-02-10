@@ -3,7 +3,7 @@
     Trapez Generator Class
     This class generates a scalar trajectory w. a vel trapez profile
 
-    Copyright 2019 Università della Campania Luigi Vanvitelli
+    Copyright 2019-2020 Università della Campania Luigi Vanvitelli
 
     Author: Marco Costanzo <marco.costanzo@unicampania.it>
 
@@ -28,84 +28,73 @@
 #include "Traj_Generators/Scalar_Traj_Interface.h"
 #include <math.h>
 
+namespace sun {
 class Trapez_Traj : public Scalar_Traj_Interface {
 
 private:
-
-/*
-    No default Constructor
-*/
-Trapez_Traj();
+  /*
+      No default Constructor
+  */
+  Trapez_Traj();
 
 protected:
-
-/*
-    initial position, final position
-    cruise time
-*/
-double _pi, _pf, _tc;
-double _ddp;
+  /*
+      initial position, final position
+      cruise time
+  */
+  double _pi, _pf, _tc;
+  double _ddp;
 
 public:
+  static bool checkTrapez(double duration, double initial_position,
+                          double final_position, double cruise_speed);
 
-static bool checkTrapez(
-    double duration,
-    double initial_position,
-    double final_position,
-    double cruise_speed
-);
+  /*=======CONSTRUCTORS======*/
 
-/*=======CONSTRUCTORS======*/
+  /*
+      Constructor
+  */
+  Trapez_Traj(double duration, double initial_position, double final_position,
+              double cruise_speed, double initial_time = 0.0);
 
-/*
-    Constructor
-*/
-Trapez_Traj(   
-            double duration,
-            double initial_position,
-            double final_position,
-            double cruise_speed,
-            double initial_time = 0.0
-            );
+  /*
+      Copy Constructor
+  */
+  Trapez_Traj(const Trapez_Traj &quint) = default;
 
+  /*
+      Clone the object in the heap
+  */
+  virtual Trapez_Traj *clone() const override;
 
-/*
-    Copy Constructor
-*/
-Trapez_Traj( const Trapez_Traj& quint ) = default;
+  /*=======END CONSTRUCTORS======*/
 
-/*
-    Clone the object in the heap
-*/
-virtual Trapez_Traj* clone() const override;
+  /*======= GETTERS =========*/
 
-/*=======END CONSTRUCTORS======*/
+  /*======= END GETTERS =========*/
 
-/*======= GETTERS =========*/
+  /*======SETTERS==========*/
 
-/*======= END GETTERS =========*/
+  /*======END SETTERS==========*/
 
-/*======SETTERS==========*/
+  /*
+      Get Position at time secs
+  */
+  virtual double getPosition(double secs) const override;
 
-/*======END SETTERS==========*/
+  /*
+      Get Velocity at time secs
+  */
+  virtual double getVelocity(double secs) const override;
 
-/*
-    Get Position at time secs
-*/
-virtual double getPosition(double secs) const override;
+  /*
+      Get Acceleration at time secs
+  */
+  virtual double getAcceleration(double secs) const override;
 
-/*
-    Get Velocity at time secs
-*/
-virtual double getVelocity(double secs) const override;
-
-/*
-    Get Acceleration at time secs
-*/
-virtual double getAcceleration(double secs) const override;
-
-};// END CLASS Quintic_Poly_Traj
+}; // END CLASS Quintic_Poly_Traj
 
 using Trapez_Traj_Ptr = std::unique_ptr<Trapez_Traj>;
+}
 
 #endif
