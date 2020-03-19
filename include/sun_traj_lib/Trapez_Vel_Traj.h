@@ -22,54 +22,61 @@
 
 */
 
-#ifndef TRAPEZ_TRAJ_H
-#define TRAPEZ_TRAJ_H
+#ifndef TRAPEZ_VEL_TRAJ_H
+#define TRAPEZ_VEL_TRAJ_H
 
-#include "Traj_Generators/Scalar_Traj_Interface.h"
 #include <math.h>
+#include "sun_traj_lib/Scalar_Traj_Interface.h"
 
-namespace sun {
-class Trapez_Traj : public Scalar_Traj_Interface {
-
+namespace sun
+{
+//! ScalarTrajectory Traj Trapezoidal Velocity
+/*!
+    All input values are feasible but the interface is more complex
+    \sa Trapez_Traj
+*/
+class Trapez_Vel_Traj : public Scalar_Traj_Interface
+{
 private:
-  /*
+  /*!
       No default Constructor
   */
-  Trapez_Traj();
+  Trapez_Vel_Traj();
 
 protected:
-  /*
-      initial position, final position
-      cruise time
+  /*!
+      initial position, acceleration, cruise time, cruise duration
   */
-  double _pi, _pf, _tc;
-  double _ddp;
+  double _pi, _ddp, _tc, _tv;
 
 public:
-  static bool checkTrapez(double duration, double initial_position,
-                          double final_position, double cruise_speed);
-
   /*=======CONSTRUCTORS======*/
 
-  /*
+  /*!
       Constructor
   */
-  Trapez_Traj(double duration, double initial_position, double final_position,
-              double cruise_speed, double initial_time = 0.0);
+  Trapez_Vel_Traj(
 
-  /*
+      double cruise_speed, double cruise_duration, double acceleration, double initial_position = 0.0,
+      double initial_time = 0.0);
+
+  /*!
       Copy Constructor
   */
-  Trapez_Traj(const Trapez_Traj &quint) = default;
+  Trapez_Vel_Traj(const Trapez_Vel_Traj& traj) = default;
 
-  /*
+  /*!
       Clone the object in the heap
   */
-  virtual Trapez_Traj *clone() const override;
+  virtual Trapez_Vel_Traj* clone() const override;
 
   /*=======END CONSTRUCTORS======*/
 
   /*======= GETTERS =========*/
+
+  virtual double getFinalPosition() const;
+
+  double getCruiseTime() const;
 
   /*======= END GETTERS =========*/
 
@@ -77,24 +84,25 @@ public:
 
   /*======END SETTERS==========*/
 
-  /*
+  /*!
       Get Position at time secs
   */
   virtual double getPosition(double secs) const override;
 
-  /*
+  /*!
       Get Velocity at time secs
   */
   virtual double getVelocity(double secs) const override;
 
-  /*
+  /*!
       Get Acceleration at time secs
   */
   virtual double getAcceleration(double secs) const override;
 
-}; // END CLASS Quintic_Poly_Traj
+};  // END CLASS Quintic_Poly_Traj
 
-using Trapez_Traj_Ptr = std::unique_ptr<Trapez_Traj>;
-}
+using Trapez_Vel_Traj_Ptr = std::unique_ptr<Trapez_Vel_Traj>;
+
+}  // namespace sun
 
 #endif

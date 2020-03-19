@@ -8,7 +8,7 @@ project(sun_traj_lib)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS 
-robotics_toolbox_ros
+sun_math_toolbox
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,7 +103,7 @@ robotics_toolbox_ros
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS robotics_toolbox_ros
+  CATKIN_DEPENDS sun_math_toolbox
 #  DEPENDS system_lib
 )
 
@@ -122,24 +122,24 @@ include_directories(
  add_library(${PROJECT_NAME}
 
    #Quintic scalar poly
-   src/Traj_Generators/Quintic_Poly_Traj.cpp
+   src/sun_traj_lib/Quintic_Poly_Traj.cpp
    #Trapez Vel
-   src/Traj_Generators/Trapez_Traj.cpp
-   src/Traj_Generators/Trapez_Vel_Traj.cpp
+   src/sun_traj_lib/Trapez_Traj.cpp
+   src/sun_traj_lib/Trapez_Vel_Traj.cpp
    #Quintic sine wave
-   src/Traj_Generators/Sine_Traj.cpp
+   src/sun_traj_lib/Sine_Traj.cpp
    #Generic multidim traj
-   src/Traj_Generators/Vector_Independent_Traj.cpp
+   src/sun_traj_lib/Vector_Independent_Traj.cpp
    #Line Segment traj
-   src/Traj_Generators/Line_Segment_Traj.cpp
+   src/sun_traj_lib/Line_Segment_Traj.cpp
    #Circumference traj
-   src/Traj_Generators/Position_Circumference_Traj.cpp
+   src/sun_traj_lib/Position_Circumference_Traj.cpp
    #Quaternion Traj
-   #src/Traj_Generators/Quaternion_Interp_Traj.cpp #TODO
-   src/Traj_Generators/Rotation_Const_Axis_Traj.cpp
+   #src/sun_traj_lib/Quaternion_Interp_Traj.cpp #TODO
+   src/sun_traj_lib/Rotation_Const_Axis_Traj.cpp
    #Cartesian Traj
-   src/Traj_Generators/Cartesian_Independent_Traj.cpp
-   src/Traj_Generators/COR_Traj.cpp
+   src/sun_traj_lib/Cartesian_Independent_Traj.cpp
+   src/sun_traj_lib/COR_Traj.cpp
 
  )
 

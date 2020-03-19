@@ -25,14 +25,16 @@
 #ifndef LINE_SEGMENT_TRAJ_H
 #define LINE_SEGMENT_TRAJ_H
 
-#include "Traj_Generators/Position_Traj_Interface.h"
-#include "Traj_Generators/Scalar_Traj_Interface.h"
+#include "sun_traj_lib/Position_Traj_Interface.h"
+#include "sun_traj_lib/Scalar_Traj_Interface.h"
 
-namespace sun {
-class Line_Segment_Traj : public Position_Traj_Interface {
-
+namespace sun
+{
+//! Position traj representing a Line Segment
+class Line_Segment_Traj : public Position_Traj_Interface
+{
 private:
-  /*
+  /*!
       No default Constructor
   */
   Line_Segment_Traj();
@@ -41,17 +43,17 @@ private:
   double _duration, _initial_time;
 
 protected:
-  /*
+  /*!
       Initial Position
   */
   TooN::Vector<3> _pi;
 
-  /*
+  /*!
       Final Position
   */
   TooN::Vector<3> _pf;
 
-  /*
+  /*!
       Trajectory for the scalar s variable should be a traj from 0 to 1
       s = 0 -> _pi   &   s = 1 -> _pf
   */
@@ -60,52 +62,51 @@ protected:
 public:
   /*======CONSTRUCTORS========*/
 
-  /*
+  /*!
       Full Constructor
   */
-  Line_Segment_Traj(const TooN::Vector<3> &pi, const TooN::Vector<3> &pf,
-                    const Scalar_Traj_Interface &traj_s);
+  Line_Segment_Traj(const TooN::Vector<3>& pi, const TooN::Vector<3>& pf, const Scalar_Traj_Interface& traj_s);
 
-  /*
+  /*!
       Copy Constructor
   */
-  Line_Segment_Traj(const Line_Segment_Traj &traj);
+  Line_Segment_Traj(const Line_Segment_Traj& traj);
 
-  /*
+  /*!
       Clone the object in the heap
   */
-  virtual Line_Segment_Traj *clone() const override;
+  virtual Line_Segment_Traj* clone() const override;
 
   /*======END CONSTRUCTORS========*/
 
   /*====== GETTERS ========*/
 
-  /*
+  /*!
       Get direction of the Line Segment as unit vector
   */
   virtual TooN::Vector<3> getDirection() const;
 
-  /*
+  /*!
       Get length of the segment
   */
   virtual double getLength() const;
 
-  /*
+  /*!
       TODO
   */
   virtual TooN::Vector<3> getInitialPoint() const;
 
-  /*
+  /*!
       TODO
   */
   virtual TooN::Vector<3> getFinalPoint() const;
 
-  /*
+  /*!
       Get the final time instant
   */
   virtual double getFinalTime() const override;
 
-  /*
+  /*!
       Get the initial time instant
   */
   virtual double getInitialTime() const override;
@@ -124,29 +125,27 @@ public:
 
   /*====== SETTERS =========*/
 
-  /*
+  /*!
       Set the scalar trajectory
       Trajectory for the scalar s variable should be a traj from 0 to 1
       s = 0 -> _pi   &   s = 1 -> _pf
       Note: Velocities and accelerations
-      Since the s is normalized using getLength() also the ds and dds have to be
-     normalized
-      e.g. _vi = dsi / line_segment_traj.getLength() where line_segment_traj is
-     this object
+      Since the s is normalized using getLength() also the ds and dds have to be normalized
+      e.g. _vi = dsi / line_segment_traj.getLength() where line_segment_traj is this object
   */
-  virtual void setScalarTraj(const Scalar_Traj_Interface &s_traj);
+  virtual void setScalarTraj(const Scalar_Traj_Interface& s_traj);
 
-  /*
+  /*!
       TODO
   */
   virtual void setInitialPoint(TooN::Vector<3> pi);
 
-  /*
+  /*!
       TODO
   */
   virtual void setFinalPoint(TooN::Vector<3> pf);
 
-  /*
+  /*!
       Change the initial time instant (translate the trajectory in the time)
   */
   virtual void changeInitialTime(double initial_time) override;
@@ -155,38 +154,38 @@ public:
 
   /*====== TRANSFORM =========*/
 
-  /*
+  /*!
       Change the reference frame of the trajectory
       Apply an homogeneous transfrmation matrix to the trajectory
-      new_T_curr is the homog transf matrix of the current frame w.r.t. the new
-     frame
+      new_T_curr is the homog transf matrix of the current frame w.r.t. the new frame
   */
-  virtual void changeFrame(const TooN::Matrix<4, 4> &new_T_curr) override;
+  virtual void changeFrame(const TooN::Matrix<4, 4>& new_T_curr) override;
 
   /*====== END TRANSFORM =========*/
 
   /*====== RUNNERS =========*/
 
-  /*
+  /*!
       Get Position at time secs
   */
   virtual TooN::Vector<3> getPosition(double secs) const override;
 
-  /*
+  /*!
       Get Velocity at time secs
   */
   virtual TooN::Vector<3> getVelocity(double secs) const override;
 
-  /*
+  /*!
       Get Acceleration at time secs
   */
   virtual TooN::Vector<3> getAcceleration(double secs) const override;
 
   /*====== END RUNNERS =========*/
 
-}; // END CLASS Line_Segment_Traj
+};  // END CLASS Line_Segment_Traj
 
 using Line_Segment_Traj_Ptr = std::unique_ptr<Line_Segment_Traj>;
-}
+
+}  // namespace sun
 
 #endif

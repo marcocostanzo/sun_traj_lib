@@ -1,8 +1,7 @@
 /*
 
     Cartesian Trajectory Generator Class
-    This class is an interface to generate arbitrary cartesian trajectory in the
-   cartesian space
+    This class is an interface to generate arbitrary cartesian trajectory in the cartesian space
     the angular position is giver as UnitQuaterion
 
     Copyright 2018-2020 Università della Campania Luigi Vanvitelli
@@ -27,15 +26,17 @@
 #ifndef CARTESIAN_INDEPENDENT_TRAJ_H
 #define CARTESIAN_INDEPENDENT_TRAJ_H
 
-#include "Traj_Generators/Cartesian_Traj_Interface.h"
-#include "Traj_Generators/Position_Traj_Interface.h"
-#include "Traj_Generators/Quaternion_Traj_Interface.h"
+#include "sun_traj_lib/Cartesian_Traj_Interface.h"
+#include "sun_traj_lib/Position_Traj_Interface.h"
+#include "sun_traj_lib/Quaternion_Traj_Interface.h"
 
-namespace sun {
-class Cartesian_Independent_Traj : public Cartesian_Traj_Interface {
-
+namespace sun
+{
+//! Cartesian Traj made of independent Position an Quaternion trajs
+class Cartesian_Independent_Traj : public Cartesian_Traj_Interface
+{
 private:
-  /*
+  /*!
       Avoid Default constructor
   */
   Cartesian_Independent_Traj();
@@ -52,32 +53,31 @@ protected:
 public:
   /*======CONSTRUCTORS=========*/
 
-  /*
+  /*!
       Constructor
   */
-  Cartesian_Independent_Traj(const Position_Traj_Interface &pos_traj,
-                             const Quaternion_Traj_Interface &quat_traj);
+  Cartesian_Independent_Traj(const Position_Traj_Interface& pos_traj, const Quaternion_Traj_Interface& quat_traj);
 
-  /*
+  /*!
       Copy Constructor
   */
-  Cartesian_Independent_Traj(const Cartesian_Independent_Traj &traj);
+  Cartesian_Independent_Traj(const Cartesian_Independent_Traj& traj);
 
-  /*
+  /*!
       Clone the object in the heap
   */
-  virtual Cartesian_Independent_Traj *clone() const override;
+  virtual Cartesian_Independent_Traj* clone() const override;
 
   /*======END CONSTRUCTORS=========*/
 
   /*====== GETTERS =========*/
 
-  /*
+  /*!
       Get the final time instant
   */
   virtual double getFinalTime() const override;
 
-  /*
+  /*!
       Get the initial time instant
   */
   virtual double getInitialTime() const override;
@@ -96,7 +96,7 @@ public:
 
   /*====== SETTERS =========*/
 
-  /*
+  /*!
       Change the initial time instant (translate the trajectory in the time)
   */
   virtual void changeInitialTime(double initial_time) override;
@@ -105,42 +105,41 @@ public:
 
   /*====== TRANSFORM =========*/
 
-  /*
+  /*!
       Change the reference frame of the trajectory
       Apply an homogeneous transfrmation matrix to the trajectory
-      new_T_curr is the homog transf matrix of the current frame w.r.t. the new
-     frame
+      new_T_curr is the homog transf matrix of the current frame w.r.t. the new frame
   */
-  void changeFrame(const TooN::Matrix<4, 4> &new_T_curr) override;
+  void changeFrame(const TooN::Matrix<4, 4>& new_T_curr) override;
 
   /*====== END TRANSFORM =========*/
 
-  /*
+  /*!
       return true if the trajectory is compleate at time secs
   */
   virtual bool isCompleate(double secs) const override;
 
-  /*
+  /*!
       return true if the trajectory is started at time secs
   */
   virtual bool isStarted(double secs) const override;
 
-  /*
+  /*!
       Get Position at time secs
   */
   virtual TooN::Vector<3> getPosition(double secs) const override;
 
-  /*
+  /*!
       Get Quaternion at time secs
   */
   virtual UnitQuaternion getQuaternion(double secs) const override;
 
-  /*
+  /*!
       Get Linear Velocity at time secs
   */
   virtual TooN::Vector<3> getLinearVelocity(double secs) const override;
 
-  /*
+  /*!
       Get Angular Velocity at time secs
   */
   virtual TooN::Vector<3> getAngularVelocity(double secs) const override;
@@ -151,10 +150,10 @@ public:
   */
   // virtual TooN::Vector<6> getTwist(double secs) const override;
 
-}; // END CLASS Cartesian_Independent_Traj
+};  // END CLASS Cartesian_Independent_Traj
 
-using Cartesian_Independent_Traj_Ptr =
-    std::unique_ptr<Cartesian_Independent_Traj>;
-}
+using Cartesian_Independent_Traj_Ptr = std::unique_ptr<Cartesian_Independent_Traj>;
+
+}  // namespace sun
 
 #endif

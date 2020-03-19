@@ -24,41 +24,47 @@
 
 */
 
-#include "Traj_Generators/COR_Traj.h"
+#include "sun_traj_lib/COR_Traj.h"
 
 using namespace TooN;
-using namespace sun;
 using namespace std;
 
+namespace sun
+{
 /*
     Constructor
 */
-COR_Traj::COR_Traj(const Vector<3> &COR, const Vector<3> &normal,
-                   const Vector<3> &pi, const UnitQuaternion &initial_quat,
-                   const Scalar_Traj_Interface &traj_theta)
-    : Cartesian_Traj_Interface(NAN, NAN), _initial_quat(initial_quat),
-      _pos_traj(normal, COR, pi, traj_theta) {
-  if (_pos_traj.isAPoint()) {
-    if (norm(normal) < 10.0 * std::numeric_limits<double>::epsilon()) {
-      cout << TRAJ_WARN_COLOR
-          "[COR_Traj] WARNING: axis is zero -> no rotation" CRESET
-           << endl;
+COR_Traj::COR_Traj(const Vector<3> &COR, const Vector<3> &normal, const Vector<3> &pi,
+                   const UnitQuaternion &initial_quat, const Scalar_Traj_Interface &traj_theta)
+  : Cartesian_Traj_Interface(NAN, NAN), _initial_quat(initial_quat), _pos_traj(normal, COR, pi, traj_theta)
+{
+  if (_pos_traj.isAPoint())
+  {
+    if (norm(normal) < 10.0 * std::numeric_limits<double>::epsilon())
+    {
+      cout << TRAJ_WARN_COLOR "[COR_Traj] WARNING: axis is zero -> no rotation" CRESET << endl;
       _rot_axis = Zeros;
-    } else {
+    }
+    else
+    {
       _rot_axis = unit(normal);
     }
-  } else {
+  }
+  else
+  {
     _rot_axis = _pos_traj.getOrientation()[2];
   }
 }
 
-COR_Traj::COR_Traj(const UnitQuaternion &initial_quat,
-                   const Position_Circumference_Traj &circ_traj)
-    : Cartesian_Traj_Interface(NAN, NAN), _initial_quat(initial_quat),
-      _pos_traj(circ_traj) {
-  if (_pos_traj.isAPoint()) {
+COR_Traj::COR_Traj(const UnitQuaternion &initial_quat, const Position_Circumference_Traj &circ_traj)
+  : Cartesian_Traj_Interface(NAN, NAN), _initial_quat(initial_quat), _pos_traj(circ_traj)
+{
+  if (_pos_traj.isAPoint())
+  {
     _rot_axis = Zeros;
-  } else {
+  }
+  else
+  {
     _rot_axis = _pos_traj.getOrientation()[2];
   }
 }
@@ -66,7 +72,10 @@ COR_Traj::COR_Traj(const UnitQuaternion &initial_quat,
 /*
     Clone the object in the heap
 */
-COR_Traj *COR_Traj::clone() const { return new COR_Traj(*this); }
+COR_Traj *COR_Traj::clone() const
+{
+  return new COR_Traj(*this);
+}
 
 /*======END CONSTRUCTORS=========*/
 
@@ -75,12 +84,18 @@ COR_Traj *COR_Traj::clone() const { return new COR_Traj(*this); }
 /*
     Get the final time instant
 */
-double COR_Traj::getFinalTime() const { return _pos_traj.getFinalTime(); }
+double COR_Traj::getFinalTime() const
+{
+  return _pos_traj.getFinalTime();
+}
 
 /*
     Get the initial time instant
 */
-double COR_Traj::getInitialTime() const { return _pos_traj.getInitialTime(); }
+double COR_Traj::getInitialTime() const
+{
+  return _pos_traj.getInitialTime();
+}
 
 /*====== END GETTERS =========*/
 
@@ -89,7 +104,8 @@ double COR_Traj::getInitialTime() const { return _pos_traj.getInitialTime(); }
 /*
     Change the initial time instant (translate the trajectory in the time)
 */
-void COR_Traj::changeInitialTime(double initial_time) {
+void COR_Traj::changeInitialTime(double initial_time)
+{
   _pos_traj.changeInitialTime(initial_time);
 }
 
@@ -102,39 +118,48 @@ void COR_Traj::changeInitialTime(double initial_time) {
 /*
     Get Delta quaterinion, i.e. initial_Q_now
 */
-UnitQuaternion COR_Traj::getDeltaQuat(double secs) const {
-  if (_rot_axis[0] == 0.0 && _rot_axis[1] == 0.0 && _rot_axis[2] == 0.0) {
+UnitQuaternion COR_Traj::getDeltaQuat(double secs) const
+{
+  if (_rot_axis[0] == 0.0 && _rot_axis[1] == 0.0 && _rot_axis[2] == 0.0)
+  {
     return UnitQuaternion();
-  } else {
-    return UnitQuaternion::angvec(_pos_traj.getAngularPosition(secs),
-                                  _rot_axis);
+  }
+  else
+  {
+    return UnitQuaternion::angvec(_pos_traj.getAngularPosition(secs), _rot_axis);
   }
 }
 
 /*
     Get Position at time secs
 */
-Vector<3> COR_Traj::getPosition(double secs) const {
+Vector<3> COR_Traj::getPosition(double secs) const
+{
   return _pos_traj.getPosition(secs);
 }
 
 /*
     Get Quaternion at time secs
 */
-UnitQuaternion COR_Traj::getQuaternion(double secs) const {
+UnitQuaternion COR_Traj::getQuaternion(double secs) const
+{
   return getDeltaQuat(secs) * _initial_quat;
 }
 
 /*
     Get Linear Velocity at time secs
 */
-Vector<3> COR_Traj::getLinearVelocity(double secs) const {
+Vector<3> COR_Traj::getLinearVelocity(double secs) const
+{
   return _pos_traj.getVelocity(secs);
 }
 
 /*
     Get Angular Velocity at time secs
 */
-Vector<3> COR_Traj::getAngularVelocity(double secs) const {
+Vector<3> COR_Traj::getAngularVelocity(double secs) const
+{
   return _pos_traj.getAngularVelocity(secs) * _rot_axis;
 }
+
+}  // namespace sun

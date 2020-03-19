@@ -22,27 +22,36 @@
 
 */
 
-#include "Traj_Generators/Sine_Traj.h"
+#include "sun_traj_lib/Sine_Traj.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
 
 using namespace std;
-using namespace sun;
 
+namespace sun
+{
 /*=======CONSTRUCTORS======*/
 
 /*
     Constructor
 */
-Sine_Traj::Sine_Traj(double duration, double amplitude, double frequency,
-                     double bias, double phase, double initial_time)
-    : Scalar_Traj_Interface(duration, initial_time), _A(amplitude),
-      _pulse(2.0 * M_PI * frequency), _bias(bias), _phi(phase) {}
+Sine_Traj::Sine_Traj(double duration, double amplitude, double frequency, double bias, double phase,
+                     double initial_time)
+  : Scalar_Traj_Interface(duration, initial_time)
+  , _A(amplitude)
+  , _pulse(2.0 * M_PI * frequency)
+  , _bias(bias)
+  , _phi(phase)
+{
+}
 
 /*
     Clone the object in the heap
 */
-Sine_Traj *Sine_Traj::clone() const { return new Sine_Traj(*this); }
+Sine_Traj *Sine_Traj::clone() const
+{
+  return new Sine_Traj(*this);
+}
 
 /*=======END CONSTRUCTORS======*/
 
@@ -57,12 +66,15 @@ Sine_Traj *Sine_Traj::clone() const { return new Sine_Traj(*this); }
 /*
     Get Position at time secs
 */
-double Sine_Traj::getPosition(double secs) const {
+double Sine_Traj::getPosition(double secs) const
+{
   double _time = secs;
-  if (_time < _initial_time) {
+  if (_time < _initial_time)
+  {
     _time = _initial_time;
   }
-  if (_time > _final_time) {
+  if (_time > _final_time)
+  {
     _time = _final_time;
   }
   _time = _time - _initial_time;
@@ -72,12 +84,15 @@ double Sine_Traj::getPosition(double secs) const {
 /*
     Get Velocity at time secs
 */
-double Sine_Traj::getVelocity(double secs) const {
+double Sine_Traj::getVelocity(double secs) const
+{
   double _time = secs;
-  if (_time < _initial_time) {
+  if (_time < _initial_time)
+  {
     _time = _initial_time;
   }
-  if (_time > _final_time) {
+  if (_time > _final_time)
+  {
     _time = _final_time;
   }
   _time = _time - _initial_time;
@@ -87,14 +102,19 @@ double Sine_Traj::getVelocity(double secs) const {
 /*
     Get Acceleration at time secs
 */
-double Sine_Traj::getAcceleration(double secs) const {
+double Sine_Traj::getAcceleration(double secs) const
+{
   double _time = secs;
-  if (_time < _initial_time) {
+  if (_time < _initial_time)
+  {
     _time = _initial_time;
   }
-  if (_time > _final_time) {
+  if (_time > _final_time)
+  {
     _time = _final_time;
   }
   _time = _time - _initial_time;
   return -pow(_pulse, 2) * _A * sin(_pulse * _time + _phi);
 }
+
+}  // namespace sun

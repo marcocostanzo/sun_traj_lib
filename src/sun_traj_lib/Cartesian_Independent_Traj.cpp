@@ -24,34 +24,36 @@
 
 */
 
-#include "Traj_Generators/Cartesian_Independent_Traj.h"
+#include "sun_traj_lib/Cartesian_Independent_Traj.h"
 
 using namespace TooN;
-using namespace sun;
 
+namespace sun
+{
 /*======CONSTRUCTORS=========*/
 
 /*
     Constructor
 */
-Cartesian_Independent_Traj::Cartesian_Independent_Traj(
-    const Position_Traj_Interface &pos_traj,
-    const Quaternion_Traj_Interface &quat_traj)
-    : Cartesian_Traj_Interface(NAN, NAN), _pos_traj(pos_traj.clone()),
-      _quat_traj(quat_traj.clone()) {}
+Cartesian_Independent_Traj::Cartesian_Independent_Traj(const Position_Traj_Interface &pos_traj,
+                                                       const Quaternion_Traj_Interface &quat_traj)
+  : Cartesian_Traj_Interface(NAN, NAN), _pos_traj(pos_traj.clone()), _quat_traj(quat_traj.clone())
+{
+}
 
 /*
     Copy Constructor
 */
-Cartesian_Independent_Traj::Cartesian_Independent_Traj(
-    const Cartesian_Independent_Traj &traj)
-    : Cartesian_Traj_Interface(NAN, NAN), _pos_traj(traj._pos_traj->clone()),
-      _quat_traj(traj._quat_traj->clone()) {}
+Cartesian_Independent_Traj::Cartesian_Independent_Traj(const Cartesian_Independent_Traj &traj)
+  : Cartesian_Traj_Interface(NAN, NAN), _pos_traj(traj._pos_traj->clone()), _quat_traj(traj._quat_traj->clone())
+{
+}
 
 /*
     Clone the object in the heap
 */
-Cartesian_Independent_Traj *Cartesian_Independent_Traj::clone() const {
+Cartesian_Independent_Traj *Cartesian_Independent_Traj::clone() const
+{
   return new Cartesian_Independent_Traj(*this);
 }
 
@@ -62,7 +64,8 @@ Cartesian_Independent_Traj *Cartesian_Independent_Traj::clone() const {
 /*
     Get the final time instant
 */
-double Cartesian_Independent_Traj::getFinalTime() const {
+double Cartesian_Independent_Traj::getFinalTime() const
+{
   double final_time_pos = _pos_traj->getFinalTime();
   double final_time_quat = _quat_traj->getFinalTime();
   if (final_time_pos >= final_time_quat)
@@ -74,7 +77,8 @@ double Cartesian_Independent_Traj::getFinalTime() const {
 /*
     Get the initial time instant
 */
-double Cartesian_Independent_Traj::getInitialTime() const {
+double Cartesian_Independent_Traj::getInitialTime() const
+{
   double initial_time_pos = _pos_traj->getInitialTime();
   double initial_time_quat = _quat_traj->getInitialTime();
   if (initial_time_pos <= initial_time_quat)
@@ -100,7 +104,8 @@ double Cartesian_Independent_Traj::getInitialTime() const {
 /*
     Change the initial time instant (translate the trajectory in the time)
 */
-void Cartesian_Independent_Traj::changeInitialTime(double initial_time) {
+void Cartesian_Independent_Traj::changeInitialTime(double initial_time)
+{
   double previous_initial_time = getInitialTime();
   double Delta_T = previous_initial_time - initial_time;
   _pos_traj->changeInitialTime(_pos_traj->getInitialTime() - Delta_T);
@@ -117,7 +122,8 @@ void Cartesian_Independent_Traj::changeInitialTime(double initial_time) {
     new_T_curr is the homog transf matrix of the current frame w.r.t. the new
    frame
 */
-void Cartesian_Independent_Traj::changeFrame(const Matrix<4, 4> &new_T_curr) {
+void Cartesian_Independent_Traj::changeFrame(const Matrix<4, 4> &new_T_curr)
+{
   _pos_traj->changeFrame(new_T_curr);
   _quat_traj->changeFrame(new_T_curr);
 }
@@ -127,7 +133,8 @@ void Cartesian_Independent_Traj::changeFrame(const Matrix<4, 4> &new_T_curr) {
 /*
     return true if the trajectory is compleate at time secs
 */
-bool Cartesian_Independent_Traj::isCompleate(double secs) const {
+bool Cartesian_Independent_Traj::isCompleate(double secs) const
+{
   if (!_pos_traj->isCompleate(secs))
     return false;
   if (!_quat_traj->isCompleate(secs))
@@ -138,7 +145,8 @@ bool Cartesian_Independent_Traj::isCompleate(double secs) const {
 /*
     return true if the trajectory is started at time secs
 */
-bool Cartesian_Independent_Traj::isStarted(double secs) const {
+bool Cartesian_Independent_Traj::isStarted(double secs) const
+{
   if (_pos_traj->isStarted(secs))
     return true;
   if (_quat_traj->isStarted(secs))
@@ -149,28 +157,32 @@ bool Cartesian_Independent_Traj::isStarted(double secs) const {
 /*
     Get Position at time secs
 */
-Vector<3> Cartesian_Independent_Traj::getPosition(double secs) const {
+Vector<3> Cartesian_Independent_Traj::getPosition(double secs) const
+{
   return _pos_traj->getPosition(secs);
 }
 
 /*
     Get Quaternion at time secs
 */
-UnitQuaternion Cartesian_Independent_Traj::getQuaternion(double secs) const {
+UnitQuaternion Cartesian_Independent_Traj::getQuaternion(double secs) const
+{
   return _quat_traj->getQuaternion(secs);
 }
 
 /*
     Get Linear Velocity at time secs
 */
-Vector<3> Cartesian_Independent_Traj::getLinearVelocity(double secs) const {
+Vector<3> Cartesian_Independent_Traj::getLinearVelocity(double secs) const
+{
   return _pos_traj->getVelocity(secs);
 }
 
 /*
     Get Angular Velocity at time secs
 */
-Vector<3> Cartesian_Independent_Traj::getAngularVelocity(double secs) const {
+Vector<3> Cartesian_Independent_Traj::getAngularVelocity(double secs) const
+{
   return _quat_traj->getVelocity(secs);
 }
 
@@ -179,3 +191,5 @@ Vector<3> Cartesian_Independent_Traj::getAngularVelocity(double secs) const {
     [from base class]
 */
 // Vector<6> getTwist(double secs) const ;
+
+}  // namespace sun

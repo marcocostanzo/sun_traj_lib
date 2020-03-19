@@ -22,33 +22,37 @@
 
 */
 
-#include "Traj_Generators/Quintic_Poly_Traj.h"
+#include "sun_traj_lib/Quintic_Poly_Traj.h"
 
 using namespace TooN;
 using namespace std;
-using namespace sun;
 
+namespace sun
+{
 /*=======CONSTRUCTORS======*/
 
 /*
     Constructor
 */
-Quintic_Poly_Traj::Quintic_Poly_Traj(double duration, double initial_position,
-                                     double final_position, double initial_time,
-                                     double initial_velocity,
-                                     double final_velocity,
-                                     double initial_acceleration,
-                                     double final_acceleration)
-    : Scalar_Traj_Interface(duration, initial_time), _pi(initial_position),
-      _pf(final_position), _vi(initial_velocity), _vf(final_velocity),
-      _aci(initial_acceleration), _acf(final_acceleration) {
+Quintic_Poly_Traj::Quintic_Poly_Traj(double duration, double initial_position, double final_position,
+                                     double initial_time, double initial_velocity, double final_velocity,
+                                     double initial_acceleration, double final_acceleration)
+  : Scalar_Traj_Interface(duration, initial_time)
+  , _pi(initial_position)
+  , _pf(final_position)
+  , _vi(initial_velocity)
+  , _vf(final_velocity)
+  , _aci(initial_acceleration)
+  , _acf(final_acceleration)
+{
   updateCoefficients();
 }
 
 /*
     Clone the object in the heap
 */
-Quintic_Poly_Traj *Quintic_Poly_Traj::clone() const {
+Quintic_Poly_Traj *Quintic_Poly_Traj::clone() const
+{
   return new Quintic_Poly_Traj(*this);
 }
 
@@ -56,48 +60,72 @@ Quintic_Poly_Traj *Quintic_Poly_Traj::clone() const {
 
 /*======= GETTERS =========*/
 
-double Quintic_Poly_Traj::getInitialPosition() const { return _pi; }
+double Quintic_Poly_Traj::getInitialPosition() const
+{
+  return _pi;
+}
 
-double Quintic_Poly_Traj::getFinalPosition() const { return _pf; }
+double Quintic_Poly_Traj::getFinalPosition() const
+{
+  return _pf;
+}
 
-double Quintic_Poly_Traj::getInitialVelocity() const { return _vi; }
+double Quintic_Poly_Traj::getInitialVelocity() const
+{
+  return _vi;
+}
 
-double Quintic_Poly_Traj::getFinalVelocity() const { return _vf; }
+double Quintic_Poly_Traj::getFinalVelocity() const
+{
+  return _vf;
+}
 
-double Quintic_Poly_Traj::getInitialAcceleration() const { return _aci; }
+double Quintic_Poly_Traj::getInitialAcceleration() const
+{
+  return _aci;
+}
 
-double Quintic_Poly_Traj::getFinalAcceleration() const { return _acf; }
+double Quintic_Poly_Traj::getFinalAcceleration() const
+{
+  return _acf;
+}
 
 /*======= END GETTERS =========*/
 
 /*======SETTERS==========*/
 
-void Quintic_Poly_Traj::setInitialPosition(double pi) {
+void Quintic_Poly_Traj::setInitialPosition(double pi)
+{
   _pi = pi;
   updateCoefficients();
 }
 
-void Quintic_Poly_Traj::setFinalPosition(double pf) {
+void Quintic_Poly_Traj::setFinalPosition(double pf)
+{
   _pf = pf;
   updateCoefficients();
 }
 
-void Quintic_Poly_Traj::setInitialVelocity(double vi) {
+void Quintic_Poly_Traj::setInitialVelocity(double vi)
+{
   _vi = vi;
   updateCoefficients();
 }
 
-void Quintic_Poly_Traj::setFinalVelocity(double vf) {
+void Quintic_Poly_Traj::setFinalVelocity(double vf)
+{
   _vf = vf;
   updateCoefficients();
 }
 
-void Quintic_Poly_Traj::setInitialAcceleration(double ai) {
+void Quintic_Poly_Traj::setInitialAcceleration(double ai)
+{
   _aci = ai;
   updateCoefficients();
 }
 
-void Quintic_Poly_Traj::setFinalAcceleration(double af) {
+void Quintic_Poly_Traj::setFinalAcceleration(double af)
+{
   _acf = af;
   updateCoefficients();
 }
@@ -105,7 +133,8 @@ void Quintic_Poly_Traj::setFinalAcceleration(double af) {
 /*
     Change the initial time instant (translate the trajectory)
 */
-void Quintic_Poly_Traj::changeInitialTime(double initial_time) {
+void Quintic_Poly_Traj::changeInitialTime(double initial_time)
+{
   Traj_Generator_Interface::changeInitialTime(initial_time);
   updateCoefficients();
 }
@@ -115,11 +144,14 @@ void Quintic_Poly_Traj::changeInitialTime(double initial_time) {
 /*
     Get Position at time secs
 */
-double Quintic_Poly_Traj::getPosition(double secs) const {
-  if (secs < _initial_time) {
+double Quintic_Poly_Traj::getPosition(double secs) const
+{
+  if (secs < _initial_time)
+  {
     return _pi;
   }
-  if (secs > _final_time) {
+  if (secs > _final_time)
+  {
     return _pf;
   }
   return polyval(_poly_coeff, secs - _initial_time);
@@ -128,11 +160,14 @@ double Quintic_Poly_Traj::getPosition(double secs) const {
 /*
     Get Velocity at time secs
 */
-double Quintic_Poly_Traj::getVelocity(double secs) const {
-  if (secs < _initial_time) {
+double Quintic_Poly_Traj::getVelocity(double secs) const
+{
+  if (secs < _initial_time)
+  {
     return 0.0;
   }
-  if (secs > _final_time) {
+  if (secs > _final_time)
+  {
     return 0.0;
   }
   return polyval(_vel_poly_coeff, secs - _initial_time);
@@ -141,11 +176,14 @@ double Quintic_Poly_Traj::getVelocity(double secs) const {
 /*
     Get Acceleration at time secs
 */
-double Quintic_Poly_Traj::getAcceleration(double secs) const {
-  if (secs < _initial_time) {
+double Quintic_Poly_Traj::getAcceleration(double secs) const
+{
+  if (secs < _initial_time)
+  {
     return 0.0;
   }
-  if (secs > _final_time) {
+  if (secs > _final_time)
+  {
     return 0.0;
   }
   return polyval(_acc_poly_coeff, secs - _initial_time);
@@ -154,11 +192,13 @@ double Quintic_Poly_Traj::getAcceleration(double secs) const {
 /*
     Update poly coefficients
 */
-void Quintic_Poly_Traj::updateCoefficients() {
+void Quintic_Poly_Traj::updateCoefficients()
+{
   // This is the effective total time of motion
   double t = getDuration();
 
-  if (t < 10.0 * std::numeric_limits<double>::epsilon()) {
+  if (t < 10.0 * std::numeric_limits<double>::epsilon())
+  {
     cout << TRAJ_WARN_COLOR "[Quintic_Poly_Traj] WARNING: duration is zero... "
                             "I will fix this..." CRESET
          << endl;
@@ -177,12 +217,10 @@ void Quintic_Poly_Traj::updateCoefficients() {
   double t_5 = pow(t, 5);
 
   // Construct inverse of A ( A*poly_coeff = B )
-  Matrix<3, 3> A_inv =
-      Data(6.0 / t_5, -3.0 / t_4, 1.0 / (2.0 * t_3), -15.0 / t_4, 7.0 / t_3,
-           -1.0 / t_2, 10.0 / t_3, -4.0 / t_2, 1.0 / (2.0 * t));
+  Matrix<3, 3> A_inv = Data(6.0 / t_5, -3.0 / t_4, 1.0 / (2.0 * t_3), -15.0 / t_4, 7.0 / t_3, -1.0 / t_2, 10.0 / t_3,
+                            -4.0 / t_2, 1.0 / (2.0 * t));
   // Construct B
-  Vector<3> B = makeVector(_pf - _pi - _vi * t - (_aci / 2.0) * t_2,
-                           _vf - _vi - _aci * t, _acf - _aci);
+  Vector<3> B = makeVector(_pf - _pi - _vi * t - (_aci / 2.0) * t_2, _vf - _vi - _aci * t, _acf - _aci);
 
   // Calculate poly coeff
   _poly_coeff.slice<0, 3>() = A_inv * B;
@@ -191,3 +229,5 @@ void Quintic_Poly_Traj::updateCoefficients() {
   _vel_poly_coeff = polydiff(_poly_coeff);
   _acc_poly_coeff = polydiff(_vel_poly_coeff);
 }
+
+}  // namespace sun
