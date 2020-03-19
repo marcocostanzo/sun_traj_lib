@@ -1,0 +1,27 @@
+<map id="sun_traj_lib/include/sun_traj_lib/Traj_Generator_Interface.h" name="sun_traj_lib/include/sun_traj_lib/Traj_Generator_Interface.h">
+<area shape="rect" id="node2" href="$Cartesian__Traj__Interface_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Cartesian\l_Traj_Interface.h" alt="" coords="313,109,465,165"/>
+<area shape="rect" id="node7" href="$Position__Traj__Interface_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Position\l_Traj_Interface.h" alt="" coords="545,109,687,165"/>
+<area shape="rect" id="node12" href="$Quaternion__Traj__Interface_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Quaternion\l_Traj_Interface.h" alt="" coords="810,109,969,165"/>
+<area shape="rect" id="node15" href="$Scalar__Traj__Interface_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Scalar\l_Traj_Interface.h" alt="" coords="1043,109,1176,165"/>
+<area shape="rect" id="node26" href="$Vector__Traj__Interface_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Vector\l_Traj_Interface.h" alt="" coords="1457,109,1591,165"/>
+<area shape="rect" id="node3" href="$Cartesian__Independent__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Cartesian\l_Independent_Traj.h" alt="" coords="313,213,465,269"/>
+<area shape="rect" id="node5" href="$COR__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/COR_Traj.h" alt="" coords="235,325,402,366"/>
+<area shape="rect" id="node4" href="$Cartesian__Independent__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Cartesian_Independent\l_Traj.cpp" alt="" coords="5,317,211,373"/>
+<area shape="rect" id="node6" href="$COR__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/COR_Traj.cpp" alt="" coords="241,421,396,463"/>
+<area shape="rect" id="node8" href="$Line__Segment__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Line_Segment\l_Traj.h" alt="" coords="668,213,847,269"/>
+<area shape="rect" id="node10" href="$Position__Circumference__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Position\l_Circumference_Traj.h" alt="" coords="489,213,644,269"/>
+<area shape="rect" id="node9" href="$Line__Segment__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Line_Segment\l_Traj.cpp" alt="" coords="661,317,816,373"/>
+<area shape="rect" id="node11" href="$Position__Circumference__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Position_Circumference\l_Traj.cpp" alt="" coords="427,317,637,373"/>
+<area shape="rect" id="node13" href="$Rotation__Const__Axis__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Rotation\l_Const_Axis_Traj.h" alt="" coords="871,213,1017,269"/>
+<area shape="rect" id="node14" href="$Rotation__Const__Axis__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Rotation_Const\l_Axis_Traj.cpp" alt="" coords="840,317,1003,373"/>
+<area shape="rect" id="node16" href="$Quintic__Poly__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Quintic\l_Poly_Traj.h" alt="" coords="1362,213,1499,269"/>
+<area shape="rect" id="node18" href="$Sine__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Sine_Traj.h" alt="" coords="1524,221,1687,262"/>
+<area shape="rect" id="node20" href="$Trapez__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Trapez\l_Traj.h" alt="" coords="1041,213,1177,269"/>
+<area shape="rect" id="node22" href="$Trapez__Vel__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Trapez\l_Vel_Traj.h" alt="" coords="1201,213,1337,269"/>
+<area shape="rect" id="node24" href="$Vector__Independent__Traj_8h.html" title="sun_traj_lib/include\l/sun_traj_lib/Vector\l_Independent_Traj.h" alt="" coords="1711,213,1851,269"/>
+<area shape="rect" id="node17" href="$Quintic__Poly__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Quintic_Poly\l_Traj.cpp" alt="" coords="1378,317,1523,373"/>
+<area shape="rect" id="node19" href="$Sine__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Sine_Traj.cpp" alt="" coords="1547,325,1698,366"/>
+<area shape="rect" id="node21" href="$Trapez__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Trapez_Traj.cpp" alt="" coords="1027,325,1192,366"/>
+<area shape="rect" id="node23" href="$Trapez__Vel__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Trapez_Vel\l_Traj.cpp" alt="" coords="1217,317,1354,373"/>
+<area shape="rect" id="node25" href="$Vector__Independent__Traj_8cpp.html" title="sun_traj_lib/src/sun\l_traj_lib/Vector_Independent\l_Traj.cpp" alt="" coords="1723,317,1909,373"/>
+</map>

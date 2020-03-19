@@ -1,0 +1,7 @@
+<map id="sun::Scalar_Traj_Interface" name="sun::Scalar_Traj_Interface">
+<area shape="rect" id="node3" href="$classsun_1_1Quintic__Poly__Traj.html" title="Scalar trajectory implemented as a Quintic Poly. " alt="" coords="5,169,160,196"/>
+<area shape="rect" id="node4" href="$classsun_1_1Sine__Traj.html" title="Scalar Sinusoidal trajectory. " alt="" coords="184,169,291,196"/>
+<area shape="rect" id="node5" href="$classsun_1_1Trapez__Traj.html" title="ScalarTrajectory Traj Trapezoidal Velocity. " alt="" coords="315,169,435,196"/>
+<area shape="rect" id="node6" href="$classsun_1_1Trapez__Vel__Traj.html" title="ScalarTrajectory Traj Trapezoidal Velocity. " alt="" coords="459,169,605,196"/>
+<area shape="rect" id="node2" href="$classsun_1_1Traj__Generator__Interface.html" title="General Interface for all traj generators. " alt="" coords="237,5,374,47"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="sun::Position_Traj_Interface" name="sun::Position_Traj_Interface">
+<area shape="rect" id="node3" href="$classsun_1_1Line__Segment__Traj.html" title="Position traj representing a Line Segment. " alt="" coords="5,184,168,211"/>
+<area shape="rect" id="node4" href="$classsun_1_1Position__Circumference__Traj.html" title="Position traj representing a Circumference. " alt="" coords="192,184,411,211"/>
+<area shape="rect" id="node2" href="$classsun_1_1Traj__Generator__Interface.html" title="General Interface for all traj generators. " alt="" coords="125,5,262,47"/>
+</map>

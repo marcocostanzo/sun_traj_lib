@@ -1,0 +1,5 @@
+<map id="sun::Cartesian_Traj_Interface" name="sun::Cartesian_Traj_Interface">
+<area shape="rect" id="node3" href="$classsun_1_1Cartesian__Independent__Traj.html" title="Cartesian Traj made of independent Position an Quaternion trajs. " alt="" coords="5,184,220,211"/>
+<area shape="rect" id="node4" href="$classsun_1_1COR__Traj.html" title="Cartesian traj representing a rotation about a Center Of Rotation (COR) " alt="" coords="244,184,355,211"/>
+<area shape="rect" id="node2" href="$classsun_1_1Traj__Generator__Interface.html" title="General Interface for all traj generators. " alt="" coords="137,5,275,47"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="sun::Quaternion_Traj_Interface" name="sun::Quaternion_Traj_Interface">
+<area shape="rect" id="node3" href="$classsun_1_1Rotation__Const__Axis__Traj.html" title="Quaternion traj representing a rotation about a constant axis. " alt="" coords="5,184,148,225"/>
+<area shape="rect" id="node2" href="$classsun_1_1Traj__Generator__Interface.html" title="General Interface for all traj generators. " alt="" coords="8,5,145,47"/>
+</map>

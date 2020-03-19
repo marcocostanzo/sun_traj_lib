@@ -1,0 +1,4 @@
+<map id="sun::Cartesian_Independent_Traj" name="sun::Cartesian_Independent_Traj">
+<area shape="rect" id="node2" href="$classsun_1_1Cartesian__Traj__Interface.html" title="Abstract clas representing a Cartesian traj (Position + UnitQuaternion) " alt="" coords="45,95,181,136"/>
+<area shape="rect" id="node3" href="$classsun_1_1Traj__Generator__Interface.html" title="General Interface for all traj generators. " alt="" coords="44,5,181,47"/>
+</map>

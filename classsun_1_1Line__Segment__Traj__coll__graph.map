@@ -1,0 +1,4 @@
+<map id="sun::Line_Segment_Traj" name="sun::Line_Segment_Traj">
+<area shape="rect" id="node2" href="$classsun_1_1Position__Traj__Interface.html" title="Abstract class representing a Position traj (3D) " alt="" coords="23,95,150,136"/>
+<area shape="rect" id="node3" href="$classsun_1_1Traj__Generator__Interface.html" title="General Interface for all traj generators. " alt="" coords="18,5,155,47"/>
+</map>

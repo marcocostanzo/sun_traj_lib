@@ -1,0 +1,6 @@
+<map id="sun::COR_Traj" name="sun::COR_Traj">
+<area shape="rect" id="node2" href="$classsun_1_1Cartesian__Traj__Interface.html" title="Abstract clas representing a Cartesian traj (Position + UnitQuaternion) " alt="" coords="5,161,141,203"/>
+<area shape="rect" id="node3" href="$classsun_1_1Traj__Generator__Interface.html" title="General Interface for all traj generators. " alt="" coords="31,5,169,47"/>
+<area shape="rect" id="node5" href="$classsun_1_1Position__Traj__Interface.html" title="Abstract class representing a Position traj (3D) " alt="" coords="127,96,254,137"/>
+<area shape="rect" id="node4" href="$classsun_1_1Position__Circumference__Traj.html" title="Position traj representing a Circumference. " alt="" coords="88,227,307,253"/>
+</map>
