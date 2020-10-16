@@ -46,6 +46,21 @@ Rotation_Const_Axis_Traj::Rotation_Const_Axis_Traj(const UnitQuaternion &initial
   }
 }
 
+Rotation_Const_Axis_Traj::Rotation_Const_Axis_Traj(const UnitQuaternion &initial_quat, const UnitQuaternion &final_quat,
+                                                   const Scalar_Traj_Interface &traj_theta, double &angle)
+  : Quaternion_Traj_Interface(NAN, NAN), _initial_quat(initial_quat), _traj_theta(traj_theta.clone())
+{
+  UnitQuaternion Delta_Q = final_quat * inv(initial_quat);
+  sun::AngVec Delta_angvec = Delta_Q.toangvec();
+  _axis = Delta_angvec.getVec();
+  angle = Delta_angvec.getAng();
+  if (norm(_axis) < 10.0 * std::numeric_limits<double>::epsilon())
+  {
+    cout << TRAJ_WARN_COLOR "[Rotation_Const_Axis_Traj] WARNING: axis is zero -> no rotation" CRESET << endl;
+    _axis = Zeros;
+  }
+}
+
 Rotation_Const_Axis_Traj::Rotation_Const_Axis_Traj(const Rotation_Const_Axis_Traj &traj)
   : Quaternion_Traj_Interface(NAN, NAN)
 {

@@ -68,6 +68,9 @@ public:
   Rotation_Const_Axis_Traj(const UnitQuaternion& initial_quat, const TooN::Vector<3>& axis,
                            const Scalar_Traj_Interface& traj_theta);
 
+  Rotation_Const_Axis_Traj(const UnitQuaternion& initial_quat, const UnitQuaternion& final_quat,
+                           const Scalar_Traj_Interface& traj_theta, double& angle);
+
   Rotation_Const_Axis_Traj(const Rotation_Const_Axis_Traj& traj);
 
   /*!
