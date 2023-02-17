@@ -50,6 +50,7 @@ protected:
   */
   double _pi, _pf, _tc;
   double _ddp;
+  bool _no_traj;
 
 public:
   static bool checkTrapez(double duration, double initial_position, double final_position, double cruise_speed);

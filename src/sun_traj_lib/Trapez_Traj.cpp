@@ -51,14 +51,24 @@ Trapez_Traj::Trapez_Traj(double duration, double initial_position, double final_
                          double initial_time)
   : Scalar_Traj_Interface(duration, initial_time), _pi(initial_position), _pf(final_position)
 {
-  if (((fabs(_pf - _pi) / getDuration()) >= fabs(cruise_speed)) ||
-      (fabs(cruise_speed) > (2.0 * (fabs(_pf - _pi) / getDuration()))) || (((_pf - _pi) * cruise_speed) < 0.0))
+  if(_pf == _pi)
   {
-    cout << fabs(_pf - _pi) / getDuration() << endl;
-    cout << fabs(cruise_speed) << endl;
-    cout << (2.0 * (fabs(_pf - _pi) / getDuration())) << endl;
-    cout << TRAJ_ERROR_COLOR "ERROR in Trapez_Traj()" CRESET << endl;
-    exit(-1);
+    _no_traj = true;
+  }
+  else{
+    _no_traj = false;
+    if (((fabs(_pf - _pi) / getDuration()) >= fabs(cruise_speed)) ||
+        (fabs(cruise_speed) > (2.0 * (fabs(_pf - _pi) / getDuration()))) || (((_pf - _pi) * cruise_speed) < 0.0))
+    {
+      cout << _pf << endl;
+      cout << _pi << endl;
+      cout << getDuration() << endl;
+      cout << fabs(_pf - _pi) / getDuration() << endl;
+      cout << cruise_speed << endl;
+      cout << (2.0 * (fabs(_pf - _pi) / getDuration())) << endl;
+      cout << TRAJ_ERROR_COLOR "ERROR in Trapez_Traj()" CRESET << endl;
+      exit(-1);
+    }
   }
 
   _tc = (_pi - _pf + cruise_speed * getDuration()) / cruise_speed;
@@ -89,6 +99,11 @@ Trapez_Traj *Trapez_Traj::clone() const
 */
 double Trapez_Traj::getPosition(double secs) const
 {
+  if(_no_traj)
+  {
+    return _pi;
+  }
+
   double t = secs - _initial_time;
   if (t < 0.0)
   {
@@ -117,6 +132,11 @@ double Trapez_Traj::getPosition(double secs) const
 */
 double Trapez_Traj::getVelocity(double secs) const
 {
+  if(_no_traj)
+  {
+    return 0.0;
+  }
+
   double t = secs - _initial_time;
   if (t < 0.0)
   {
@@ -145,6 +165,11 @@ double Trapez_Traj::getVelocity(double secs) const
 */
 double Trapez_Traj::getAcceleration(double secs) const
 {
+  if(_no_traj)
+  {
+    return 0.0;
+  }
+
   double t = secs - _initial_time;
   if (t < 0.0)
   {
